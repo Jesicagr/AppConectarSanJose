@@ -2,25 +2,29 @@ package com.conectarsj.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Data;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "actividades")
+@Data
 public class Actividad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String titulo;
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    @Column(name = "sede_id")
-    private Integer sedeId;
+    // --- RELACIÓN CON SEDES ---
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "sede_id", nullable = false)
+    private Sede sede;
 
     @Column(name = "fecha_inicio")
     private LocalDate fechaInicio;
@@ -31,39 +35,35 @@ public class Actividad {
     @Column(name = "repetir_todo_anio")
     private Boolean repetirTodoAnio;
 
-    @Column(name = "creado_por")
-    private Integer creadoPor;
+    // --- RELACIÓN CON ADMINISTRADOR ---
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creado_por")
+    private Administrador creadoPor;
 
-    // Relación con la tabla de horarios
+
+    @Column(length = 255)
+    private String descripcion_corta;
+
+    @Column(length = 255)
+    private String dia;
+
+    @Column(length = 255)
+    private String encargado;
+
+    @Column(length = 255)
+    private String horario;
+
+    // --- RELACIÓN MUCHOS A MUCHOS CON AREAS ---
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "actividad_areas",
+            joinColumns = @JoinColumn(name = "actividad_id"),
+            inverseJoinColumns = @JoinColumn(name = "area_id")
+    )
+    private List<Area> areas;
+
+    // --- RELACIÓN CON HORARIOS
     @OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<HorarioActividad> horarios;
-
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
-
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-
-    public Integer getSedeId() { return sedeId; }
-    public void setSedeId(Integer sedeId) { this.sedeId = sedeId; }
-
-    public LocalDate getFechaInicio() { return fechaInicio; }
-    public void setFechaInicio(LocalDate fechaInicio) { this.fechaInicio = fechaInicio; }
-
-    public LocalDate getFechaFin() { return fechaFin; }
-    public void setFechaFin(LocalDate fechaFin) { this.fechaFin = fechaFin; }
-
-    public Boolean getRepetirTodoAnio() { return repetirTodoAnio; }
-    public void setRepetirTodoAnio(Boolean repetirTodoAnio) { this.repetirTodoAnio = repetirTodoAnio; }
-
-    public Integer getCreadoPor() { return creadoPor; }
-    public void setCreadoPor(Integer creadoPor) { this.creadoPor = creadoPor; }
-
-    public List<HorarioActividad> getHorarios() { return horarios; }
-    public void setHorarios(List<HorarioActividad> horarios) { this.horarios = horarios; }
 }
