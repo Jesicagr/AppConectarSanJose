@@ -1,0 +1,604 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+}
+
+
+header{
+    width: 100%;
+    height: 145px;
+
+    background: #FFFFFF;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 50px;
+}
+
+
+.logo{
+    width: 180px;
+}
+
+
+nav{
+    background: #dfeceb;
+
+    padding: 28px 45px;
+
+    border-radius: 30px;
+
+    display: flex;
+    gap: 40px;
+}
+
+nav a{
+    text-decoration: none;
+    color: black;
+
+    font-size: 16px;
+    font-weight: 400;
+}
+
+
+.hero{
+    width: 100%;
+    height: calc(100vh - 145px);
+
+    background: linear-gradient(90deg, #71e0dd, #e2e3e3);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.contenedor-texto{
+    position: relative;
+
+    width: fit-content;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(70px);
+}
+
+
+.decoracion{
+    position: absolute;
+
+    width: 1000px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 1;
+
+}
+
+
+.texto{
+    position: relative;
+    z-index: 2;
+
+    text-align: center;
+    top: -40px;
+}
+
+
+.texto h1{
+    font-family: 'Playfair Display', serif;
+
+    font-size: 85px;
+    color: white;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        4px 4px 0 rgba(0,0,0,0.18);
+
+    margin-bottom: -10px;
+}
+
+/* lo que */
+
+.subtitulo{
+    font-size: 42px;
+    font-weight: 300;
+
+    color: white;
+
+    text-shadow:
+        3px 3px 0 rgba(0,0,0,0.15);
+
+    margin-bottom: -5px;
+}
+
+/* SAN JOSÉ */
+
+.texto h2{
+    font-size: 75px;
+    font-weight: 700;
+
+    color: #0057d8;
+
+    text-shadow:
+        5px 5px 0 rgba(0,0,0,0.18);
+
+    margin-bottom: -5px;
+}
+
+/* tiene para vos */
+
+.subtitulo2{
+    font-size: 52px;
+    font-weight: 300;
+
+    color: white;
+
+    text-shadow:
+        3px 3px 0 rgba(0,0,0,0.15);
+}
+
+/* IMAGEN */
+
+.imagen{
+    width: 470px;
+    height: 540px;
+
+    object-fit: cover;
+
+    border-radius: 60px;
+
+    position: relative;
+    z-index: 2;
+}
+
+/* DIAPOSITIVA 2 AYUDA */
+
+.ayuda{
+    width: 100%;
+    min-height: 100vh;
+
+    background: #f8f8f8;
+
+    padding: 50px;
+}
+
+.contenido{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0;
+
+    width: 100%;
+}
+
+
+
+.texto-ayuda{
+    width: 520px;
+
+    z-index: 2;
+}
+
+.texto-ayuda h1{
+    font-size: 85px;
+
+    font-weight: 700;
+
+    transform: translateX(-30px);
+
+    color: #444;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
+    margin-bottom: 20px;
+}
+
+.texto-ayuda h1 span{
+    color: #9BCB97;
+}
+
+.corazon{
+    width: 250px;
+
+    margin-left: -70px;
+
+    vertical-align: middle;
+
+    position: relative;
+    
+    top: -8px;
+}
+
+.texto-ayuda p{
+    font-size: 23px;
+
+    line-height: 1.5;
+
+    color: #222;
+
+    margin-bottom: 30px;
+
+    margin-left: -25px;
+
+
+}
+
+.verde{
+    color: #9BCB97;
+    font-weight: bold;
+}
+
+.btn-ayuda{
+    background: #ff5757;
+
+    border: none;
+
+    border-radius: 60px;
+
+    padding: 16px 30px;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    cursor: pointer;
+
+    width: fit-content;
+}
+
+button:hover{
+    transform: scale(1.05);
+}
+
+.icono{
+    width: 65px;
+}
+
+.texto-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.titulo-btn{
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    color: white;
+
+    line-height: 1;
+
+    text-shadow:
+        2px 2px 4px rgba(0,0,0,0.15);
+}
+
+.sub-btn{
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 14px;
+    font-weight: 400;
+
+    color: white;
+
+    opacity: 0.95;
+
+    margin-top: 4px;
+}
+
+.imagen-ayuda img{
+    width: 620px;
+    height: 430px;
+
+    object-fit: cover;
+
+    border-radius: 0;
+
+    display: block;
+}
+
+.cards{
+    margin-top: 50px;
+
+    background: white;
+
+    border-radius: 40px;
+
+    padding: 40px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.card{
+    width: 250px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.card h3{
+    font-size: 28px;
+    color: #25354A;
+
+    margin-bottom: 10px;
+}
+
+.card p{
+    font-size: 18px;
+    color: #444;
+
+    line-height: 1.4;
+}
+
+.texto-card{
+    display: flex;
+
+    flex-direction: column;
+}
+
+/* diapositiva 3 (categorias) */
+
+.categorias{
+    min-height: 100vh;
+
+    padding: 60px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #6ee7df,
+        #b9d7ff,
+        #ffe5db
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-categorias{
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 80px;
+}
+
+.card{
+    width: 200px;
+    height: 190px;
+
+    border-radius: 70px;
+
+    border: 5px solid white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    box-shadow:
+    0 10px 20px rgba(0,0,0,0.10);
+
+    transition: 0.3s;
+
+    overflow: hidden;
+}
+
+.card h4{
+    font-size: 10px;
+
+    font-weight: 700;
+
+    color: #222;
+
+    text-shadow:
+    0px 2px 4px rgba(255,255,255,0.9);
+}
+
+.card:hover{
+    transform: translateY(-10px) scale(1.05);
+}
+
+.celeste{
+    background: #aee8e6;
+}
+
+.amarillo{
+    background: #f6db58;
+}
+
+.gris{
+    background: #e5e5e5;
+}
+
+.card img{
+    width: 90px;
+
+    margin-bottom: 15px;
+}
+
+.card h4{
+   font-size: 20px;
+
+    font-weight: 700;
+
+    color: #222;
+
+    text-shadow:
+    -2px -2px 0 white,
+     2px -2px 0 white,
+    -2px  2px 0 white,
+     2px  2px 0 white;
+}
+
+/* diapositiva 4 (turismo) */
+
+.turismo{
+    min-height: 100vh;
+
+    padding: 50px;
+
+    background: #f8f8f8;
+}
+
+.contenido-turismo{
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 50px;
+}
+
+.texto-turismo{
+    width: 35%;
+}
+
+.texto-turismo h1{
+    font-size: 90px;
+
+    line-height: 0.9;
+
+    color: #444;
+
+    font-weight: 800;
+}
+
+.texto-turismo span{
+    color: #9acb92;
+}
+
+.texto-turismo p{
+    font-size: 20px;
+
+    line-height: 1.5;
+
+    margin-top: 30px;
+
+    color: #555;
+}
+
+.iconos-turismo{
+    display: flex;
+
+    gap: 20px;
+
+    margin-top: 50px;
+}
+
+.icono{
+    width: 90px;
+    height: 90px;
+
+    background: #eef3e9;
+
+    border-radius: 50%;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.cards-turismo{
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+.card-turismo{
+    width: 260px;
+
+    background: white;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow:
+    0 10px 20px rgba(0,0,0,0.08);
+}
+
+.card-turismo img{
+    width: 100%;
+
+    height: 180px;
+
+    object-fit: cover;
+}
+
+.info{
+    padding: 15px;
+}
+
+.info h3{
+    font-size: 24px;
+
+    color: #444;
+}
+
+.info p{
+    margin-top: 10px;
+
+    color: #666;
+
+    line-height: 1.5;
+}
+
+.frase-final{
+    margin-top: 50px;
+
+    background: #edf0e8;
+
+    border-radius: 40px;
+
+    padding: 20px 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+}
+
+.card-turismo:hover{
+    transform: translateY(-10px);
+
+    transition: 0.3s;
+}
