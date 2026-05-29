@@ -1,0 +1,130 @@
+<section class="activities-page">
+  <header class="page-header">
+    <h1>Gestión de Actividades</h1>
+    <button type="button" class="primary-button">
+      <span class="material-symbols-outlined">add</span>
+      <span>Nueva Actividad</span>
+    </button>
+  </header>
+
+  <div class="page-content">
+    <section class="filters-card" aria-label="Búsqueda y filtros">
+      <label class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input
+          type="search"
+          placeholder="Buscar por nombre, sede o palabra clave..."
+          aria-label="Buscar actividades"
+          [(ngModel)]="searchTerm"
+        >
+      </label>
+
+      <div class="filter-actions">
+        <select aria-label="Filtrar por estado" [(ngModel)]="selectedStatus">
+          <option value="">Estado (Todos)</option>
+          <option value="Confirmado">Confirmado</option>
+          <option value="En Revisión">En Revisión</option>
+          <option value="Cancelado">Cancelado</option>
+        </select>
+        <button type="button" class="outline-icon-button" aria-label="Limpiar filtros" (click)="clearFilters()">
+          <span class="material-symbols-outlined">filter_alt_off</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="category-section" aria-label="Filtrar por categoría">
+      <div class="section-title">
+        <h2>Filtrar por Categoría</h2>
+        @if (selectedCategory) {
+          <button type="button" (click)="selectCategory(selectedCategory)">Quitar {{ selectedCategory }}</button>
+        }
+      </div>
+      <div class="chip-list">
+        @for (category of categories; track category.label) {
+          <button
+            type="button"
+            class="category-chip"
+            [class]="'category-chip tone-' + category.tone"
+            [class.active]="selectedCategory === category.label"
+            (click)="selectCategory(category.label)"
+          >
+            <span class="chip-icon">
+              <img [src]="category.icon" [alt]="category.label">
+            </span>
+            <span>{{ category.label }}</span>
+          </button>
+        }
+      </div>
+    </section>
+
+    <section class="results-card" aria-label="Resultados de actividades">
+      <div class="results-header">
+        <h2>Resultados ({{ filteredActivities.length }})</h2>
+        <div class="view-switch">
+          <button type="button" aria-label="Ver grilla"><span class="material-symbols-outlined">grid_view</span></button>
+          <button type="button" class="active" aria-label="Ver lista"><span class="material-symbols-outlined">list</span></button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Actividad</th>
+              <th>Categoría</th>
+              <th>Fecha / Hora</th>
+              <th>Sede</th>
+              <th>Estado</th>
+              <th class="actions-col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (activity of filteredActivities; track activity.title) {
+              <tr>
+                <td>
+                  <div class="activity-cell">
+                    <div class="activity-thumb">
+                      @if (activity.imageUrl) {
+                        <img [src]="activity.imageUrl" [alt]="activity.title">
+                      } @else {
+                        <span class="material-symbols-outlined">image</span>
+                      }
+                    </div>
+                    <div>
+                      <strong>{{ activity.title }}</strong>
+                      <p>{{ activity.description }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="category-pill" [class]="'category-pill tone-' + activity.categoryTone"><span class="chip-icon"><img [src]="activity.categoryIcon.startsWith('assets/') ? activity.categoryIcon : 'assets/' + activity.categoryIcon + '.webp'" [alt]="activity.category"></span>{{ activity.category }}</span></td>
+                <td><strong class="date-text">{{ activity.date }}</strong><span class="time-text">{{ activity.time }}</span></td>
+                <td><span class="location-text"><span class="material-symbols-outlined">location_on</span>{{ activity.location }}</span></td>
+                <td><span class="status-pill" [class]="'status-pill ' + activity.statusTone"><span aria-hidden="true"></span>{{ activity.status }}</span></td>
+                <td class="actions-col">
+                  <div class="row-actions">
+                    <button type="button" aria-label="Editar actividad" title="Editar"><span class="material-symbols-outlined">edit</span></button>
+                    <button type="button" class="delete" aria-label="Eliminar actividad" title="Eliminar"><span class="material-symbols-outlined">delete</span></button>
+                    <button type="button" aria-label="Más acciones"><span class="material-symbols-outlined">more_vert</span></button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty-state">No se encontraron actividades con esos filtros.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <span>Mostrando {{ filteredActivities.length ? 1 : 0 }} a {{ filteredActivities.length }} de {{ filteredActivities.length }}</span>
+        <div>
+          <button type="button" disabled>Anterior</button>
+          <button type="button" class="active">1</button>
+          <button type="button" disabled>Siguiente</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

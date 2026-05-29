@@ -1,0 +1,111 @@
+<section class="dashboard-page">
+  <header class="page-header">
+    <div>
+      <h1>Panel de Actividades</h1>
+      <p>
+        <span>Resumen general de iniciativas comunitarias</span>
+        <span class="dot" aria-hidden="true"></span>
+        <strong>San José, Entre Ríos</strong>
+      </p>
+    </div>
+    <button type="button" class="primary-button">
+      <span class="material-symbols-outlined filled">add</span>
+      <span>Nueva Actividad</span>
+    </button>
+  </header>
+
+  <section class="metrics-grid" aria-label="Métricas de rendimiento">
+    @for (metric of metrics; track metric.label) {
+      <article class="metric-card" [class]="'metric-card tone-' + metric.tone">
+        <div class="metric-head">
+          <p>{{ metric.label }}</p>
+          <span class="metric-icon material-symbols-outlined">{{ metric.icon }}</span>
+        </div>
+        <div class="metric-value">
+          <strong>{{ metric.value }}</strong>
+          @if (metric.change) {
+            <span class="change"><span class="material-symbols-outlined">trending_up</span>{{ metric.change }}</span>
+          }
+          @if (metric.badge) {
+            <span class="metric-badge">{{ metric.badge }}</span>
+          }
+        </div>
+        <span class="metric-detail">{{ metric.detail }}</span>
+      </article>
+    }
+  </section>
+
+  <section class="filters" aria-label="Filtros">
+    <div class="section-heading">
+      <h2>Filtros por Categoría</h2>
+      <button type="button" (click)="clearFilters()">Limpiar filtros</button>
+    </div>
+    <div class="category-grid">
+      @for (category of categories; track category.label) {
+        <button
+          type="button"
+          class="category-card"
+          [class.active]="selectedCategory === category.label"
+          [class]="'category-card tone-' + category.tone"
+          (click)="selectCategory(category.label)"
+        >
+          <span class="category-icon">
+            <img [src]="category.icon" [alt]="category.label">
+          </span>
+          <span>{{ category.label }}</span>
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="table-card" aria-label="Listado">
+    <div class="table-header">
+      <div>
+        <h2>Listado de Actividades</h2>
+        <p>
+          Filtrando por:
+          <strong>{{ selectedCategory || 'Todas las categorías' }}</strong>
+          <span class="result-count">({{ filteredActivities.length }})</span>
+        </p>
+      </div>
+      <label class="search-field">
+        <span class="material-symbols-outlined">search</span>
+        <input
+          type="search"
+          placeholder="Buscar actividad o recinto..."
+          aria-label="Buscar actividad o recinto"
+          [(ngModel)]="searchTerm"
+        >
+      </label>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Información de Actividad</th>
+            <th>Categoría</th>
+            <th>Fecha Programada</th>
+            <th>Estado Actual</th>
+            <th class="actions-col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (activity of filteredActivities; track activity.title) {
+            <tr>
+              <td><strong>{{ activity.title }}</strong><span class="place"><span class="material-symbols-outlined">location_on</span>{{ activity.place }}</span></td>
+              <td><span class="tag"><span class="material-symbols-outlined">{{ activity.categoryIcon }}</span>{{ activity.category }}</span></td>
+              <td>{{ activity.date }}</td>
+              <td><span class="status" [class]="'status ' + activity.statusTone"><span aria-hidden="true"></span>{{ activity.status }}</span></td>
+              <td class="actions-col"><button type="button" class="icon-button" aria-label="Ver acciones"><span class="material-symbols-outlined">more_horiz</span></button></td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty-state">No se encontraron actividades con esos filtros.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
