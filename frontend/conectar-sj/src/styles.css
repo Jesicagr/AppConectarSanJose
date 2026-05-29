@@ -1,0 +1,73 @@
+:root {
+  --primary: #0050cb;
+  --primary-soft: #dae1ff;
+  --primary-weak: #b3c5ff;
+  --secondary: #006c49;
+  --secondary-soft: #6cf8bb;
+  --secondary-weak: #d8f8ea;
+  --surface: #faf8ff;
+  --surface-low: #f2f3ff;
+  --surface-lowest: #ffffff;
+  --surface-variant: #dae2fd;
+  --surface-high: #e2e7ff;
+  --surface-grad-a: #9be8d8;
+  --surface-grad-b: #c4ddff;
+  --surface-grad-c: #f2d7ff;
+  --text: #131b2e;
+  --text-muted: #424656;
+  --outline: #727687;
+  --outline-soft: #c2c6d8;
+  --success: #006c49;
+  --warning: #715500;
+  --danger: #ba1a1a;
+  --danger-soft: #ffdad6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(155, 232, 216, 0.22), transparent 28%),
+    radial-gradient(circle at 85% 0%, rgba(196, 221, 255, 0.34), transparent 24%),
+    linear-gradient(180deg, #ffffff 0%, var(--surface) 100%);
+  color: var(--text);
+  font-family: "Plus Jakarta Sans", Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.material-symbols-outlined {
+  direction: ltr;
+  display: inline-block;
+  font-family: "Material Symbols Outlined";
+  font-feature-settings: "liga";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: "FILL" 1;
+}

@@ -1,0 +1,75 @@
+<section class="areas-page">
+  <header class="page-header">
+    <div>
+      <h1>Gestión de Áreas</h1>
+      <p>Crea y organiza las categorías para las actividades de la comunidad.</p>
+    </div>
+    <button type="button" class="primary-button">
+      <span class="material-symbols-outlined">add</span>
+      <span>Nueva Área</span>
+    </button>
+  </header>
+
+  <section class="content-shell">
+    <div class="content-head">
+      <div>
+        <h2>Listado de Áreas</h2>
+        <span class="counter">{{ filteredAreas.length }} áreas visibles</span>
+      </div>
+      <label class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input
+          type="search"
+          placeholder="Buscar área..."
+          aria-label="Buscar área"
+          [(ngModel)]="searchTerm"
+        >
+      </label>
+    </div>
+
+    <div class="areas-grid">
+      @for (area of filteredAreas; track area.name) {
+        <article class="area-card" [class]="'area-card tone-' + area.tone">
+          <div class="area-top">
+            <div class="area-icon">
+              <img [src]="area.icon" [alt]="area.name">
+            </div>
+            <span class="status-pill" [class]="'status-pill ' + area.statusTone">
+              <span aria-hidden="true"></span>
+              {{ area.status }}
+            </span>
+          </div>
+
+          <div class="area-body">
+            <h3>{{ area.name }}</h3>
+            <p>{{ area.description }}</p>
+          </div>
+
+          <div class="area-actions">
+            <button type="button" class="edit-btn" title="Editar">
+              <span class="material-symbols-outlined">edit</span>
+              <span>Editar</span>
+            </button>
+            <button type="button" class="delete-btn" title="Eliminar" aria-label="Eliminar área">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-state">No se encontraron áreas con ese criterio.</div>
+      }
+    </div>
+
+    <div class="footer-bar">
+      <span>5 de 12 áreas mostradas</span>
+      <div class="pager">
+        <button type="button" disabled>
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button type="button">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </section>
+</section>

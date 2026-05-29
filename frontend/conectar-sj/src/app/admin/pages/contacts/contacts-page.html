@@ -1,0 +1,84 @@
+<section class="contacts-page">
+  <header class="page-header">
+    <div>
+      <h1>Contactos Útiles</h1>
+      <p>Gestiona los contactos esenciales de la Municipalidad de San José.</p>
+    </div>
+    <button type="button" class="primary-button">
+      <span class="material-symbols-outlined">add</span>
+      <span>Nuevo Contacto</span>
+    </button>
+  </header>
+
+  <section class="toolbar-card">
+    <label class="search-box">
+      <span class="material-symbols-outlined">search</span>
+      <input
+        type="search"
+        placeholder="Buscar contacto o servicio..."
+        aria-label="Buscar contacto o servicio"
+        [(ngModel)]="searchTerm"
+      >
+    </label>
+
+    <div class="toolbar-actions">
+      <button
+        type="button"
+        class="filter-chip"
+        [class.active]="!selectedCategory || selectedCategory === 'Todos'"
+        (click)="selectCategory('Todos')"
+      >
+        Todos
+      </button>
+      @for (category of categories.slice(1); track category) {
+        <button
+          type="button"
+          class="filter-chip"
+          [class.active]="selectedCategory === category"
+          (click)="selectCategory(category)"
+        >
+          {{ category }}
+        </button>
+      }
+      <button type="button" class="clear-btn" (click)="clearFilters()">
+        <span class="material-symbols-outlined">filter_alt_off</span>
+        Limpiar
+      </button>
+    </div>
+  </section>
+
+  <h2 class="section-title">Listado de Contactos Útiles</h2>
+
+  <div class="contacts-grid">
+    @for (contact of filteredContacts; track contact.name) {
+      <article class="contact-card" [class]="'contact-card tone-' + contact.tone">
+        <div class="contact-top">
+          <div class="contact-icon">
+            <span class="material-symbols-outlined">{{ contact.icon }}</span>
+          </div>
+          <div class="contact-actions">
+            <button type="button" aria-label="Editar contacto"><span class="material-symbols-outlined">edit</span></button>
+            <button type="button" aria-label="Eliminar contacto"><span class="material-symbols-outlined">delete</span></button>
+          </div>
+        </div>
+
+        <div class="contact-body">
+          <h3>{{ contact.name }}</h3>
+          <p>{{ contact.description }}</p>
+        </div>
+
+        <div class="contact-phone">
+          <span class="material-symbols-outlined">phone</span>
+          <strong>{{ contact.phone }}</strong>
+        </div>
+
+        <button type="button" class="call-btn">
+          <span class="material-symbols-outlined">call</span>
+          Llamar
+        </button>
+      </article>
+    } @empty {
+      <div class="empty-state">No se encontraron contactos con ese criterio.</div>
+    }
+  </div>
+</section>

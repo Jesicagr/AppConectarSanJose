@@ -1,0 +1,47 @@
+<section class="sedes-page">
+  <header class="page-header">
+    <div>
+      <h1>Gestión de Sedes</h1>
+      <p>Administra las sedes comunitarias y ubicaciones físicas.</p>
+    </div>
+    <button type="button" class="primary-button">
+      <span class="material-symbols-outlined">add</span>
+      <span>Nueva Sede</span>
+    </button>
+  </header>
+
+  <section class="content-card">
+    <div class="content-head">
+      <h2>Listado de Sedes</h2>
+      <label class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input
+          type="search"
+          placeholder="Buscar sede o dirección..."
+          aria-label="Buscar sede o dirección"
+          [(ngModel)]="searchTerm"
+        >
+      </label>
+    </div>
+
+    <div class="cards-grid">
+      @for (sede of filteredSedes; track sede.name) {
+        <article class="sede-card">
+          <div class="sede-icon" [class]="'sede-icon tone-' + sede.tone">
+            <span class="material-symbols-outlined">{{ sede.icon }}</span>
+          </div>
+          <div class="sede-info">
+            <strong>{{ sede.name }}</strong>
+            <p>{{ sede.address }}</p>
+          </div>
+          <div class="sede-actions">
+            <button type="button" aria-label="Editar sede"><span class="material-symbols-outlined">edit</span></button>
+            <button type="button" aria-label="Eliminar sede"><span class="material-symbols-outlined">delete</span></button>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-state">No se encontraron sedes con ese criterio.</div>
+      }
+    </div>
+  </section>
+</section>
