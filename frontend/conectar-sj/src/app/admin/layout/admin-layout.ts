@@ -16,7 +16,6 @@ export class AdminLayout {
     { label: 'Sedes', icon: 'location_on', route: '/admin/sedes' },
     { label: 'Áreas', icon: 'apartment', route: '/admin/areas' },
     { label: 'Contactos', icon: 'contacts', route: '/admin/contactos' },
-    { label: 'Ajustes', icon: 'settings', route: '/admin/ajustes' },
   ];
 
   openSidebar(): void {

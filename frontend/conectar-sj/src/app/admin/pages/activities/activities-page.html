@@ -1,7 +1,7 @@
 <section class="activities-page">
   <header class="page-header">
     <h1>Gestión de Actividades</h1>
-    <button type="button" class="primary-button">
+    <button type="button" class="primary-button" (click)="openModal()">
       <span class="material-symbols-outlined">add</span>
       <span>Nueva Actividad</span>
     </button>
@@ -32,9 +32,9 @@
       </div>
     </section>
 
-    <section class="category-section" aria-label="Filtrar por categoría">
+    <section class="category-section" aria-label="Filtrar por área">
       <div class="section-title">
-        <h2>Filtrar por Categoría</h2>
+        <h2>Filtrar por ÁREA</h2>
         @if (selectedCategory) {
           <button type="button" (click)="selectCategory(selectedCategory)">Quitar {{ selectedCategory }}</button>
         }
@@ -48,9 +48,6 @@
             [class.active]="selectedCategory === category.label"
             (click)="selectCategory(category.label)"
           >
-            <span class="chip-icon">
-              <img [src]="category.icon" [alt]="category.label">
-            </span>
             <span>{{ category.label }}</span>
           </button>
         }
@@ -71,7 +68,7 @@
           <thead>
             <tr>
               <th>Actividad</th>
-              <th>Categoría</th>
+              <th>ÁREA</th>
               <th>Fecha / Hora</th>
               <th>Sede</th>
               <th>Estado</th>
@@ -96,7 +93,7 @@
                     </div>
                   </div>
                 </td>
-                <td><span class="category-pill" [class]="'category-pill tone-' + activity.categoryTone"><span class="chip-icon"><img [src]="activity.categoryIcon.startsWith('assets/') ? activity.categoryIcon : 'assets/' + activity.categoryIcon + '.webp'" [alt]="activity.category"></span>{{ activity.category }}</span></td>
+                <td><span class="category-pill" [class]="'category-pill tone-' + activity.categoryTone">{{ activity.category }}</span></td>
                 <td><strong class="date-text">{{ activity.date }}</strong><span class="time-text">{{ activity.time }}</span></td>
                 <td><span class="location-text"><span class="material-symbols-outlined">location_on</span>{{ activity.location }}</span></td>
                 <td><span class="status-pill" [class]="'status-pill ' + activity.statusTone"><span aria-hidden="true"></span>{{ activity.status }}</span></td>
@@ -128,3 +125,137 @@
     </section>
   </div>
 </section>
+
+@if (isModalOpen) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-container glass-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="icon-box">
+            <span class="material-symbols-outlined">edit_calendar</span>
+          </div>
+          <h2>Crear Nueva Actividad / Taller</h2>
+        </div>
+        <button type="button" class="close-btn" (click)="closeModal()" aria-label="Cerrar modal">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form class="modal-body">
+        <section class="form-section">
+          <div class="section-label text-primary">
+            <span class="material-symbols-outlined">info</span>
+            <h3>Datos Básicos</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group col-full">
+              <label>Título de la Actividad</label>
+              <input type="text" placeholder="Ej: Atletismo Municipal" class="form-input" [(ngModel)]="newActivityForm.title" name="title" />
+            </div>
+            <div class="form-group col-full">
+              <label>Lugar / Sede</label>
+              <div class="input-with-icon">
+                <span class="material-symbols-outlined icon">apartment</span>
+                <select class="form-input" [(ngModel)]="newActivityForm.sedeId" name="sedeId">
+                  <option [ngValue]="null" disabled>Seleccionar sede...</option>
+                  @for (sede of sedesBackend; track sede.id) {
+                    <option [value]="sede.id">{{ sede.nombre }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section highlight-section">
+          <div class="section-label text-secondary">
+            <span class="material-symbols-outlined">update</span>
+            <h3>Recurrencia y Vigencia</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Fecha de Inicio</label>
+              <input type="date" class="form-input" [(ngModel)]="newActivityForm.startDate" name="startDate" />
+            </div>
+            <div class="form-group">
+              <label>Hasta (Opcional)</label>
+              <input type="date" class="form-input" [(ngModel)]="newActivityForm.endDate" name="endDate" />
+            </div>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" class="form-checkbox" [(ngModel)]="newActivityForm.repeatYearly" name="repeatYearly" />
+            <span>Repetir todo el año</span>
+          </label>
+        </section>
+
+        <section class="form-section">
+          <div class="section-header-split">
+            <div class="section-label text-primary">
+              <span class="material-symbols-outlined">schedule</span>
+              <h3>Días y Horarios</h3>
+            </div>
+            <button type="button" class="text-action-button" (click)="addSchedule()">
+              <span class="material-symbols-outlined">add_circle</span> Agregar Horario
+            </button>
+          </div>
+          
+          <div class="schedule-list">
+            @for (schedule of newActivityForm.schedules; track $index) {
+              <div class="schedule-row">
+                <select class="form-input" [(ngModel)]="schedule.day" [name]="'day_' + $index">
+                  <option value="Lunes">Lunes</option>
+                  <option value="Martes">Martes</option>
+                  <option value="Miércoles">Miércoles</option>
+                  <option value="Jueves">Jueves</option>
+                  <option value="Viernes">Viernes</option>
+                  <option value="Sábado">Sábado</option>
+                  <option value="Domingo">Domingo</option>
+                </select>
+                <div class="time-range">
+                  <input type="time" class="form-input" [(ngModel)]="schedule.startTime" [name]="'startTime_' + $index" />
+                  <span>a</span>
+                  <input type="time" class="form-input" [(ngModel)]="schedule.endTime" [name]="'endTime_' + $index" />
+                </div>
+                <button type="button" class="remove-btn" (click)="removeSchedule($index)"><span class="material-symbols-outlined">close</span></button>
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="form-section">
+          <div class="section-label text-tertiary">
+            <span class="material-symbols-outlined">sell</span>
+            <h3>Áreas</h3>
+          </div>
+          <div class="category-selectable-list">
+            @for (cat of categories; track cat.label) {
+              <label class="category-selectable">
+                <input type="checkbox" [checked]="newActivityForm.selectedCategories.includes(cat.label)" (change)="toggleCategory(cat.label, $event)" />
+                <div class="selectable-chip" [class]="'tone-' + cat.tone">
+                  <span>{{ cat.label }}</span>
+                </div>
+              </label>
+            }
+          </div>
+        </section>
+
+        <section class="form-section">
+          <div class="form-group">
+            <label>WhatsApp de Contacto</label>
+            <div class="input-with-icon max-w-sm">
+              <span class="material-symbols-outlined icon text-secondary">chat</span>
+              <input type="tel" placeholder="Número de teléfono" class="form-input" [(ngModel)]="newActivityForm.whatsapp" name="whatsapp" />
+            </div>
+          </div>
+        </section>
+
+        <div class="modal-actions">
+          <button type="button" class="text-muted-btn" (click)="closeModal()">Cancelar</button>
+          <button type="button" class="primary-button save-button" (click)="saveActivity()">
+            <span class="material-symbols-outlined">save</span> ¡GUARDAR CAMBIOS!
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
