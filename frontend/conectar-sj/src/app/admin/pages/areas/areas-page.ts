@@ -26,6 +26,7 @@ export class AreasPage implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private toast = inject(ToastService);
 
+  loading = true;
   searchTerm = '';
   isModalOpen = false;
   editId: number | null = null;
@@ -66,9 +67,14 @@ export class AreasPage implements OnInit {
         const sorted = sortByAreaOrder(data);
         this.areasBackend = sorted;
         this.areas = sorted.map((a, i) => this.toAreaCard(a, i));
+        this.loading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Error al cargar áreas', err),
+      error: (err) => {
+        console.error('Error al cargar áreas', err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
     });
   }
 
