@@ -4,44 +4,150 @@
       <h1>Gestión de Sedes</h1>
       <p>Administra las sedes comunitarias y ubicaciones físicas.</p>
     </div>
-    <button type="button" class="primary-button">
+    <button type="button" class="primary-button" (click)="openModal()">
       <span class="material-symbols-outlined">add</span>
       <span>Nueva Sede</span>
     </button>
   </header>
 
-  <section class="content-card">
-    <div class="content-head">
-      <h2>Listado de Sedes</h2>
+  <div class="page-content">
+    <section class="filters-card" aria-label="Búsqueda">
       <label class="search-box">
         <span class="material-symbols-outlined">search</span>
         <input
           type="search"
-          placeholder="Buscar sede o dirección..."
-          aria-label="Buscar sede o dirección"
+          placeholder="Buscar por nombre o dirección..."
+          aria-label="Buscar sedes"
           [(ngModel)]="searchTerm"
         >
       </label>
-    </div>
+      <span class="result-counter">{{ filteredSedes.length }} sedes</span>
+    </section>
 
-    <div class="cards-grid">
-      @for (sede of filteredSedes; track sede.name) {
+    <section class="sedes-grid" aria-label="Listado de sedes">
+      @for (sede of filteredSedes; track sede.id) {
         <article class="sede-card">
-          <div class="sede-icon" [class]="'sede-icon tone-' + sede.tone">
-            <span class="material-symbols-outlined">{{ sede.icon }}</span>
+          <div class="sede-card-body">
+            <div class="sede-icon" [class]="'sede-icon tone-' + iconTone(sede.icono)">
+              <span class="material-symbols-outlined">{{ sede.icono || 'storefront' }}</span>
+            </div>
+            <h3>{{ sede.nombre }}</h3>
+            <p class="sede-address">
+              <span class="material-symbols-outlined">location_on</span>
+              {{ sede.direccion || 'Dirección no especificada' }}
+            </p>
+            @if (sede.telefono) {
+              <p class="sede-phone">
+                @if (sede.esWhatsapp) {
+                  <svg class="wa-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
+                } @else {
+                  <span class="material-symbols-outlined">phone</span>
+                }
+                {{ sede.telefono }}
+              </p>
+            }
+            @if (sede.descripcion) {
+              <p class="sede-desc">{{ sede.descripcion }}</p>
+            }
           </div>
-          <div class="sede-info">
-            <strong>{{ sede.name }}</strong>
-            <p>{{ sede.address }}</p>
-          </div>
-          <div class="sede-actions">
-            <button type="button" aria-label="Editar sede"><span class="material-symbols-outlined">edit</span></button>
-            <button type="button" aria-label="Eliminar sede"><span class="material-symbols-outlined">delete</span></button>
+          <div class="sede-card-footer">
+            <button type="button" class="edit-btn" (click)="openEditModal(sede)" aria-label="Editar sede">
+              <span class="material-symbols-outlined">edit</span>
+            </button>
+            <button type="button" class="delete-btn" (click)="deleteSede(sede)" aria-label="Eliminar sede">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
           </div>
         </article>
       } @empty {
-        <div class="empty-state">No se encontraron sedes con ese criterio.</div>
+        <div class="empty-state">No se encontraron sedes cargadas en el sistema.</div>
       }
-    </div>
-  </section>
+    </section>
+  </div>
 </section>
+
+@if (isModalOpen) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="icon-box">
+            <span class="material-symbols-outlined">add_location_alt</span>
+          </div>
+          <h2>{{ editingId ? 'Editar Sede' : 'Crear Nueva Sede / Espacio' }}</h2>
+        </div>
+        <button type="button" class="close-btn" (click)="closeModal()" aria-label="Cerrar modal">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form class="modal-body">
+        
+        <section class="form-section">
+          <div class="section-label text-primary">
+            <span class="material-symbols-outlined">info</span>
+            <h3>Datos Básicos</h3>
+          </div>
+          
+          <div class="form-group">
+            <label>Nombre de la Sede</label>
+            <input type="text" placeholder="Ej: Polideportivo Central San José" class="form-input" [(ngModel)]="newSedeForm.nombre" name="nombre" required />
+          </div>
+
+          <div class="form-group">
+            <label>Descripción (Opcional)</label>
+            <textarea placeholder="Describe las características principales de este espacio..." class="form-input" [(ngModel)]="newSedeForm.descripcion" name="descripcion" rows="3"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Dirección Física</label>
+            <div class="input-with-icon">
+              <span class="material-symbols-outlined icon">map</span>
+              <input type="text" placeholder="Calle, número o barrio" class="form-input" [(ngModel)]="newSedeForm.direccion" name="direccion" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Teléfono de Contacto</label>
+            <div class="input-with-icon">
+              <span class="material-symbols-outlined icon">phone</span>
+              <input type="tel" inputmode="numeric" placeholder="Ej: 344742XXXX" class="form-input"
+                [ngModel]="newSedeForm.telefono" (ngModelChange)="newSedeForm.telefono = soloNumeros($event)" name="telefono" />
+              <button type="button" class="wa-toggle" [class.active]="newSedeForm.esWhatsapp"
+                (click)="newSedeForm.esWhatsapp = !newSedeForm.esWhatsapp" [title]="newSedeForm.esWhatsapp ? 'Tiene WhatsApp' : 'No tiene WhatsApp'">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <div class="section-label text-primary">
+            <span class="material-symbols-outlined">grid_view</span>
+            <h3>Icono Representativo</h3>
+          </div>
+          <div class="icon-selectable-list">
+            @for (icon of iconOptions; track icon) {
+              <button type="button" class="icon-chip-btn" [class.active]="newSedeForm.icono === icon" (click)="selectIcon(icon)">
+                <span class="material-symbols-outlined">{{ icon }}</span>
+              </button>
+            }
+          </div>
+        </section>
+
+        <div class="modal-actions">
+          <button type="button" class="text-muted-btn" (click)="closeModal()">Cancelar</button>
+          <button type="button" class="primary-button save-button" [disabled]="saving" (click)="saveSede()">
+            @if (saving) {
+              <span class="spinner"></span> Guardando…
+            } @else {
+              <span class="material-symbols-outlined">save</span> {{ editingId ? 'GUARDAR CAMBIOS' : '¡GUARDAR SEDE!' }}
+            }
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+}

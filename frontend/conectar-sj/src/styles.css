@@ -1,4 +1,28 @@
+@import "tailwindcss";
+@source "./app/admin/pages/sedes/sedes-page.html";
+@source "./app/admin/pages/sedes/sedes-page.ts";
+@source "./app/**/*.html";
+
+@theme {
+  /* Mapeo correcto para que funcionen las clases utilitarias de Tailwind v4 */
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-outline: var(--outline);
+  --color-on-surface: var(--on-surface);
+  
+  /* Mapeo opcional por si querés usar tus variables del root con clases de Tailwind (ej: bg-primary) */
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-danger: var(--danger);
+}
+
 :root {
+  /* Tus colores personalizados para el Modal */
+  --surface-container: #f0f0f5;
+  --surface-container-low: #f7f7fa;
+  --on-surface: #1c1b1f;
+
+  /* Tus variables globales de la App */
   --primary: #0050cb;
   --primary-soft: #dae1ff;
   --primary-weak: #b3c5ff;
@@ -70,4 +94,53 @@ button {
 
 .material-symbols-outlined.filled {
   font-variation-settings: "FILL" 1;
+}
+
+/* ───── Spinner ───── */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ───── Disabled button ───── */
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ───── WhatsApp toggle ───── */
+.input-row {
+  display: flex;
+  gap: 6px;
+}
+.input-row input { flex: 1; }
+
+.wa-toggle {
+  align-items: center;
+  background: var(--surface-variant);
+  border: 2px solid var(--outline-soft);
+  border-radius: 999px;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  transition: all 0.2s;
+  width: 44px;
+  flex: 0 0 44px;
+}
+.wa-toggle .material-symbols-outlined { font-size: 20px; }
+.wa-icon { display: inline-block; vertical-align: middle; line-height: 0; }
+.wa-toggle.active {
+  background: #dcfce7;
+  border-color: #25d366;
+  color: #075e54;
 }

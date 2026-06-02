@@ -9,21 +9,12 @@
 
   <nav class="sidebar" [class.open]="sidebarOpen" aria-label="Navegación lateral">
     <div class="sidebar-brand">
-      <div>
-        <h2>Gestión Interna</h2>
-        <p>Municipalidad de San José</p>
-      </div>
+      <a [routerLink]="['/admin/dashboard']" (click)="closeSidebar()">
+        <img src="assets/logo.webp" alt="Conectar San José" class="sidebar-logo" />
+      </a>
       <button type="button" class="mobile-icon-button" aria-label="Cerrar menú" (click)="closeSidebar()">
         <span class="material-symbols-outlined">close</span>
       </button>
-    </div>
-
-    <div class="profile-card">
-      <div class="avatar" aria-hidden="true">SJ</div>
-      <div>
-        <strong>Admin San José</strong>
-        <span>Superusuario</span>
-      </div>
     </div>
 
     <div class="nav-list">
@@ -42,6 +33,13 @@
     </div>
 
     <div class="sidebar-footer">
+      <div class="profile-card">
+        <div class="avatar" aria-hidden="true">SJ</div>
+        <div>
+          <strong>Admin San José</strong>
+          <span>Superusuario</span>
+        </div>
+      </div>
       <a href="#" class="nav-link danger">
         <span class="material-symbols-outlined">logout</span>
         <span>Cerrar Sesión</span>
@@ -55,4 +53,21 @@
     </button>
     <router-outlet />
   </main>
+
+  @if (toast$ | async; as toast) {
+    @if (toast.visible) {
+      <div class="toast-overlay" (click)="hideToast()"></div>
+      <div class="toast" [class]="'toast-' + toast.type" role="alert">
+        <span class="toast-icon material-symbols-outlined">
+          @if (toast.type === 'success') { check_circle }
+          @else if (toast.type === 'error') { error }
+          @else { info }
+        </span>
+        <span class="toast-message">{{ toast.message }}</span>
+        <button type="button" class="toast-close" (click)="hideToast()" aria-label="Cerrar">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    }
+  }
 </div>

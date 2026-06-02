@@ -4,7 +4,17 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Development server
 
-To start a local development server, run:
+## Instalación de Angular CLI
+
+Si no tienes Angular CLI instalado globalmente, puedes instalarlo usando npm:
+
+```bash
+npm install -g @angular/cli
+```
+
+## Servidor de Desarrollo
+
+Para iniciar un servidor de desarrollo local, ejecuta:
 
 ```bash
 ng serve
