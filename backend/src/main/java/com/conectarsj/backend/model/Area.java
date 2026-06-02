@@ -17,4 +17,13 @@ public class Area {
 
     @Column(length = 50)
     private String icono;
+
+    @Column(columnDefinition = "TEXT")
+    private String descripcion;
+
+    @Column(length = 50)
+    private String telefono;
+
+    @Column(name = "es_whatsapp")
+    private Boolean esWhatsapp = false;
 }

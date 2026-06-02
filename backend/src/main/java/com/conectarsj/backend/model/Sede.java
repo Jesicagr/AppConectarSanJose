@@ -15,6 +15,18 @@ public class Sede {
     @Column(nullable = false, length = 100)
     private String nombre;
 
+    @Column(columnDefinition = "TEXT")
+    private String descripcion;
+
     @Column(length = 200)
     private String direccion;
+
+    @Column(length = 50)
+    private String telefono;
+
+    @Column(length = 50)
+    private String icono;
+
+    @Column(name = "es_whatsapp")
+    private Boolean esWhatsapp = false;
 }
