@@ -38,6 +38,7 @@ export class ActivitiesPage implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private toast = inject(ToastService);
 
+  loading = true;
   sedesBackend: Sede[] = [];
   areasBackend: Area[] = [];
 
@@ -101,9 +102,14 @@ export class ActivitiesPage implements OnInit {
           },
           error: () => this.cdr.detectChanges()
         });
+        this.loading = false;
         this.cdr.detectChanges();
       },
-      error: err => console.error('Error al cargar actividades:', err)
+      error: err => {
+        console.error('Error al cargar actividades:', err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

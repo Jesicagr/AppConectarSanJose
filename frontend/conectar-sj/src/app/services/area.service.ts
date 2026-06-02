@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 
 export interface Area {
   id: number;
@@ -17,20 +17,31 @@ export interface Area {
 export class AreaService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/areas';
+  private cache$: Observable<Area[]> | null = null;
 
   obtenerTodas(): Observable<Area[]> {
-    return this.http.get<Area[]>(this.apiUrl);
+    if (!this.cache$) {
+      this.cache$ = this.http.get<Area[]>(this.apiUrl).pipe(shareReplay(1));
+    }
+    return this.cache$;
   }
 
   crear(area: Partial<Area>): Observable<Area> {
+    this.invalidateCache();
     return this.http.post<Area>(this.apiUrl, area);
   }
 
   actualizar(id: number, area: Partial<Area>): Observable<Area> {
+    this.invalidateCache();
     return this.http.put<Area>(`${this.apiUrl}/${id}`, area);
   }
 
   eliminar(id: number): Observable<void> {
+    this.invalidateCache();
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  private invalidateCache(): void {
+    this.cache$ = null;
   }
 }

@@ -1,3 +1,10 @@
+@if (loading) {
+  <div class="loading-screen">
+    <span class="spinner"></span>
+    <p>Cargando panel...</p>
+  </div>
+}
+
 <section class="dashboard-page">
   <header class="page-header">
     <div>
@@ -76,7 +83,7 @@
     </div>
 
     <div class="activities-grid">
-      @for (activity of filteredActivities; track activity.title) {
+      @for (activity of filteredActivities; track $index) {
         <article class="activity-card" [class]="'activity-card border-tone-' + categoryTone(activity.category)">
           <div class="card-top">
             <span class="category-pill" [class]="'category-pill tone-' + categoryTone(activity.category)">

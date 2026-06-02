@@ -30,6 +30,7 @@ export class ContactsPage implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private toast = inject(ToastService);
 
+  loading = true;
   searchTerm = '';
   selectedCategory = '';
   isModalOpen = false;
@@ -69,9 +70,14 @@ export class ContactsPage implements OnInit {
       next: (data) => {
         this.contactsBackend = data;
         this.contacts = data.map((c, i) => this.toContactCard(c, i));
+        this.loading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Error al cargar contactos', err),
+      error: (err) => {
+        console.error('Error al cargar contactos', err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
     });
   }
 

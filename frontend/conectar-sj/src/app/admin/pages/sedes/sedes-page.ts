@@ -16,6 +16,7 @@ export class SedesPage implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private toast = inject(ToastService);
 
+  loading = true;
   searchTerm = '';
   sedes: Sede[] = [];
   isModalOpen = false;
@@ -50,9 +51,14 @@ export class SedesPage implements OnInit {
     this.sedeService.obtenerTodas().subscribe({
       next: (sedes) => {
         this.sedes = sedes;
+        this.loading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Error al cargar las sedes:', err)
+      error: (err) => {
+        console.error('Error al cargar las sedes:', err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

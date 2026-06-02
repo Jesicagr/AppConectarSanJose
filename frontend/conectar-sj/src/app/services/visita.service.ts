@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 
 export interface VisitaStats {
   total: number;
@@ -14,13 +14,18 @@ export interface VisitaStats {
 export class VisitaService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/visitas';
+  private statsCache$: Observable<VisitaStats> | null = null;
+  private visitasActividadCache$: Observable<Record<number, number>> | null = null;
 
   registrar(pagina: string): Observable<void> {
     return this.http.post<void>(this.apiUrl, { pagina });
   }
 
   obtenerStats(): Observable<VisitaStats> {
-    return this.http.get<VisitaStats>(`${this.apiUrl}/stats`);
+    if (!this.statsCache$) {
+      this.statsCache$ = this.http.get<VisitaStats>(`${this.apiUrl}/stats`).pipe(shareReplay(1));
+    }
+    return this.statsCache$;
   }
 
   registrarActividad(id: number): Observable<void> {
@@ -28,6 +33,9 @@ export class VisitaService {
   }
 
   visitasPorActividad(): Observable<Record<number, number>> {
-    return this.http.get<Record<number, number>>(`${this.apiUrl}/stats/actividades`);
+    if (!this.visitasActividadCache$) {
+      this.visitasActividadCache$ = this.http.get<Record<number, number>>(`${this.apiUrl}/stats/actividades`).pipe(shareReplay(1));
+    }
+    return this.visitasActividadCache$;
   }
 }

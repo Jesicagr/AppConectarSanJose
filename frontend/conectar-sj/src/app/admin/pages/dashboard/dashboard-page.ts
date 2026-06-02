@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 import { ActividadService } from '../../../services/actividad.service';
 import { AreaService, Area } from '../../../services/area.service';
 import { VisitaService } from '../../../services/visita.service';
@@ -21,8 +22,6 @@ interface CategoryFilter {
   tone: string;
 }
 
-
-
 @Component({
   selector: 'app-dashboard-page',
   imports: [FormsModule],
@@ -35,6 +34,7 @@ export class DashboardPage implements OnInit {
   private visitaService = inject(VisitaService);
   private cdr = inject(ChangeDetectorRef);
 
+  loading = true;
   searchTerm = '';
   selectedCategory = '';
 
@@ -50,21 +50,20 @@ export class DashboardPage implements OnInit {
   activities: DashboardActivity[] = [];
 
   ngOnInit(): void {
-    this.visitaService.obtenerStats().subscribe({
-      next: (s) => {
-        this.metrics[2].value = String(s.hoy);
-        this.metrics[2].detail = `${s.total} visitas totales · ${s.semana} esta semana`;
-        this.cdr.detectChanges();
-      },
-      error: () => {},
-    });
-    this.areaService.obtenerTodas().subscribe({
-      next: (areas) => {
+    forkJoin({
+      visitStats: this.visitaService.obtenerStats(),
+      areas: this.areaService.obtenerTodas(),
+    }).subscribe({
+      next: ({ visitStats, areas }) => {
+        this.metrics[2].value = String(visitStats.hoy);
+        this.metrics[2].detail = `${visitStats.total} visitas totales · ${visitStats.semana} esta semana`;
+
         const sorted = sortByAreaOrder(areas);
         this.areaToneMap = {};
         sorted.forEach((a, i) => {
-            this.areaToneMap[a.nombre] = getAreaTone(a.nombre, i);
+          this.areaToneMap[a.nombre] = getAreaTone(a.nombre, i);
         });
+
         this.cargarActividades();
       },
       error: () => this.cargarActividades(),
@@ -94,12 +93,17 @@ export class DashboardPage implements OnInit {
         this.categories = uniqueCats.map((cat, i) => ({
           label: cat,
           icon: WEBP_MAP[cat] || 'assets/comunidad.webp',
-            tone: this.areaToneMap[cat] || getAreaTone(cat, i),
+          tone: this.areaToneMap[cat] || getAreaTone(cat, i),
         }));
 
+        this.loading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Error al cargar actividades', err),
+      error: (err) => {
+        console.error('Error al cargar actividades', err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
     });
   }
 
