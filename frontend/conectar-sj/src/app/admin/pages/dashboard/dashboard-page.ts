@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActividadService } from '../../../services/actividad.service';
+import { AreaService, Area } from '../../../services/area.service';
+import { VisitaService } from '../../../services/visita.service';
+import { getAreaTone, sortByAreaOrder, WEBP_MAP } from '../../../shared/area-tones';
 
 interface DashboardActivity {
   title: string;
@@ -11,43 +15,97 @@ interface DashboardActivity {
   statusTone: string;
 }
 
+interface CategoryFilter {
+  label: string;
+  icon: string;
+  tone: string;
+}
+
+
+
 @Component({
   selector: 'app-dashboard-page',
   imports: [FormsModule],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.css',
 })
-export class DashboardPage {
+export class DashboardPage implements OnInit {
+  private actividadService = inject(ActividadService);
+  private areaService = inject(AreaService);
+  private visitaService = inject(VisitaService);
+  private cdr = inject(ChangeDetectorRef);
+
   searchTerm = '';
   selectedCategory = '';
 
   metrics = [
-    { label: 'Actividades Totales', value: '124', icon: 'confirmation_number', tone: 'primary', detail: 'Nuevos registros este mes', change: '+12%' },
-    { label: 'En Revisión', value: '18', icon: 'history_edu', tone: 'warning', detail: 'Requieren validación técnica', badge: 'Pendientes' },
-    { label: 'Usuarios Activos', value: '3.2k', icon: 'group', tone: 'success', detail: 'Crecimiento semanal estable', change: '+5%' },
+    { label: 'Actividades Totales', value: '0', icon: 'confirmation_number', tone: 'primary', detail: 'Cargando...', change: '' },
+    { label: 'En Revisión', value: '0', icon: 'history_edu', tone: 'warning', detail: 'Requieren validación técnica', badge: 'Pendientes' },
+    { label: 'Visitas Hoy', value: '0', icon: 'visibility', tone: 'success', detail: 'Cargando...', change: '' },
   ];
 
-  categories = [
-    { label: 'Mujer', icon: 'assets/mujer.webp', tone: 'danger' },
-    { label: 'Niñez', icon: 'assets/ninez.webp', tone: 'warning' },
-    { label: 'Personas Mayores', icon: 'assets/mayores.webp', tone: 'muted' },
-    { label: 'Desarrollo Comunitario', icon: 'assets/comunidad.webp', tone: 'primary' },
-    { label: 'Discapacidad', icon: 'assets/discapacidad.webp', tone: 'primary' },
-    { label: 'Salud', icon: 'assets/salud.webp', tone: 'success' },
-    { label: 'Trabajo', icon: 'assets/trabajo.webp', tone: 'warning' },
-    { label: 'Deportes', icon: 'assets/deportes.webp', tone: 'success' },
-    { label: 'Turismo', icon: 'assets/turismo.webp', tone: 'primary' },
-    { label: 'Cultura', icon: 'assets/cultura.webp', tone: 'warning' },
-    { label: 'Educación', icon: 'assets/educacion.webp', tone: 'primary' },
-  ];
+  categories: CategoryFilter[] = [];
+  private areaToneMap: Record<string, string> = {};
 
-  activities: DashboardActivity[] = [
-    { title: 'Taller de Inclusión Laboral', place: 'Parque Metropolitano', category: 'Discapacidad', categoryIcon: 'accessible', date: '15 Oct, 2024', status: 'Confirmada', statusTone: 'success' },
-    { title: 'Jornada de Salud Preventiva', place: 'Clínica Central', category: 'Salud', categoryIcon: 'monitor_heart', date: '22 Oct, 2024', status: 'En Revisión', statusTone: 'warning' },
-    { title: 'Festival Cultural Juvenil', place: 'Plaza de la Cultura', category: 'Niñez', categoryIcon: 'child_care', date: '05 Nov, 2024', status: 'Confirmada', statusTone: 'success' },
-    { title: 'Charla: Emprendedurismo Femenino', place: 'Casa de la Cultura', category: 'Mujer', categoryIcon: 'female', date: '18 Oct, 2024', status: 'En Revisión', statusTone: 'warning' },
-    { title: 'Caminata Histórica', place: 'Oficina de Turismo', category: 'Turismo', categoryIcon: 'travel_explore', date: '28 Oct, 2024', status: 'Confirmada', statusTone: 'success' },
-  ];
+  activities: DashboardActivity[] = [];
+
+  ngOnInit(): void {
+    this.visitaService.obtenerStats().subscribe({
+      next: (s) => {
+        this.metrics[2].value = String(s.hoy);
+        this.metrics[2].detail = `${s.total} visitas totales · ${s.semana} esta semana`;
+        this.cdr.detectChanges();
+      },
+      error: () => {},
+    });
+    this.areaService.obtenerTodas().subscribe({
+      next: (areas) => {
+        const sorted = sortByAreaOrder(areas);
+        this.areaToneMap = {};
+        sorted.forEach((a, i) => {
+            this.areaToneMap[a.nombre] = getAreaTone(a.nombre, i);
+        });
+        this.cargarActividades();
+      },
+      error: () => this.cargarActividades(),
+    });
+  }
+
+  private cargarActividades(): void {
+    this.actividadService.obtenerTodas().subscribe({
+      next: (acts) => {
+        this.activities = acts.map((a: any) => {
+          const primaryArea = (a.areas && a.areas.length > 0) ? a.areas[0] : null;
+          return {
+            title: a.titulo,
+            place: a.sede ? a.sede.nombre : 'Sin Sede',
+            category: primaryArea ? primaryArea.nombre : 'Sin Área',
+            categoryIcon: primaryArea ? primaryArea.icono : 'help',
+            date: a.fechaInicio || '',
+            status: a.status || 'Confirmado',
+            statusTone: a.statusTone || 'success',
+          };
+        });
+
+        this.metrics[0].value = String(this.activities.length);
+        this.metrics[0].detail = 'Actividades registradas';
+
+        const uniqueCats = [...new Set(this.activities.map((a) => a.category).filter(Boolean))];
+        this.categories = uniqueCats.map((cat, i) => ({
+          label: cat,
+          icon: WEBP_MAP[cat] || 'assets/comunidad.webp',
+            tone: this.areaToneMap[cat] || getAreaTone(cat, i),
+        }));
+
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error al cargar actividades', err),
+    });
+  }
+
+  categoryTone(category: string): string {
+    return this.areaToneMap[category] || 'surface-variant';
+  }
 
   get filteredActivities(): DashboardActivity[] {
     const query = this.normalize(this.searchTerm);

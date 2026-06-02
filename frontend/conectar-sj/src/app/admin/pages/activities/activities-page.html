@@ -1,127 +1,90 @@
 <section class="activities-page">
   <header class="page-header">
-    <h1>Gestión de Actividades</h1>
+    <div>
+      <h1>Gestión de Actividades</h1>
+      <p>Administra, edita y supervisa todas las iniciativas comunitarias.</p>
+    </div>
     <button type="button" class="primary-button" (click)="openModal()">
-      <span class="material-symbols-outlined">add</span>
+      <span class="material-symbols-outlined">add_circle</span>
       <span>Nueva Actividad</span>
     </button>
   </header>
 
   <div class="page-content">
-    <section class="filters-card" aria-label="Búsqueda y filtros">
+    <div class="page-toolbar">
       <label class="search-box">
         <span class="material-symbols-outlined">search</span>
-        <input
-          type="search"
-          placeholder="Buscar por nombre, sede o palabra clave..."
-          aria-label="Buscar actividades"
-          [(ngModel)]="searchTerm"
-        >
+        <input type="search" placeholder="Buscar actividades..." [(ngModel)]="searchTerm">
       </label>
+      <button type="button" class="filter-toggle" (click)="clearFilters()">
+        <span class="material-symbols-outlined">filter_alt_off</span>
+      </button>
+    </div>
 
-      <div class="filter-actions">
-        <select aria-label="Filtrar por estado" [(ngModel)]="selectedStatus">
-          <option value="">Estado (Todos)</option>
-          <option value="Confirmado">Confirmado</option>
-          <option value="En Revisión">En Revisión</option>
-          <option value="Cancelado">Cancelado</option>
-        </select>
-        <button type="button" class="outline-icon-button" aria-label="Limpiar filtros" (click)="clearFilters()">
-          <span class="material-symbols-outlined">filter_alt_off</span>
+    <div class="category-bar">
+      <div class="category-chips">
+        <button type="button" class="chip chip-all" [class.active]="!selectedCategory" (click)="selectedCategory = ''">
+          Todas
         </button>
-      </div>
-    </section>
-
-    <section class="category-section" aria-label="Filtrar por área">
-      <div class="section-title">
-        <h2>Filtrar por ÁREA</h2>
-        @if (selectedCategory) {
-          <button type="button" (click)="selectCategory(selectedCategory)">Quitar {{ selectedCategory }}</button>
-        }
-      </div>
-      <div class="chip-list">
-        @for (category of categories; track category.label) {
-          <button
-            type="button"
-            class="category-chip"
-            [class]="'category-chip tone-' + category.tone"
-            [class.active]="selectedCategory === category.label"
-            (click)="selectCategory(category.label)"
-          >
-            <span>{{ category.label }}</span>
+        <div class="chip-divider"></div>
+        @for (cat of categories; track cat.label) {
+          <button type="button" class="chip" [class.active]="selectedCategory === cat.label"
+            [class]="'chip tone-' + categoryToneClass(cat.label)"
+            (click)="selectCategory(cat.label)">
+            {{ cat.label }}
           </button>
         }
       </div>
-    </section>
+    </div>
 
-    <section class="results-card" aria-label="Resultados de actividades">
-      <div class="results-header">
-        <h2>Resultados ({{ filteredActivities.length }})</h2>
-        <div class="view-switch">
-          <button type="button" aria-label="Ver grilla"><span class="material-symbols-outlined">grid_view</span></button>
-          <button type="button" class="active" aria-label="Ver lista"><span class="material-symbols-outlined">list</span></button>
-        </div>
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Actividad</th>
-              <th>ÁREA</th>
-              <th>Fecha / Hora</th>
-              <th>Sede</th>
-              <th>Estado</th>
-              <th class="actions-col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (activity of filteredActivities; track activity.title) {
-              <tr>
-                <td>
-                  <div class="activity-cell">
-                    <div class="activity-thumb">
-                      @if (activity.imageUrl) {
-                        <img [src]="activity.imageUrl" [alt]="activity.title">
-                      } @else {
-                        <span class="material-symbols-outlined">image</span>
-                      }
-                    </div>
-                    <div>
-                      <strong>{{ activity.title }}</strong>
-                      <p>{{ activity.description }}</p>
-                    </div>
-                  </div>
-                </td>
-                <td><span class="category-pill" [class]="'category-pill tone-' + activity.categoryTone">{{ activity.category }}</span></td>
-                <td><strong class="date-text">{{ activity.date }}</strong><span class="time-text">{{ activity.time }}</span></td>
-                <td><span class="location-text"><span class="material-symbols-outlined">location_on</span>{{ activity.location }}</span></td>
-                <td><span class="status-pill" [class]="'status-pill ' + activity.statusTone"><span aria-hidden="true"></span>{{ activity.status }}</span></td>
-                <td class="actions-col">
-                  <div class="row-actions">
-                    <button type="button" aria-label="Editar actividad" title="Editar"><span class="material-symbols-outlined">edit</span></button>
-                    <button type="button" class="delete" aria-label="Eliminar actividad" title="Eliminar"><span class="material-symbols-outlined">delete</span></button>
-                    <button type="button" aria-label="Más acciones"><span class="material-symbols-outlined">more_vert</span></button>
-                  </div>
-                </td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="6" class="empty-state">No se encontraron actividades con esos filtros.</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <div class="pagination">
-        <span>Mostrando {{ filteredActivities.length ? 1 : 0 }} a {{ filteredActivities.length }} de {{ filteredActivities.length }}</span>
-        <div>
-          <button type="button" disabled>Anterior</button>
-          <button type="button" class="active">1</button>
-          <button type="button" disabled>Siguiente</button>
-        </div>
-      </div>
+    <section class="activities-grid">
+      @for (activity of filteredActivities; track activity.title) {
+        <article class="activity-card" [class]="'activity-card border-tone-' + categoryToneClass(activity.category)">
+          <div class="card-header">
+            <div class="card-info">
+              <span class="category-pill" [class]="'category-pill tone-' + categoryToneClass(activity.category)">
+                {{ activity.category }}
+              </span>
+              <h3>{{ activity.title }}</h3>
+              <p class="card-desc">{{ activity.description }}</p>
+            </div>
+            <div class="card-actions-top">
+              <button type="button" (click)="openEditModal(activity)" aria-label="Editar">
+                <span class="material-symbols-outlined">edit</span>
+              </button>
+              <button type="button" class="delete-icon" (click)="deleteActivity(activity)" aria-label="Eliminar">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span class="meta-item">
+                <span class="material-symbols-outlined meta-icon-primary">calendar_month</span>
+                {{ activity.date }} {{ activity.time }}
+              </span>
+              <span class="meta-item">
+                <span class="material-symbols-outlined meta-icon-secondary">location_on</span>
+                {{ activity.location }}
+              </span>
+            </div>
+            <div class="card-meta-bottom">
+              <span class="status-pill" [class]="'status-pill ' + statusPillClass(activity.status)">
+                <span class="status-dot" [class]="'dot-' + statusPillClass(activity.status)"></span>
+                {{ activity.status }}
+              </span>
+              @if (activity.visitas != null) {
+                <span class="visita-count">
+                  <span class="material-symbols-outlined">visibility</span>
+                  {{ activity.visitas }}
+                </span>
+              }
+            </div>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-state">No se encontraron actividades con esos filtros.</div>
+      }
     </section>
   </div>
 </section>
@@ -134,7 +97,7 @@
           <div class="icon-box">
             <span class="material-symbols-outlined">edit_calendar</span>
           </div>
-          <h2>Crear Nueva Actividad / Taller</h2>
+          <h2>{{ editingId ? 'Editar Actividad / Taller' : 'Crear Nueva Actividad / Taller' }}</h2>
         </div>
         <button type="button" class="close-btn" (click)="closeModal()" aria-label="Cerrar modal">
           <span class="material-symbols-outlined">close</span>
@@ -229,12 +192,11 @@
           </div>
           <div class="category-selectable-list">
             @for (cat of categories; track cat.label) {
-              <label class="category-selectable">
-                <input type="checkbox" [checked]="newActivityForm.selectedCategories.includes(cat.label)" (change)="toggleCategory(cat.label, $event)" />
-                <div class="selectable-chip" [class]="'tone-' + cat.tone">
-                  <span>{{ cat.label }}</span>
-                </div>
-              </label>
+              <button type="button" class="selectable-chip" [class]="'tone-' + categoryToneClass(cat.label)"
+                [class.active]="newActivityForm.selectedCategory === cat.label"
+(click)="pickCategory(cat.label)">
+                <span>{{ cat.label }}</span>
+              </button>
             }
           </div>
         </section>
@@ -243,16 +205,21 @@
           <div class="form-group">
             <label>WhatsApp de Contacto</label>
             <div class="input-with-icon max-w-sm">
-              <span class="material-symbols-outlined icon text-secondary">chat</span>
-              <input type="tel" placeholder="Número de teléfono" class="form-input" [(ngModel)]="newActivityForm.whatsapp" name="whatsapp" />
+              <svg class="icon text-secondary" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
+              <input type="tel" inputmode="numeric" placeholder="Número de teléfono" class="form-input"
+                [ngModel]="newActivityForm.whatsapp" (ngModelChange)="newActivityForm.whatsapp = soloNumeros($event)" name="whatsapp" />
             </div>
           </div>
         </section>
 
         <div class="modal-actions">
           <button type="button" class="text-muted-btn" (click)="closeModal()">Cancelar</button>
-          <button type="button" class="primary-button save-button" (click)="saveActivity()">
-            <span class="material-symbols-outlined">save</span> ¡GUARDAR CAMBIOS!
+          <button type="button" class="primary-button save-button" [disabled]="saving" (click)="saveActivity()">
+            @if (saving) {
+              <span class="spinner"></span> Guardando…
+            } @else {
+              <span class="material-symbols-outlined">save</span> {{ editingId ? 'GUARDAR CAMBIOS' : '¡GUARDAR CAMBIOS!' }}
+            }
           </button>
         </div>
       </form>

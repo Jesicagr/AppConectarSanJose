@@ -8,10 +8,6 @@
         <strong>San José, Entre Ríos</strong>
       </p>
     </div>
-    <button type="button" class="primary-button">
-      <span class="material-symbols-outlined filled">add</span>
-      <span>Nueva Actividad</span>
-    </button>
   </header>
 
   <section class="metrics-grid" aria-label="Métricas de rendimiento">
@@ -58,8 +54,8 @@
     </div>
   </section>
 
-  <section class="table-card" aria-label="Listado">
-    <div class="table-header">
+  <section class="activities-section" aria-label="Listado">
+    <div class="section-header">
       <div>
         <h2>Listado de Actividades</h2>
         <p>
@@ -79,33 +75,37 @@
       </label>
     </div>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Información de Actividad</th>
-            <th>Categoría</th>
-            <th>Fecha Programada</th>
-            <th>Estado Actual</th>
-            <th class="actions-col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (activity of filteredActivities; track activity.title) {
-            <tr>
-              <td><strong>{{ activity.title }}</strong><span class="place"><span class="material-symbols-outlined">location_on</span>{{ activity.place }}</span></td>
-              <td><span class="tag"><span class="material-symbols-outlined">{{ activity.categoryIcon }}</span>{{ activity.category }}</span></td>
-              <td>{{ activity.date }}</td>
-              <td><span class="status" [class]="'status ' + activity.statusTone"><span aria-hidden="true"></span>{{ activity.status }}</span></td>
-              <td class="actions-col"><button type="button" class="icon-button" aria-label="Ver acciones"><span class="material-symbols-outlined">more_horiz</span></button></td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="5" class="empty-state">No se encontraron actividades con esos filtros.</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <div class="activities-grid">
+      @for (activity of filteredActivities; track activity.title) {
+        <article class="activity-card" [class]="'activity-card border-tone-' + categoryTone(activity.category)">
+          <div class="card-top">
+            <span class="category-pill" [class]="'category-pill tone-' + categoryTone(activity.category)">
+              <span class="material-symbols-outlined">{{ activity.categoryIcon }}</span>
+              {{ activity.category }}
+            </span>
+            <button type="button" class="icon-btn" aria-label="Ver acciones">
+              <span class="material-symbols-outlined">more_horiz</span>
+            </button>
+          </div>
+          <h3>{{ activity.title }}</h3>
+          <span class="place-line">
+            <span class="material-symbols-outlined">location_on</span>
+            {{ activity.place }}
+          </span>
+          <div class="card-bottom">
+            <span class="date-line">
+              <span class="material-symbols-outlined">calendar_month</span>
+              {{ activity.date }}
+            </span>
+            <span class="status-pill" [class]="'status-pill ' + activity.statusTone">
+              <span></span>
+              {{ activity.status }}
+            </span>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-state">No se encontraron actividades con esos filtros.</div>
+      }
     </div>
   </section>
 </section>

@@ -30,4 +30,12 @@ export class ActividadService {
   crear(actividad: ActividadPayload): Observable<any> {
     return this.http.post<any>(this.apiUrl, actividad);
   }
+
+  actualizar(id: number, actividad: ActividadPayload): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, actividad);
+  }
+
+  eliminar(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
