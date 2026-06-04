@@ -5,6 +5,14 @@ export const routes: Routes = [
     path: 'login', 
     loadComponent: () => import('./login/login-page').then(m => m.LoginPage) 
   },
+  { 
+    path: 'forgot-password', 
+    loadComponent: () => import('./forgot-password/forgot-password').then(m => m.ForgotPasswordPage) 
+  },
+  { 
+    path: 'recuperar-password', 
+    loadComponent: () => import('./recuperar-password/recuperar-password').then(m => m.RecuperarPasswordPage) 
+  },
 
   {
     path: 'admin',

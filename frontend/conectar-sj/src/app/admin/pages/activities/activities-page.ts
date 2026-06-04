@@ -1,11 +1,15 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ActividadService, ActividadPayload } from '../../../services/actividad.service';
-import { SedeService, Sede } from '../../../services/sede.service';
-import { AreaService, Area } from '../../../services/area.service';
+import { forkJoin } from 'rxjs';
+import { ActividadService } from '../../../services/actividad.service';
+
+import { AreaService } from '../../../services/area.service';
 import { VisitaService } from '../../../services/visita.service';
 import { getAreaTone, sortByAreaOrder } from '../../../shared/area-tones';
 import { ToastService } from '../../../shared/toast.service';
+import { DateFormatPipe } from '../../../shared/date-format.pipe';
+import { ActividadModalComponent, ActividadModalData } from '../../shared/actividad-modal/actividad-modal.component';
 
 type ActivityStatus = 'Confirmado' | 'En Revisión' | 'Cancelado';
 
@@ -16,55 +20,71 @@ interface Activity {
   category: string;
   categoryIcon: string;
   date: string;
+  endDate?: string;
   time: string;
   location: string;
   status: ActivityStatus;
   statusTone: string;
   imageUrl?: string;
   visitas?: number;
+  encargado?: string;
+  telefono?: string;
 }
 
 @Component({
   selector: 'app-activities-page',
-  imports: [FormsModule],
+  imports: [FormsModule, DateFormatPipe, ActividadModalComponent],
   templateUrl: './activities-page.html',
   styleUrl: './activities-page.css',
 })
-export class ActivitiesPage implements OnInit {
+export class ActivitiesPage implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
   private actividadService = inject(ActividadService);
-  private sedeService = inject(SedeService);
   private areaService = inject(AreaService);
   private visitaService = inject(VisitaService);
   private cdr = inject(ChangeDetectorRef);
   private toast = inject(ToastService);
 
   loading = true;
-  sedesBackend: Sede[] = [];
-  areasBackend: Area[] = [];
+  loadingMore = false;
+
 
   searchTerm = '';
   selectedStatus = '';
   selectedCategory = '';
+  dropdownOpen = false;
 
   categories: any[] = [];
 
-  activities: Activity[] = [];
+  private readonly TONE_COLORS: Record<string, string> = {
+    rose: '#be123c', amber: '#8a5a00', indigo: '#4338ca',
+    emerald: '#047857', blue: '#0b5f61', red: '#dc2626',
+    cyan: '#0e7490', orange: '#c2410c', purple: '#6b21a8',
+    teal: '#0f766e', pink: '#be185d', violet: '#6d28d9',
+  };
+
+  allActivities: Activity[] = [];
+  displayedActivities: Activity[] = [];
+  renderCount = 50;
+  sentinelObserver: IntersectionObserver | null = null;
+  @ViewChild('sentinel', { static: false }) set sentinelRef(el: ElementRef<HTMLElement> | undefined) {
+    this.onSentinel(el ? el.nativeElement : null);
+  }
 
   ngOnInit(): void {
-    this.sedeService.obtenerTodas().subscribe({
-      next: sedes => { this.sedesBackend = sedes; this.cdr.detectChanges(); },
-      error: err => console.error('Error al cargar sedes en activities:', err)
-    });
     this.areaService.obtenerTodas().subscribe({
       next: areas => {
         const sorted = sortByAreaOrder(areas);
-        this.areasBackend = sorted;
-        this.categories = sorted.map((a, i) => ({
-          id: a.id,
-          label: a.nombre,
-          icon: a.icono || 'assets/comunidad.webp',
-          tone: getAreaTone(a.nombre, i)
-        }));
+        this.categories = sorted.map((a, i) => {
+          const tone = getAreaTone(a.nombre, i);
+          return {
+            id: a.id,
+            label: a.nombre,
+            icon: a.icono || 'assets/comunidad.webp',
+            tone,
+            toneColor: this.TONE_COLORS[tone] || '#666',
+          };
+        });
         this.cdr.detectChanges();
       },
       error: err => console.error('Error al cargar areas en activities:', err)
@@ -72,38 +92,55 @@ export class ActivitiesPage implements OnInit {
     this.cargarActividades();
   }
 
+  private mapActividad(a: any): Activity {
+    return {
+      id: a.id,
+      title: a.titulo,
+      description: a.descripcion || 'Sin descripción',
+      category: a.areaNombre || 'Sin Área',
+      categoryIcon: a.areaIcono || 'assets/comunidad.webp',
+      date: a.fechaInicio || '',
+      endDate: a.fechaFin || '',
+      time: a.horario || 'Sin horario',
+      location: a.sedeNombre || 'Sin Sede',
+      status: a.status || 'Confirmado',
+      statusTone: a.statusTone || 'success',
+      visitas: 0,
+      encargado: a.encargado,
+      telefono: a.telefono || ''
+    };
+  }
+
+  ngOnDestroy(): void {
+    this.sentinelObserver?.disconnect();
+  }
+
   cargarActividades(): void {
-    this.actividadService.obtenerTodas().subscribe({
-      next: acts => {
-        this.activities = acts.map(a => {
-          const primaryArea = (a.areas && a.areas.length > 0) ? a.areas[0] : null;
-          return {
-            id: a.id,
-            title: a.titulo,
-            description: a.descripcion || a.descripcion_corta || 'Sin descripción',
-            category: primaryArea ? primaryArea.nombre : 'Sin Área',
-            categoryIcon: primaryArea ? primaryArea.icono : 'assets/comunidad.webp',
-            date: a.fechaInicio || '',
-            time: (a.horarios && a.horarios.length > 0) ? `${a.horarios[0].diaSemana} ${a.horarios[0].horaInicio}` : 'Sin horario',
-            location: a.sede ? a.sede.nombre : 'Sin Sede',
-            status: a.status || 'Confirmado',
-            statusTone: a.statusTone || 'success',
-            visitas: 0
-          };
+    this.loading = true;
+    this.cdr.detectChanges();
+
+    forkJoin({
+      actividades: this.actividadService.obtenerPaginadas(0, 200),
+      visitas: this.visitaService.visitasPorActividad()
+    }).subscribe({
+      next: ({ actividades, visitas }) => {
+        this.allActivities = (actividades.content || []).map(a => this.mapActividad(a));
+        this.allActivities.forEach(a => {
+          if (a.id != null && visitas[a.id] != null) {
+            a.visitas = visitas[a.id];
+          }
         });
-        this.visitaService.visitasPorActividad().subscribe({
-          next: visitasMap => {
-            this.activities.forEach(a => {
-              if (a.id != null && visitasMap[a.id] != null) {
-                a.visitas = visitasMap[a.id];
-              }
-            });
-            this.cdr.detectChanges();
-          },
-          error: () => this.cdr.detectChanges()
-        });
+        this.applyFilters();
         this.loading = false;
         this.cdr.detectChanges();
+
+        const editId = this.route.snapshot.queryParams['edit'];
+        if (editId) {
+          const target = this.allActivities.find(a => a.id === Number(editId));
+          if (target) {
+            this.openEditModal(target);
+          }
+        }
       },
       error: err => {
         console.error('Error al cargar actividades:', err);
@@ -113,29 +150,79 @@ export class ActivitiesPage implements OnInit {
     });
   }
 
-  get filteredActivities(): Activity[] {
-    const query = this.normalize(this.searchTerm);
+  loadMore(): void {
+    if (this.loadingMore || this.renderCount >= this.displayedActivities.length) return;
+    this.loadingMore = true;
+    this.renderCount = Math.min(this.renderCount + 20, this.displayedActivities.length);
+    this.loadingMore = false;
+    this.cdr.detectChanges();
+  }
 
-    return this.activities.filter((activity) => {
+  onSentinel(element: HTMLElement | null): void {
+    this.sentinelObserver?.disconnect();
+    if (!element) return;
+    this.sentinelObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        this.loadMore();
+      }
+    }, { rootMargin: '300px' });
+    this.sentinelObserver.observe(element);
+  }
+
+  private applyFilters(): void {
+    const query = this.normalize(this.searchTerm);
+    const filtered = this.allActivities.filter((activity) => {
       const matchesCategory = !this.selectedCategory || activity.category === this.selectedCategory;
       const matchesStatus = !this.selectedStatus || activity.status === this.selectedStatus;
       const searchable = this.normalize(
         `${activity.title} ${activity.description} ${activity.location} ${activity.category} ${activity.status}`,
       );
       const matchesSearch = !query || searchable.includes(query);
-
       return matchesCategory && matchesStatus && matchesSearch;
     });
+    this.displayedActivities = filtered;
+    this.renderCount = Math.min(50, filtered.length);
+    this.cdr.detectChanges();
+  }
+
+  get filteredActivities(): Activity[] {
+    return this.displayedActivities.slice(0, this.renderCount);
+  }
+
+  get selectedCategoryData(): any {
+    return this.categories.find(c => c.label === this.selectedCategory) || null;
+  }
+
+  toggleDropdown(): void {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  closeDropdown(): void {
+    this.dropdownOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.category-select')) {
+      this.closeDropdown();
+    }
   }
 
   selectCategory(category: string): void {
     this.selectedCategory = this.selectedCategory === category ? '' : category;
+    this.applyFilters();
   }
 
   clearFilters(): void {
     this.searchTerm = '';
     this.selectedStatus = '';
     this.selectedCategory = '';
+    this.applyFilters();
+  }
+
+  onSearchChange(): void {
+    this.applyFilters();
   }
 
   deleteActivity(activity: Activity): void {
@@ -172,120 +259,62 @@ export class ActivitiesPage implements OnInit {
       .replace(/[\u0300-\u036f]/g, '');
   }
 
-  soloNumeros(value: string): string {
-    return value.replace(/\D/g, '');
-  }
-
-  isModalOpen = false;
-  editingId: number | null = null;
-  saving = false;
-
-  newActivityForm = {
-    title: '',
-    sedeId: null as number | null,
-    startDate: '',
-    endDate: '',
-    repeatYearly: true,
-    schedules: [
-      { day: 'Martes', startTime: '10:00', endTime: '12:00' }
-    ],
-    selectedCategory: null as string | null,
-    whatsapp: ''
-  };
+  modalData?: ActividadModalData | null = null;
+  modalOpen = false;
+  modalViewMode = false;
 
   openModal(): void {
-    this.editingId = null;
-    this.newActivityForm = {
-      title: '',
-      sedeId: null,
-      startDate: new Date().toISOString().split('T')[0],
-      endDate: '',
-      repeatYearly: true,
-      schedules: [
-        { day: 'Martes', startTime: '10:00', endTime: '12:00' }
-      ],
-      selectedCategory: null,
-      whatsapp: ''
+    this.modalData = null;
+    this.modalOpen = true;
+    this.modalViewMode = false;
+  }
+
+  openViewModal(activity: Activity): void {
+    this.modalData = {
+      id: activity.id,
+      title: activity.title,
+      description: activity.description,
+      category: activity.category,
+      categoryIcon: activity.categoryIcon,
+      date: activity.date,
+      endDate: activity.endDate,
+      time: activity.time,
+      location: activity.location,
+      encargado: activity.encargado,
+      telefono: activity.telefono,
     };
-    this.isModalOpen = true;
+    this.modalViewMode = true;
+    this.modalOpen = true;
   }
 
   openEditModal(activity: Activity): void {
-    this.editingId = activity.id ?? null;
-    const relatedSede = this.sedesBackend.find(s => s.nombre === activity.location);
-    this.newActivityForm = {
+    this.modalData = {
+      id: activity.id,
       title: activity.title,
-      sedeId: relatedSede?.id ?? null,
-      startDate: activity.date || new Date().toISOString().split('T')[0],
-      endDate: '',
-      repeatYearly: true,
-      schedules: activity.time !== 'Sin horario'
-        ? [{ day: activity.time.split(' ')[0] || 'Martes', startTime: activity.time.split(' ')[1]?.slice(0, 5) || '10:00', endTime: '12:00' }]
-        : [{ day: 'Martes', startTime: '10:00', endTime: '12:00' }],
-      selectedCategory: activity.category !== 'Sin Área' ? activity.category : null,
-      whatsapp: ''
+      description: activity.description,
+      category: activity.category,
+      categoryIcon: activity.categoryIcon,
+      date: activity.date,
+      endDate: activity.endDate,
+      time: activity.time,
+      location: activity.location,
+      encargado: activity.encargado,
+      telefono: activity.telefono,
     };
-    this.isModalOpen = true;
+    this.modalViewMode = false;
+    this.modalOpen = true;
   }
 
-  closeModal(): void {
-    this.isModalOpen = false;
+  onModalClosed(): void {
+    this.modalOpen = false;
+    this.modalData = null;
+    this.modalViewMode = false;
   }
 
-  addSchedule(): void {
-    this.newActivityForm.schedules.push({ day: 'Lunes', startTime: '10:00', endTime: '12:00' });
-  }
-
-  removeSchedule(index: number): void {
-    this.newActivityForm.schedules.splice(index, 1);
-  }
-
-  pickCategory(categoryLabel: string): void {
-    this.newActivityForm.selectedCategory = categoryLabel;
-  }
-
-  saveActivity(): void {
-    if (!this.newActivityForm.title || !this.newActivityForm.sedeId) {
-      this.toast.show('Completa el título y la sede', 'error');
-      return;
-    }
-
-    const selectedAreaId = this.newActivityForm.selectedCategory
-      ? (this.categories.find(c => c.label === this.newActivityForm.selectedCategory)?.id ?? null)
-      : null;
-
-    const payload: ActividadPayload = {
-      titulo: this.newActivityForm.title,
-      descripcion: 'Nueva actividad creada desde el panel.',
-      sede: { id: Number(this.newActivityForm.sedeId) },
-      fechaInicio: this.newActivityForm.startDate,
-      fechaFin: this.newActivityForm.endDate || null,
-      repetirTodoAnio: this.newActivityForm.repeatYearly,
-      areas: selectedAreaId ? [{ id: selectedAreaId }] : [],
-      horarios: this.newActivityForm.schedules.map(sch => ({
-        diaSemana: sch.day.toUpperCase(),
-        horaInicio: sch.startTime + ':00'
-      })),
-      descripcion_corta: 'Creado desde el panel admin'
-    };
-
-    this.saving = true;
-    const request$ = this.editingId
-      ? this.actividadService.actualizar(this.editingId, payload)
-      : this.actividadService.crear(payload);
-
-    request$.subscribe({
-      next: () => {
-        this.cargarActividades();
-        this.closeModal();
-        this.saving = false;
-        this.toast.show(this.editingId ? 'Actividad actualizada con éxito' : 'Actividad creada con éxito', 'success');
-      },
-      error: (err) => {
-        console.error('Error al guardar:', err);
-        this.saving = false;
-        this.toast.show('Error al guardar la actividad', 'error');
-      }
-    });
+  onModalSaved(): void {
+    this.modalOpen = false;
+    this.modalData = null;
+    this.modalViewMode = false;
+    this.cargarActividades();
   }
 }

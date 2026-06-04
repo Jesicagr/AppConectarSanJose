@@ -1,16 +1,17 @@
 :host {
-  --primary: #0050cb;
-  --primary-soft: #dae1ff;
-  --surface: #faf8ff;
-  --surface-low: #f2f3ff;
-  --outline: #727687;
-  --outline-soft: #c2c6d8;
-  --text: #131b2e;
-  --text-muted: #424656;
-  --success: #006c49;
-  --success-soft: #6cf8bb;
-  --warning: #715500;
-  --warning-soft: #ffdf99;
+  --primary: #0047AB;
+  --primary-soft: #dae8f5;
+  --surface: #ffffff;
+  --surface-low: #f2f8fa;
+  --outline: #555555;
+  --outline-soft: #c8d0d4;
+  --text: #0047AB;
+  --text-muted: #555555;
+  --text-accent: #4A6040;
+  --success: #4A6040;
+  --success-soft: #c8e6d0;
+  --warning: #F28C8C;
+  --warning-soft: #fdd0d0;
   --danger: #ba1a1a;
   display: block;
 }
@@ -18,10 +19,7 @@
 /* ───── Mobile first ───── */
 
 .dashboard-page {
-  background:
-    radial-gradient(circle at 100% 0%, rgba(155, 232, 216, 0.24), transparent 34%),
-    radial-gradient(circle at 0% 100%, rgba(242, 215, 255, 0.2), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, var(--surface) 100%);
+  background: linear-gradient(90deg, #e0f5f0 0%, #f5edf8 100%);
   min-height: 100%;
   padding: 80px 14px 28px;
 }
@@ -238,8 +236,8 @@ h1, h2 {
 }
 
 .category-card.active {
-  background: linear-gradient(135deg, var(--primary), #54a2ff);
-  border-color: var(--primary);
+  background: linear-gradient(135deg, var(--active-accent), #2A9D8F);
+  border-color: var(--active-accent);
   color: #fff;
 }
 
@@ -428,6 +426,64 @@ h1, h2 {
 .icon-btn:hover {
   background: var(--surface-low);
   color: var(--primary);
+}
+
+.menu-container {
+  position: relative;
+}
+
+.menu-dropdown {
+  animation: menuFadeIn 0.12s ease;
+  background: #fff;
+  border: 1px solid var(--outline-soft);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  position: absolute;
+  right: 0;
+  top: 36px;
+  z-index: 20;
+  min-width: 150px;
+}
+
+@keyframes menuFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.menu-item {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  font-size: 14px;
+  gap: 10px;
+  font-weight: 600;
+  padding: 10px 14px;
+  text-align: left;
+  transition: background 0.1s;
+  white-space: nowrap;
+}
+
+.menu-item:hover {
+  background: var(--surface-low);
+}
+
+.menu-item .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.menu-item-danger {
+  color: var(--danger);
+}
+
+.menu-item-danger:hover {
+  background: #fde8e8;
 }
 
 .activity-card h3 {

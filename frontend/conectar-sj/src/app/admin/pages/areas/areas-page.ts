@@ -1,10 +1,11 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AreaService, Area } from '../../../services/area.service';
+import { AreaService, Area, TelefonoItem } from '../../../services/area.service';
 import { getAreaTone, sortByAreaOrder } from '../../../shared/area-tones';
 import { ToastService } from '../../../shared/toast.service';
 
 interface AreaCard {
+  id: number;
   name: string;
   description: string;
   icon: string;
@@ -13,6 +14,13 @@ interface AreaCard {
   statusTone: string;
   phone?: string;
   esWhatsapp?: boolean;
+  telefonoEtiqueta?: string;
+  referente?: string;
+  direccion?: string;
+  email?: string;
+  redes?: string;
+  horarioAtencion?: string;
+  telefonos?: TelefonoItem[];
 }
 
 @Component({
@@ -49,13 +57,34 @@ export class AreasPage implements OnInit {
     { icono: 'groups', label: 'Juventud' },
   ];
 
-  newArea: { nombre: string; telefono: string; descripcion: string; icono: string; activo: boolean; esWhatsapp: boolean } = {
+  newArea: {
+    nombre: string;
+    telefono: string;
+    descripcion: string;
+    icono: string;
+    activo: boolean;
+    esWhatsapp: boolean;
+    telefonoEtiqueta: string;
+    referente: string;
+    direccion: string;
+    email: string;
+    redes: string;
+    horarioAtencion: string;
+    telefonos: TelefonoItem[];
+  } = {
     nombre: '',
     telefono: '',
     descripcion: '',
     icono: '',
     activo: true,
     esWhatsapp: false,
+    telefonoEtiqueta: '',
+    referente: '',
+    direccion: '',
+    email: '',
+    redes: '',
+    horarioAtencion: '',
+    telefonos: [],
   };
 
   areas: AreaCard[] = [];
@@ -80,28 +109,38 @@ export class AreasPage implements OnInit {
 
   private toAreaCard(a: Area, index: number): AreaCard {
     return {
+      id: a.id,
       name: a.nombre,
       description: a.descripcion,
       icon: a.icono,
       phone: a.telefono,
       esWhatsapp: a.esWhatsapp,
+      telefonoEtiqueta: a.telefonoEtiqueta,
       tone: getAreaTone(a.nombre, index),
       status: 'Activa',
       statusTone: 'success',
+      referente: a.referente,
+      direccion: a.direccion,
+      email: a.email,
+      redes: a.redes,
+      horarioAtencion: a.horarioAtencion,
+      telefonos: a.telefonos,
     };
   }
 
   get filteredAreas(): AreaCard[] {
     const query = this.normalize(this.searchTerm);
     return this.areas.filter((area) => {
-      const searchable = this.normalize(`${area.name} ${area.description} ${area.status}`);
+      const searchable = this.normalize(
+        `${area.name} ${area.description} ${area.status} ${area.referente || ''} ${area.direccion || ''}`
+      );
       return !query || searchable.includes(query);
     });
   }
 
   openModal(): void {
     this.editId = null;
-    this.newArea = { nombre: '', telefono: '', descripcion: '', icono: '', activo: true, esWhatsapp: false };
+    this.newArea = { nombre: '', telefono: '', descripcion: '', icono: '', activo: true, esWhatsapp: false, telefonoEtiqueta: '', referente: '', direccion: '', email: '', redes: '', horarioAtencion: '', telefonos: [] };
     this.isModalOpen = true;
   }
 
@@ -116,6 +155,13 @@ export class AreasPage implements OnInit {
       icono: backend.icono || '',
       activo: true,
       esWhatsapp: backend.esWhatsapp ?? false,
+      telefonoEtiqueta: backend.telefonoEtiqueta || '',
+      referente: backend.referente || '',
+      direccion: backend.direccion || '',
+      email: backend.email || '',
+      redes: backend.redes || '',
+      horarioAtencion: backend.horarioAtencion || '',
+      telefonos: backend.telefonos ? backend.telefonos.map(t => ({ ...t })) : [],
     };
     this.isModalOpen = true;
   }
@@ -125,8 +171,22 @@ export class AreasPage implements OnInit {
     this.editId = null;
   }
 
+  onOverlayMouseDown(event: MouseEvent): void {
+    if ((event.target as HTMLElement).classList.contains('modal-overlay')) {
+      this.closeModal();
+    }
+  }
+
   selectIcon(icono: string): void {
     this.newArea.icono = icono;
+  }
+
+  agregarTelefono(): void {
+    this.newArea.telefonos.push({ numero: '', esWhatsapp: false, etiqueta: '' });
+  }
+
+  eliminarTelefono(i: number): void {
+    this.newArea.telefonos.splice(i, 1);
   }
 
   saveArea(): void {
@@ -136,12 +196,20 @@ export class AreasPage implements OnInit {
     }
 
     this.saving = true;
+    const telefonosValidos = this.newArea.telefonos.filter(t => t.numero.trim());
     const payload: Partial<Area> = {
       nombre: this.newArea.nombre,
       telefono: this.newArea.telefono,
       descripcion: this.newArea.descripcion,
       icono: this.newArea.icono,
       esWhatsapp: this.newArea.esWhatsapp,
+      telefonoEtiqueta: this.newArea.telefonoEtiqueta || undefined,
+      referente: this.newArea.referente || undefined,
+      direccion: this.newArea.direccion || undefined,
+      email: this.newArea.email || undefined,
+      redes: this.newArea.redes || undefined,
+      horarioAtencion: this.newArea.horarioAtencion || undefined,
+      telefonos: telefonosValidos.length > 0 ? telefonosValidos : undefined,
     };
 
     if (this.editId !== null) {

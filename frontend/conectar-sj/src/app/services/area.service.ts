@@ -2,6 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
 
+export interface TelefonoItem {
+  numero: string;
+  esWhatsapp: boolean;
+  etiqueta?: string;
+}
+
 export interface Area {
   id: number;
   nombre: string;
@@ -9,6 +15,13 @@ export interface Area {
   descripcion: string;
   telefono: string;
   esWhatsapp?: boolean;
+  telefonoEtiqueta?: string;
+  referente?: string;
+  direccion?: string;
+  email?: string;
+  redes?: string;
+  horarioAtencion?: string;
+  telefonos?: TelefonoItem[];
 }
 
 @Injectable({

@@ -14,7 +14,7 @@
     <div class="form-group">
       <label for="email">Correo Electrónico</label>
       <div class="input-wrapper">
-        <span class="material-symbols-outlined">mail</span>
+        <span class="material-symbols-outlined input-icon">mail</span>
         <input type="email" id="email" [(ngModel)]="loginForm.email" name="email" placeholder="admin@sanjose.gob.ar" required />
       </div>
     </div>
@@ -22,8 +22,11 @@
     <div class="form-group">
       <label for="password">Contraseña</label>
       <div class="input-wrapper">
-        <span class="material-symbols-outlined">lock</span>
-        <input type="password" id="password" [(ngModel)]="loginForm.password" name="password" placeholder="••••••••" required />
+        <span class="material-symbols-outlined input-icon">lock</span>
+        <input [type]="showPassword ? 'text' : 'password'" id="password" [(ngModel)]="loginForm.password" name="password" placeholder="••••••••" required />
+        <button type="button" class="toggle-password" (click)="showPassword = !showPassword" [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+          <span class="material-symbols-outlined">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+        </button>
       </div>
     </div>
 
@@ -35,7 +38,7 @@
         </div>
         <span style="font-size: 14px; color: #604868;">Recordarme</span>
       </label>
-      <a class="forgot-password" href="#" (click)="$event.preventDefault()">¿Olvidó su contraseña?</a>
+      <a class="forgot-password" routerLink="/forgot-password">¿Olvidó su contraseña?</a>
     </div>
 
     <div style="padding-top: 16px;">

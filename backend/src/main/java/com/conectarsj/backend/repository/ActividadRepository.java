@@ -7,6 +7,8 @@
 package com.conectarsj.backend.repository;
 
 import com.conectarsj.backend.model.Actividad;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,6 +17,13 @@ import java.util.List;
 @Repository
 public interface ActividadRepository extends JpaRepository<Actividad, Long> {
 
-    @Query("SELECT DISTINCT a FROM Actividad a JOIN a.horarios h ORDER BY a.fechaInicio ASC")
+    @Query("SELECT a FROM Actividad a ORDER BY a.fechaInicio DESC")
     List<Actividad> findAllOrdenadoPorAgenda();
+
+    @Query(value = "SELECT a FROM Actividad a ORDER BY a.fechaInicio DESC",
+           countQuery = "SELECT COUNT(a) FROM Actividad a")
+    Page<Actividad> findAllOrdenadoPorAgenda(Pageable pageable);
+
+    @Query("SELECT COUNT(a) FROM Actividad a")
+    long countTotal();
 }

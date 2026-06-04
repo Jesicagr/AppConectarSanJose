@@ -1,17 +1,18 @@
 :host {
-  --primary: #0050cb;
-  --primary-fixed: #dae1ff;
-  --surface: #faf8ff;
-  --surface-low: #f2f3ff;
-  --surface-variant: #dae2fd;
-  --outline: #727687;
-  --outline-soft: #c2c6d8;
-  --text: #131b2e;
-  --text-muted: #424656;
-  --success: #006c49;
-  --success-soft: #6cf8bb;
-  --warning: #715500;
-  --warning-soft: #ffdf99;
+  --primary: #0047AB;
+  --primary-fixed: #dae8f5;
+  --surface: #ffffff;
+  --surface-low: #f2f8fa;
+  --surface-variant: #e8f0f2;
+  --outline: #555555;
+  --outline-soft: #c8d0d4;
+  --text: #0047AB;
+  --text-muted: #555555;
+  --text-accent: #4A6040;
+  --success: #4A6040;
+  --success-soft: #c8e6d0;
+  --warning: #F28C8C;
+  --warning-soft: #fdd0d0;
   --danger: #ba1a1a;
   --danger-soft: #ffdad6;
   display: block;
@@ -20,10 +21,7 @@
 /* ───── Mobile first ───── */
 
 .sedes-page {
-  background:
-    radial-gradient(circle at 100% 0%, rgba(155, 232, 216, 0.24), transparent 34%),
-    radial-gradient(circle at 0% 100%, rgba(242, 215, 255, 0.2), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, var(--surface) 100%);
+  background: linear-gradient(90deg, #e0f5f0 0%, #f5edf8 100%);
   min-height: 100%;
   padding: 56px 14px 24px;
 }
@@ -63,6 +61,32 @@
   white-space: nowrap;
   cursor: pointer;
   width: 100%;
+}
+
+.geo-all-btn {
+  align-items: center;
+  background: transparent;
+  border: 2px solid var(--primary);
+  border-radius: 999px;
+  color: var(--primary);
+  display: flex;
+  font-weight: 700;
+  gap: 8px;
+  justify-content: center;
+  padding: 10px 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.geo-all-btn:hover:not(:disabled) {
+  background: var(--primary-fixed);
+}
+
+.geo-all-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .page-content {
@@ -216,6 +240,31 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.sede-horarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.horario-pill {
+  align-items: center;
+  background: var(--primary-fixed);
+  border-radius: 999px;
+  color: var(--primary);
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  gap: 4px;
+  letter-spacing: 0.03em;
+  padding: 4px 10px;
+  text-transform: uppercase;
+}
+
+.horario-pill .material-symbols-outlined {
+  font-size: 14px;
 }
 
 .sede-card-footer {
@@ -405,8 +454,19 @@ textarea.form-input {
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
+  pointer-events: none;
+  z-index: 1;
 }
-.input-with-icon .form-input { padding-left: 40px; }
+.input-with-icon .form-input { padding: 12px 52px 12px 40px; }
+
+.input-with-icon .wa-toggle,
+.input-with-icon .geo-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
 
 .icon-selectable-list {
   display: flex;
@@ -428,14 +488,14 @@ textarea.form-input {
 }
 
 .icon-chip-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  border-color: var(--active-accent);
+  color: var(--active-accent);
 }
 
 .icon-chip-btn.active {
-  background: rgba(0, 80, 203, 0.1);
-  border-color: var(--primary);
-  color: var(--primary);
+  background: rgba(13, 122, 109, 0.1);
+  border-color: var(--active-accent);
+  color: var(--active-accent);
 }
 
 .modal-actions {
@@ -578,5 +638,236 @@ textarea.form-input {
   .modal-actions .save-button {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* ───── Header actions ───── */
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.header-actions .primary-button,
+.header-actions .geo-all-btn {
+  width: auto;
+}
+
+/* ───── View toggle ───── */
+.view-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(194, 198, 216, 0.5);
+  border-radius: 16px;
+  padding: 4px;
+  width: fit-content;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggle-btn.active {
+  background: var(--active-accent);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(13, 122, 109, 0.2);
+}
+
+.toggle-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* ───── Map wrapper ───── */
+.map-wrapper {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(194, 198, 216, 0.45);
+  border-radius: 24px;
+  overflow: hidden;
+  height: 500px;
+}
+
+.leaflet-container-sedes {
+  width: 100%;
+  height: 100%;
+}
+
+/* ───── Modal map ───── */
+.modal-map-container {
+  height: 280px;
+  border-radius: 12px;
+  border: 2px solid rgba(194, 198, 216, 0.5);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.map-hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.coord-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ───── Sede coords display ───── */
+.sede-coords {
+  align-items: center;
+  color: var(--text-muted);
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  font-size: 12px;
+}
+
+.sede-coords .material-symbols-outlined {
+  font-size: 16px;
+  color: var(--primary);
+}
+
+/* ───── Map button in card footer ───── */
+.map-btn {
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--primary);
+  cursor: pointer;
+  display: grid;
+  height: 40px;
+  place-items: center;
+  width: 40px;
+  transition: all 0.2s;
+  margin-right: auto;
+}
+
+.map-btn:hover {
+  background: rgba(218, 226, 253, 0.5);
+}
+
+/* ───── Sede marker override ───── */
+.sede-marker {
+  background: none !important;
+  border: none !important;
+}
+
+/* ───── Schedule styles ───── */
+.section-header-split {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.text-action-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--primary);
+  background: transparent;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+.text-action-button:hover { text-decoration: underline; }
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.schedule-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: #fff;
+  border: 2px solid rgba(108, 248, 187, 0.3);
+  border-radius: 12px;
+}
+
+.schedule-row select,
+.schedule-row input {
+  width: 100%;
+}
+
+.range-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.range-line select,
+.range-line input {
+  flex: 1;
+  min-width: 0;
+}
+
+.range-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.range-arrow {
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 16px;
+  flex: 0 0 auto;
+  line-height: 1;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--danger);
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+/* ───── Responsive map ───── */
+@media (min-width: 641px) {
+  .section-header-split {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .map-wrapper {
+    height: 600px;
+  }
+  .modal-map-container {
+    height: 320px;
+  }
+}
+
+@media (min-width: 901px) {
+  .map-wrapper {
+    height: 650px;
+  }
+  .modal-map-container {
+    height: 360px;
   }
 }

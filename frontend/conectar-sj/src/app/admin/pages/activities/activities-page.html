@@ -21,41 +21,63 @@
     <div class="page-toolbar">
       <label class="search-box">
         <span class="material-symbols-outlined">search</span>
-        <input type="search" placeholder="Buscar actividades..." [(ngModel)]="searchTerm">
+        <input type="search" placeholder="Buscar actividades..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </label>
-      <button type="button" class="filter-toggle" (click)="clearFilters()">
-        <span class="material-symbols-outlined">filter_alt_off</span>
-      </button>
-    </div>
-
-    <div class="category-bar">
-      <div class="category-chips">
-        <button type="button" class="chip chip-all" [class.active]="!selectedCategory" (click)="selectedCategory = ''">
-          Todas
-        </button>
-        <div class="chip-divider"></div>
-        @for (cat of categories; track cat.label) {
-          <button type="button" class="chip" [class.active]="selectedCategory === cat.label"
-            [class]="'chip tone-' + categoryToneClass(cat.label)"
-            (click)="selectCategory(cat.label)">
-            {{ cat.label }}
-          </button>
+      <div class="category-select" [attr.aria-expanded]="dropdownOpen" (click)="toggleDropdown()" tabindex="0">
+      <div class="category-select-trigger">
+        @if (selectedCategory) {
+          @if (selectedCategoryData?.icon && !selectedCategoryData?.icon?.startsWith('assets/')) {
+            <span class="material-symbols-outlined trigger-icon" [style.color]="selectedCategoryData?.toneColor">{{ selectedCategoryData?.icon }}</span>
+          }
+          <span class="trigger-label" [style.color]="selectedCategoryData?.toneColor">{{ selectedCategory }}</span>
+        } @else {
+          <span class="trigger-placeholder">Todas las áreas</span>
         }
+        <span class="material-symbols-outlined trigger-arrow">expand_more</span>
       </div>
+      @if (dropdownOpen) {
+        <div class="category-select-dropdown">
+          <button type="button" class="dropdown-item" [class.active]="!selectedCategory" (click)="clearFilters(); closeDropdown()">
+            <span>Todas las áreas</span>
+          </button>
+          @for (cat of categories; track cat.label) {
+            <button type="button" class="dropdown-item" [class.active]="selectedCategory === cat.label"
+              (click)="selectCategory(cat.label); closeDropdown()">
+              @if (cat.icon && !cat.icon.startsWith('assets/')) {
+                <span class="material-symbols-outlined dropdown-icon" [style.color]="cat.toneColor">{{ cat.icon }}</span>
+              }
+              <span [style.color]="selectedCategory === cat.label ? cat.toneColor : undefined">{{ cat.label }}</span>
+            </button>
+          }
+        </div>
+      }
+    </div>
     </div>
 
     <section class="activities-grid">
-      @for (activity of filteredActivities; track $index) {
+      @for (activity of filteredActivities; track activity.id) {
         <article class="activity-card" [class]="'activity-card border-tone-' + categoryToneClass(activity.category)">
           <div class="card-header">
             <div class="card-info">
               <span class="category-pill" [class]="'category-pill tone-' + categoryToneClass(activity.category)">
+                @if (activity.categoryIcon && !activity.categoryIcon.startsWith('assets/')) {
+                  <span class="material-symbols-outlined pill-icon">{{ activity.categoryIcon }}</span>
+                }
                 {{ activity.category }}
               </span>
               <h3>{{ activity.title }}</h3>
               <p class="card-desc">{{ activity.description }}</p>
+              @if (activity.encargado) {
+                <p class="card-encargado">
+                  <span class="material-symbols-outlined">person</span>
+                  {{ activity.encargado }}
+                </p>
+              }
             </div>
             <div class="card-actions-top">
+              <button type="button" (click)="openViewModal(activity)" aria-label="Ver detalle">
+                <span class="material-symbols-outlined">visibility</span>
+              </button>
               <button type="button" (click)="openEditModal(activity)" aria-label="Editar">
                 <span class="material-symbols-outlined">edit</span>
               </button>
@@ -68,11 +90,17 @@
             <div class="card-meta">
               <span class="meta-item">
                 <span class="material-symbols-outlined meta-icon-primary">calendar_month</span>
-                {{ activity.date }} {{ activity.time }}
+                <span>{{ activity.date | dateFormat }}</span>
               </span>
+              @if (activity.time && activity.time !== 'Sin horario') {
+                <span class="meta-item">
+                  <span class="material-symbols-outlined meta-icon-secondary">schedule</span>
+                  <span>{{ activity.time }}</span>
+                </span>
+              }
               <span class="meta-item">
                 <span class="material-symbols-outlined meta-icon-secondary">location_on</span>
-                {{ activity.location }}
+                <span>{{ activity.location }}</span>
               </span>
             </div>
             <div class="card-meta-bottom">
@@ -89,147 +117,25 @@
             </div>
           </div>
         </article>
-      } @empty {
+      }
+      @if (renderCount < displayedActivities.length) {
+        <div #sentinel class="scroll-sentinel" [class.loading]="loadingMore">
+          @if (loadingMore) {
+            <span class="spinner"></span>
+          }
+        </div>
+      }
+      @if (displayedActivities.length === 0 && !loading) {
         <div class="empty-state">No se encontraron actividades con esos filtros.</div>
       }
     </section>
   </div>
 </section>
 
-@if (isModalOpen) {
-  <div class="modal-overlay" (click)="closeModal()">
-    <div class="modal-container glass-card" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <div class="icon-box">
-            <span class="material-symbols-outlined">edit_calendar</span>
-          </div>
-          <h2>{{ editingId ? 'Editar Actividad / Taller' : 'Crear Nueva Actividad / Taller' }}</h2>
-        </div>
-        <button type="button" class="close-btn" (click)="closeModal()" aria-label="Cerrar modal">
-          <span class="material-symbols-outlined">close</span>
-        </button>
-      </div>
-
-      <form class="modal-body">
-        <section class="form-section">
-          <div class="section-label text-primary">
-            <span class="material-symbols-outlined">info</span>
-            <h3>Datos Básicos</h3>
-          </div>
-          <div class="form-grid">
-            <div class="form-group col-full">
-              <label>Título de la Actividad</label>
-              <input type="text" placeholder="Ej: Atletismo Municipal" class="form-input" [(ngModel)]="newActivityForm.title" name="title" />
-            </div>
-            <div class="form-group col-full">
-              <label>Lugar / Sede</label>
-              <div class="input-with-icon">
-                <span class="material-symbols-outlined icon">apartment</span>
-                <select class="form-input" [(ngModel)]="newActivityForm.sedeId" name="sedeId">
-                  <option [ngValue]="null" disabled>Seleccionar sede...</option>
-                  @for (sede of sedesBackend; track sede.id) {
-                    <option [value]="sede.id">{{ sede.nombre }}</option>
-                  }
-                </select>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="form-section highlight-section">
-          <div class="section-label text-secondary">
-            <span class="material-symbols-outlined">update</span>
-            <h3>Recurrencia y Vigencia</h3>
-          </div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Fecha de Inicio</label>
-              <input type="date" class="form-input" [(ngModel)]="newActivityForm.startDate" name="startDate" />
-            </div>
-            <div class="form-group">
-              <label>Hasta (Opcional)</label>
-              <input type="date" class="form-input" [(ngModel)]="newActivityForm.endDate" name="endDate" />
-            </div>
-          </div>
-          <label class="checkbox-label">
-            <input type="checkbox" class="form-checkbox" [(ngModel)]="newActivityForm.repeatYearly" name="repeatYearly" />
-            <span>Repetir todo el año</span>
-          </label>
-        </section>
-
-        <section class="form-section">
-          <div class="section-header-split">
-            <div class="section-label text-primary">
-              <span class="material-symbols-outlined">schedule</span>
-              <h3>Días y Horarios</h3>
-            </div>
-            <button type="button" class="text-action-button" (click)="addSchedule()">
-              <span class="material-symbols-outlined">add_circle</span> Agregar Horario
-            </button>
-          </div>
-          
-          <div class="schedule-list">
-            @for (schedule of newActivityForm.schedules; track $index) {
-              <div class="schedule-row">
-                <select class="form-input" [(ngModel)]="schedule.day" [name]="'day_' + $index">
-                  <option value="Lunes">Lunes</option>
-                  <option value="Martes">Martes</option>
-                  <option value="Miércoles">Miércoles</option>
-                  <option value="Jueves">Jueves</option>
-                  <option value="Viernes">Viernes</option>
-                  <option value="Sábado">Sábado</option>
-                  <option value="Domingo">Domingo</option>
-                </select>
-                <div class="time-range">
-                  <input type="time" class="form-input" [(ngModel)]="schedule.startTime" [name]="'startTime_' + $index" />
-                  <span>a</span>
-                  <input type="time" class="form-input" [(ngModel)]="schedule.endTime" [name]="'endTime_' + $index" />
-                </div>
-                <button type="button" class="remove-btn" (click)="removeSchedule($index)"><span class="material-symbols-outlined">close</span></button>
-              </div>
-            }
-          </div>
-        </section>
-
-        <section class="form-section">
-          <div class="section-label text-tertiary">
-            <span class="material-symbols-outlined">sell</span>
-            <h3>Áreas</h3>
-          </div>
-          <div class="category-selectable-list">
-            @for (cat of categories; track cat.label) {
-              <button type="button" class="selectable-chip" [class]="'tone-' + categoryToneClass(cat.label)"
-                [class.active]="newActivityForm.selectedCategory === cat.label"
-(click)="pickCategory(cat.label)">
-                <span>{{ cat.label }}</span>
-              </button>
-            }
-          </div>
-        </section>
-
-        <section class="form-section">
-          <div class="form-group">
-            <label>WhatsApp de Contacto</label>
-            <div class="input-with-icon max-w-sm">
-              <svg class="icon text-secondary" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
-              <input type="tel" inputmode="numeric" placeholder="Número de teléfono" class="form-input"
-                [ngModel]="newActivityForm.whatsapp" (ngModelChange)="newActivityForm.whatsapp = soloNumeros($event)" name="whatsapp" />
-            </div>
-          </div>
-        </section>
-
-        <div class="modal-actions">
-          <button type="button" class="text-muted-btn" (click)="closeModal()">Cancelar</button>
-          <button type="button" class="primary-button save-button" [disabled]="saving" (click)="saveActivity()">
-            @if (saving) {
-              <span class="spinner"></span> Guardando…
-            } @else {
-              <span class="material-symbols-outlined">save</span> {{ editingId ? 'GUARDAR CAMBIOS' : '¡GUARDAR CAMBIOS!' }}
-            }
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-}
+<app-actividad-modal
+  [isOpen]="modalOpen"
+  [data]="modalData"
+  [viewMode]="modalViewMode"
+  (isOpenChange)="onModalClosed()"
+  (saved)="onModalSaved()"
+/>

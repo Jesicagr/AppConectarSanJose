@@ -17,7 +17,7 @@ interface ContactCard {
   category: string;
 }
 
-const TONES = ['primary', 'danger', 'warning', 'primary', 'danger', 'warning'];
+const TONES = ['primary', 'danger', 'warning', 'rose', 'lavender', 'peach', 'cyan', 'amber'];
 
 @Component({
   selector: 'app-contacts-page',

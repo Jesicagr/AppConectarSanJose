@@ -2,6 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
 
+export interface HorarioSede {
+  id?: number;
+  diaDesde: string | null;
+  diaHasta: string | null;
+  horaInicio: string;
+  horaFin: string;
+}
+
 export interface Sede {
   id?: number;
   nombre: string;
@@ -10,6 +18,9 @@ export interface Sede {
   telefono?: string;
   icono?: string;
   esWhatsapp?: boolean;
+  latitud?: number | null;
+  longitud?: number | null;
+  horarios?: HorarioSede[];
 }
 
 @Injectable({

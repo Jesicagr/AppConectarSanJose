@@ -3,11 +3,14 @@ package com.conectarsj.backend.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.BatchSize;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "actividades")
+@Table(name = "actividades", indexes = {
+    @Index(name = "idx_actividad_fecha_inicio", columnList = "fechaInicio")
+})
 @Data
 public class Actividad {
 
@@ -53,8 +56,12 @@ public class Actividad {
     @Column(length = 255)
     private String horario;
 
+    @Column(length = 50)
+    private String telefono;
+
     // --- RELACIÓN MUCHOS A MUCHOS CON AREAS ---
     @ManyToMany(fetch = FetchType.LAZY)
+    @BatchSize(size = 30)
     @JoinTable(
             name = "actividad_areas",
             joinColumns = @JoinColumn(name = "actividad_id"),
@@ -63,7 +70,8 @@ public class Actividad {
     private List<Area> areas;
 
     // --- RELACIÓN CON HORARIOS
-    @OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @BatchSize(size = 30)
     @JsonManagedReference
     private List<HorarioActividad> horarios;
 }

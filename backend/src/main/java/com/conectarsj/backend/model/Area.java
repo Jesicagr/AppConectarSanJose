@@ -2,6 +2,9 @@ package com.conectarsj.backend.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.BatchSize;
+
+import java.util.List;
 
 @Entity
 @Table(name = "areas")
@@ -26,4 +29,27 @@ public class Area {
 
     @Column(name = "es_whatsapp")
     private Boolean esWhatsapp = false;
+
+    @Column(name = "telefono_etiqueta", length = 50)
+    private String telefonoEtiqueta;
+
+    @Column(length = 100)
+    private String referente;
+
+    @Column(length = 200)
+    private String direccion;
+
+    @Column(length = 150)
+    private String email;
+
+    @Column(length = 200)
+    private String redes;
+
+    @Column(length = 200)
+    private String horarioAtencion;
+
+    @ElementCollection
+    @BatchSize(size = 30)
+    @CollectionTable(name = "area_telefonos", joinColumns = @JoinColumn(name = "area_id"))
+    private List<TelefonoContacto> telefonos;
 }

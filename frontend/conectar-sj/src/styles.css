@@ -25,6 +25,7 @@
   /* Tus variables globales de la App */
   --primary: #0050cb;
   --primary-soft: #dae1ff;
+  --active-accent: #0D7A6D;
   --primary-weak: #b3c5ff;
   --secondary: #006c49;
   --secondary-soft: #6cf8bb;
@@ -165,4 +166,37 @@ button {
   background: #dcfce7;
   border-color: #25d366;
   color: #075e54;
+}
+
+.geo-btn {
+  align-items: center;
+  background: var(--surface-variant);
+  border: 2px solid var(--outline-soft);
+  border-radius: 999px;
+  color: var(--primary);
+  cursor: pointer;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  transition: all 0.2s;
+  width: 44px;
+  flex: 0 0 44px;
+}
+
+.geo-btn:hover {
+  background: var(--primary-fixed);
+  border-color: var(--primary);
+}
+
+.geo-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.geo-btn .material-symbols-outlined { font-size: 20px; }
+
+.geo-btn.loading .spinner {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
 }
