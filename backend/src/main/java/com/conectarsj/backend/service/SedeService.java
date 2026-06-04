@@ -23,6 +23,9 @@ public class SedeService {
     }
 
     public Sede guardar(Sede sede) {
+        if (sede.getHorarios() != null) {
+            sede.getHorarios().forEach(horario -> horario.setSede(sede));
+        }
         return sedeRepository.save(sede);
     }
 

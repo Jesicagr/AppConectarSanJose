@@ -6,9 +6,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
+@EnableAsync
 public class ConectarSjBackendApplication {
 
     public static void main(String[] args) {
@@ -23,10 +25,16 @@ public class ConectarSjBackendApplication {
             if (repo.findByEmail("admin@sanjose.com").isEmpty()) {
                 Administrador admin = new Administrador();
                 admin.setEmail("admin@sanjose.com");
-                // Hasheamos la contraseña "admin123" con BCrypt
                 admin.setPasswordHash(encoder.encode("admin123"));
                 repo.save(admin);
-                System.out.println("✅ Usuario de prueba creado: admin@sanjose.com / admin123");
+                System.out.println("✅ Usuario creado: admin@sanjose.com / admin123");
+            }
+            if (repo.findByEmail("jesiagr@gmail.com").isEmpty()) {
+                Administrador admin = new Administrador();
+                admin.setEmail("jesiagr@gmail.com");
+                admin.setPasswordHash(encoder.encode("admin1919"));
+                repo.save(admin);
+                System.out.println("✅ Usuario creado: jesiagr@gmail.com / admin1919");
             }
         };
     }
