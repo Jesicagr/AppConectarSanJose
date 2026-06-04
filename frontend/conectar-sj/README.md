@@ -22,6 +22,16 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Vista de Producción
+
+Para compilar y ver la app como se vería en producción, ejecutá:
+
+```bash
+npm run preview
+```
+
+Esto construye el proyecto con optimizaciones de producción y lo sirve en `http://localhost:4200/` con proxy al backend en `http://localhost:8080`. Asegurate de tener el backend corriendo antes de usarlo.
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:

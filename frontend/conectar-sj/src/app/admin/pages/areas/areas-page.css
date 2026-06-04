@@ -1,16 +1,17 @@
 :host {
-  --primary: #0050cb;
-  --primary-soft: #dae1ff;
-  --surface: #faf8ff;
+  --primary: #0047AB;
+  --primary-soft: #dae8f5;
+  --surface: #ffffff;
   --surface-lowest: #ffffff;
-  --surface-low: #f2f3ff;
-  --surface-variant: #dae2fd;
-  --outline: #727687;
-  --outline-soft: #c2c6d8;
-  --text: #131b2e;
-  --text-muted: #424656;
-  --success: #006c49;
-  --warning: #715500;
+  --surface-low: #f2f8fa;
+  --surface-variant: #e8f0f2;
+  --outline: #555555;
+  --outline-soft: #c8d0d4;
+  --text: #0047AB;
+  --text-muted: #555555;
+  --text-accent: #4A6040;
+  --success: #4A6040;
+  --warning: #F28C8C;
   --danger: #ba1a1a;
   display: block;
 }
@@ -18,10 +19,7 @@
 /* ───── Mobile first ───── */
 
 .areas-page {
-  background:
-    radial-gradient(circle at 100% 0%, rgba(155, 232, 216, 0.24), transparent 34%),
-    radial-gradient(circle at 0% 100%, rgba(242, 215, 255, 0.2), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, var(--surface) 100%);
+  background: linear-gradient(90deg, #e0f5f0 0%, #f5edf8 100%);
   min-height: 100%;
   padding: 56px 0 0;
 }
@@ -230,11 +228,112 @@
   border-color: rgba(252, 165, 165, 0.45);
 }
 
+.phone-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.add-row-btn {
+  align-items: center;
+  background: transparent;
+  border: 1px dashed var(--outline-soft);
+  border-radius: 12px;
+  color: var(--primary);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 6px;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.add-row-btn:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+
+.remove-btn {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--danger);
+  cursor: pointer;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  transition: background 0.2s;
+  width: 44px;
+  flex: 0 0 44px;
+}
+
+.remove-btn:hover {
+  background: rgba(255, 218, 214, 0.5);
+}
+
+.area-detail {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.area-detail .material-symbols-outlined {
+  font-size: 16px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.area-detail-schedule {
+  align-items: flex-start;
+}
+
+.schedule-text {
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
+.phone-tag {
+  background: var(--surface-variant);
+  border-radius: 6px;
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 1px 6px;
+  text-transform: uppercase;
+}
+
+.phone-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.phone-label-input {
+  background: rgba(218, 226, 253, 0.2);
+  border: 1px solid var(--outline-soft);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 13px;
+  min-height: 36px;
+  outline: 0;
+  padding: 0 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .area-phone {
   align-items: center;
   display: flex;
   gap: 6px;
-  margin-top: 8px;
+  margin-top: 6px;
   color: var(--text-muted);
   font-size: 14px;
 }
@@ -242,6 +341,14 @@
 .area-phone .material-symbols-outlined {
   font-size: 16px;
   color: var(--primary);
+}
+
+.area-phones {
+  margin-top: 4px;
+}
+
+.area-phones .area-phone {
+  margin-top: 4px;
 }
 
 .status-pill {

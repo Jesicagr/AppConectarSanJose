@@ -1,25 +1,35 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login-page.html',
   styleUrl: './login-page.css'
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   private router = inject(Router);
   private http = inject(HttpClient);
+
+  showPassword = false;
 
   loginForm = {
     email: '',
     password: '',
     rememberMe: false
   };
+
+  ngOnInit(): void {
+    const savedEmail = localStorage.getItem('savedEmail');
+    if (savedEmail) {
+      this.loginForm.email = savedEmail;
+      this.loginForm.rememberMe = true;
+    }
+  }
 
   onLogin(): void {
     if (!this.loginForm.email || !this.loginForm.password) {
@@ -32,13 +42,16 @@ export class LoginPage {
       password: this.loginForm.password
     };
 
-    
-    this.http.post<{ token: string }>('http://localhost:8080/auth/login', credentials).subscribe({
+    this.http.post<{ token: string }>('/auth/login', credentials).subscribe({
       next: (response) => {
-        
         localStorage.setItem('token', response.token);
-        
-        
+
+        if (this.loginForm.rememberMe) {
+          localStorage.setItem('savedEmail', this.loginForm.email);
+        } else {
+          localStorage.removeItem('savedEmail');
+        }
+
         this.router.navigate(['/admin/dashboard']);
       },
       error: (err) => {

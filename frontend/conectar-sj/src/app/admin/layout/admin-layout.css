@@ -100,7 +100,7 @@
 
 .avatar {
   align-items: center;
-  background: linear-gradient(135deg, var(--primary), var(--success));
+  background: linear-gradient(135deg, var(--active-accent), var(--success));
   border-radius: 999px;
   color: #fff;
   display: grid;
@@ -150,13 +150,13 @@
 }
 
 .nav-link:hover {
-  background: rgba(218, 226, 253, 0.64);
-  color: var(--primary);
+  background: rgba(13, 122, 109, 0.08);
+  color: var(--active-accent);
 }
 
 .nav-link.active {
-  background: linear-gradient(135deg, var(--primary), #54a2ff);
-  box-shadow: 0 14px 26px rgba(0, 80, 203, 0.18);
+  background: linear-gradient(135deg, var(--active-accent), #2A9D8F);
+  box-shadow: 0 14px 26px rgba(13, 122, 109, 0.18);
   color: #fff;
 }
 

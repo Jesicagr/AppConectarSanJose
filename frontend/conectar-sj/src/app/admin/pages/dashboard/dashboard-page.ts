@@ -5,15 +5,21 @@ import { ActividadService } from '../../../services/actividad.service';
 import { AreaService, Area } from '../../../services/area.service';
 import { VisitaService } from '../../../services/visita.service';
 import { getAreaTone, sortByAreaOrder, WEBP_MAP } from '../../../shared/area-tones';
+import { DateFormatPipe } from '../../../shared/date-format.pipe';
+import { ToastService } from '../../../shared/toast.service';
+import { ActividadModalComponent, ActividadModalData } from '../../shared/actividad-modal/actividad-modal.component';
 
 interface DashboardActivity {
+  id: number;
   title: string;
   place: string;
   category: string;
   categoryIcon: string;
   date: string;
+  endDate?: string;
   status: string;
   statusTone: string;
+  telefono?: string;
 }
 
 interface CategoryFilter {
@@ -24,7 +30,7 @@ interface CategoryFilter {
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [FormsModule],
+  imports: [FormsModule, DateFormatPipe, ActividadModalComponent],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.css',
 })
@@ -33,10 +39,15 @@ export class DashboardPage implements OnInit {
   private areaService = inject(AreaService);
   private visitaService = inject(VisitaService);
   private cdr = inject(ChangeDetectorRef);
+  private toast = inject(ToastService);
 
   loading = true;
   searchTerm = '';
   selectedCategory = '';
+  menuOpenIndex: number | null = null;
+  modalOpen = false;
+  modalViewMode = false;
+  modalData?: ActividadModalData | null = null;
 
   metrics = [
     { label: 'Actividades Totales', value: '0', icon: 'confirmation_number', tone: 'primary', detail: 'Cargando...', change: '' },
@@ -60,6 +71,11 @@ export class DashboardPage implements OnInit {
 
         const sorted = sortByAreaOrder(areas);
         this.areaToneMap = {};
+        this.categories = sorted.map((a, i) => ({
+          label: a.nombre,
+          icon: WEBP_MAP[a.nombre] || 'assets/comunidad.webp',
+          tone: getAreaTone(a.nombre, i),
+        }));
         sorted.forEach((a, i) => {
           this.areaToneMap[a.nombre] = getAreaTone(a.nombre, i);
         });
@@ -71,29 +87,26 @@ export class DashboardPage implements OnInit {
   }
 
   private cargarActividades(): void {
-    this.actividadService.obtenerTodas().subscribe({
-      next: (acts) => {
-        this.activities = acts.map((a: any) => {
-          const primaryArea = (a.areas && a.areas.length > 0) ? a.areas[0] : null;
-          return {
-            title: a.titulo,
-            place: a.sede ? a.sede.nombre : 'Sin Sede',
-            category: primaryArea ? primaryArea.nombre : 'Sin Área',
-            categoryIcon: primaryArea ? primaryArea.icono : 'help',
-            date: a.fechaInicio || '',
-            status: a.status || 'Confirmado',
-            statusTone: a.statusTone || 'success',
-          };
-        });
-
-        this.metrics[0].value = String(this.activities.length);
+    this.actividadService.contar().subscribe({
+      next: (res) => {
+        this.metrics[0].value = String(res.total);
         this.metrics[0].detail = 'Actividades registradas';
-
-        const uniqueCats = [...new Set(this.activities.map((a) => a.category).filter(Boolean))];
-        this.categories = uniqueCats.map((cat, i) => ({
-          label: cat,
-          icon: WEBP_MAP[cat] || 'assets/comunidad.webp',
-          tone: this.areaToneMap[cat] || getAreaTone(cat, i),
+      },
+      error: () => {}
+    });
+    this.actividadService.obtenerPaginadas(0, 100).subscribe({
+      next: (page) => {
+        this.activities = page.content.map((a: any) => ({
+          id: a.id,
+          title: a.titulo,
+          place: a.sedeNombre || 'Sin Sede',
+          category: a.areaNombre || 'Sin Área',
+          categoryIcon: a.areaIcono || 'help',
+          date: a.fechaInicio || '',
+          endDate: a.fechaFin || '',
+          status: a.status || 'Confirmado',
+          statusTone: 'success',
+          telefono: a.telefono || '',
         }));
 
         this.loading = false;
@@ -130,6 +143,76 @@ export class DashboardPage implements OnInit {
   clearFilters(): void {
     this.searchTerm = '';
     this.selectedCategory = '';
+  }
+
+  toggleMenu(index: number): void {
+    this.menuOpenIndex = this.menuOpenIndex === index ? null : index;
+  }
+
+  closeMenu(): void {
+    this.menuOpenIndex = null;
+  }
+
+  viewActivity(activity: DashboardActivity): void {
+    this.closeMenu();
+    this.modalData = {
+      id: activity.id,
+      title: activity.title,
+      category: activity.category,
+      categoryIcon: activity.categoryIcon,
+      date: activity.date,
+      endDate: activity.endDate,
+      location: activity.place,
+      telefono: activity.telefono,
+    };
+    this.modalViewMode = true;
+    this.modalOpen = true;
+  }
+
+  editActivity(activity: DashboardActivity): void {
+    this.closeMenu();
+    this.modalData = {
+      id: activity.id,
+      title: activity.title,
+      category: activity.category,
+      categoryIcon: activity.categoryIcon,
+      date: activity.date,
+      endDate: activity.endDate,
+      location: activity.place,
+      telefono: activity.telefono,
+    };
+    this.modalViewMode = false;
+    this.modalOpen = true;
+  }
+
+  onModalSaved(): void {
+    this.modalOpen = false;
+    this.modalData = null;
+    this.modalViewMode = false;
+    this.cargarActividades();
+  }
+
+  onModalClosed(): void {
+    this.modalOpen = false;
+    this.modalData = null;
+    this.modalViewMode = false;
+  }
+
+  deleteActivity(activity: DashboardActivity): void {
+    this.closeMenu();
+    if (!confirm(`¿Eliminar la actividad "${activity.title}"?`)) return;
+    this.toast.show('Eliminando actividad…', 'info');
+    this.actividadService.eliminar(activity.id).subscribe({
+      next: () => {
+        this.activities = this.activities.filter((a) => a.id !== activity.id);
+        this.toast.show('Actividad eliminada con éxito', 'success');
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al eliminar actividad:', err);
+        this.toast.show('Error al eliminar la actividad', 'error');
+      },
+    });
   }
 
   private normalize(value: string): string {
