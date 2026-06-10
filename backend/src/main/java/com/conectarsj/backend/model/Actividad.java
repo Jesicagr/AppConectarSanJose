@@ -1,5 +1,6 @@
 package com.conectarsj.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -41,6 +42,7 @@ public class Actividad {
     // --- RELACIÓN CON ADMINISTRADOR ---
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creado_por")
+    @JsonIgnore
     private Administrador creadoPor;
 
 

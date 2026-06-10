@@ -18,6 +18,7 @@
   </header>
 
   <div class="selector-semana">
+    <button class="btn-flecha" (click)="navegarDias(-1)" aria-label="Días anteriores">◀</button>
     <button 
       *ngFor="let dia of diasSemana" 
       class="btn-dia" 
@@ -27,6 +28,7 @@
       <span class="nombre-dia">{{ dia.nombreCorto }}</span>
       <span class="nro-dia">{{ dia.numero }}</span>
     </button>
+    <button class="btn-flecha" (click)="navegarDias(1)" aria-label="Días siguientes">▶</button>
   </div>
 
   <main class="lista-tarjetas">
@@ -67,7 +69,7 @@
         <span class="icono">⏰</span>
         <div class="horarios-list">
           <span *ngFor="let h of act.horarios" class="tag-horario">
-            {{ h.diaSemana }}: {{ h.horaInicio.substring(0, 5) }} a {{ h.horaFin.substring(0, 5) }}hs
+            {{ h.diaSemana }}: {{ h.horaInicio?.substring(0, 5) || '' }} a {{ h.horaFin?.substring(0, 5) || '' }}hs
           </span>
         </div>
       </div>

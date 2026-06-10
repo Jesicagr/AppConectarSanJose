@@ -28,7 +28,7 @@ export interface Sede {
 })
 export class SedeService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/sedes';
+  private apiUrl = '/api/sedes';
   private cache$: Observable<Sede[]> | null = null;
 
   obtenerTodas(): Observable<Sede[]> {

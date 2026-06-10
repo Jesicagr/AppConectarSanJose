@@ -1,40 +1,37 @@
-<nav class="navbar">
-  <div class="nav-logo">
-    <img src="logo.png" class="logo-img-nav" alt="Conectar San José">
-  </div>
+<header class="main-header">
+  <img src="logo.png" class="logo-img-nav" alt="Conectar San José">
   <button class="hamburger" (click)="toggleMenu()" aria-label="Menú">
     <span></span>
     <span></span>
     <span></span>
   </button>
-  <div class="nav-links" [class.abierto]="menuAbierto">
+  <nav class="main-nav" [class.abierto]="menuAbierto">
     <a href="#inicio" (click)="cerrarMenu()">INICIO</a>
     <a href="#areas" (click)="cerrarMenu()">ÁREAS</a>
     <a href="#agenda" (click)="cerrarMenu()">AGENDA</a>
-    <a (click)="cerrarMenu(); abrirAyuda()">AYUDA</a>
-  </div>
-</nav>
+  </nav>
+</header>
 
 <div id="inicio" class="content-wrapper">
 
-  <header class="hero-section">
-    <div class="hero-text">
+  <section class="hero">
+    <div class="contenedor-texto">
       <img src="gotas.png" class="decoracion-gotas" alt="">
-      <h1 class="hero-titulo">
-        DESCUBRÍ <br>
-        <small class="subtitulo">lo que</small> <br>
-        <span class="resaltado">SAN JOSÉ</span> <br>
-        <small class="subtitulo2">tiene para vos</small>
-      </h1>
+      <div class="texto">
+        <h1>DESCUBRÍ</h1>
+        <p class="hero-subtitulo">lo que</p>
+        <h2>SAN JOSÉ</h2>
+        <p class="hero-subtitulo2">tiene para vos</p>
+      </div>
     </div>
-    <div class="hero-image-container">
-      <img src="monumento.jpg" alt="San José Monumento" class="hero-img">
+    <div class="hero-imagen-wrapper">
+      <img src="monumento.jpg" alt="San José Monumento" class="hero-imagen">
     </div>
-  </header>
+  </section>
 
-  <section class="banner-emergencia">
-    <div class="emergencia-container">
-      <div class="emergencia-texto">
+  <section class="ayuda">
+    <div class="contenido-ayuda">
+      <div class="texto-ayuda">
         <h1>No estás <span>solo</span> <img src="corazon.png" class="corazon-icono" alt=""></h1>
         <p>A veces hablar con alguien es el primer paso. En Conectar San José queremos <span class="verde-text">acompañarte.</span></p>
         
@@ -49,27 +46,27 @@
         </button>
       </div>
       
-      <div class="emergencia-image-box">
-        <img src="abrazo.jpg" class="img-abrazo" alt="Abrazo">
+      <div class="imagen-ayuda">
+        <img src="abrazo.jpg" alt="Abrazo">
       </div>
     </div>
 
-    <div class="emergencia-cards-grid">
-      <div class="mini-card">
+    <div class="cards-ayuda-grid">
+      <div class="card-ayuda">
         <img src="bienestar.png" alt="Bienestar">
-        <div class="texto-card"><h3>Bienestar emocional</h3><p>Recursos para cuidarte</p></div>
+        <div class="texto-card-ayuda"><h3>Bienestar emocional</h3><p>Recursos para cuidarte</p></div>
       </div>
-      <div class="mini-card">
+      <div class="card-ayuda">
         <img src="apoyo.png" alt="Apoyo">
-        <div class="texto-card"><h3>Espacios de apoyo</h3><p>Grupos y lugares para acompañarte</p></div>
+        <div class="texto-card-ayuda"><h3>Espacios de apoyo</h3><p>Grupos y lugares para acompañarte</p></div>
       </div>
-      <div class="mini-card">
+      <div class="card-ayuda">
         <img src="talleres.png" alt="Talleres">
-        <div class="texto-card"><h3>Talleres para conectar</h3><p>Actividades para expresarte y crecer</p></div>
+        <div class="texto-card-ayuda"><h3>Talleres para conectar</h3><p>Actividades para expresarte y crecer</p></div>
       </div>
-      <div class="mini-card">
+      <div class="card-ayuda">
         <img src="hablar.png" alt="Hablar">
-        <div class="texto-card"><h3>Hablar con alguien</h3><p>Estamos para escucharte</p></div>
+        <div class="texto-card-ayuda"><h3>Hablar con alguien</h3><p>Estamos para escucharte</p></div>
       </div>
     </div>
   </section>
@@ -87,7 +84,6 @@
   </section>
 
   <section class="turismo">
-  
 
   <div class="contenido-turismo">
 
@@ -133,7 +129,7 @@
       <div class="card-turismo">
         <img src="granja.png" alt="Granja">
         <div class="info">
-          <h3>Granja “La Administración”</h3>
+          <h3>Granja "La Administración"</h3>
           <p>Naturaleza, animales y paseos para disfrutar en familia o con amigos.</p>
         </div>
       </div>
@@ -225,7 +221,7 @@
     <p>Llamanos gratis, estamos para escucharte.</p>
 
     <div class="emergencia azul">
-      <img src="salud-mental-icon.png" class="img-emergencia-modal" alt="Salud Mental">
+      <div class="icono-emergencia">💙</div>
       <div>
         <small>URGENCIAS 24HS</small>
         <h3>Salud Mental ER</h3>
@@ -234,7 +230,7 @@
     </div>
 
     <div class="emergencia rojo">
-      <img src="familia-icon.png" class="img-emergencia-modal" alt="Niñez y Familia">
+      <div class="icono-emergencia">❤️</div>
       <div>
         <small>GUARDIA 24HS</small>
         <h3>Niñez y Familia</h3>
@@ -243,7 +239,7 @@
     </div>
 
     <div class="emergencia violeta">
-      <img src="genero-icon.png" class="img-emergencia-modal" alt="Género">
+      <div class="icono-emergencia">💜</div>
       <div>
         <small>GÉNERO / DIVERSIDAD</small>
         <h3>Mujeres San José</h3>

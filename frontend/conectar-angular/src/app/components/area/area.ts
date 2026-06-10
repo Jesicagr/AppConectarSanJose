@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AreaService } from '../../services/area';
 import { ActividadService } from '../../services/actividad';
 import { Area, Actividad } from '../../models/actividad.model';
-import { WEBP_MAP, AREA_ORDER, AREA_TONE_MAP } from '../../shared/area-tones';
+import { WEBP_MAP, AREA_ORDER } from '../../shared/area-tones';
 
 @Component({
   selector: 'app-area',
@@ -78,11 +78,9 @@ export class AreaComponent implements OnInit {
     return WEBP_MAP[key || ''] || 'assets/comunidad.webp';
   }
 
-  getAreaTone(nombre: string): string {
-    const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
-    const nNorm = normalize(nombre);
-    const key = Object.keys(AREA_TONE_MAP).find(k => normalize(k) === nNorm);
-    return key ? AREA_TONE_MAP[key] : 'tone-gray';
+  getAreaTone(index: number): string {
+    const colors = ['tone-celeste', 'tone-amarillo', 'tone-gris'];
+    return colors[index % 3];
   }
 
   onImgError(event: Event): void {

@@ -21,7 +21,7 @@ export interface Contacto {
 })
 export class ContactoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/contactos';
+  private apiUrl = '/api/contactos';
   private cache$: Observable<Contacto[]> | null = null;
 
   obtenerTodos(): Observable<Contacto[]> {

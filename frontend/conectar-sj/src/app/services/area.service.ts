@@ -29,7 +29,7 @@ export interface Area {
 })
 export class AreaService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/areas';
+  private apiUrl = '/api/areas';
   private cache$: Observable<Area[]> | null = null;
 
   obtenerTodas(): Observable<Area[]> {

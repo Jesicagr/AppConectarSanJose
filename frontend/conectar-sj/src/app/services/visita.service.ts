@@ -13,7 +13,7 @@ export interface VisitaStats {
 })
 export class VisitaService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/visitas';
+  private apiUrl = '/api/visitas';
   private statsCache$: Observable<VisitaStats> | null = null;
   private visitasActividadCache$: Observable<Record<number, number>> | null = null;
 

@@ -1,318 +1,307 @@
-.areas-container {
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+.categorias-container {
+    padding: 30px 0;
 }
 
-
-.grid-areas {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1.5rem;
-  justify-content: center;
+.grid-categorias {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 80px;
+    justify-items: center;
 }
 
 .boton-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem 1rem;
-  background-color: #ffffff; 
-  border: 3px solid #e2e8f0;
-  border-radius: 28px; 
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    width: 200px;
+    height: 190px;
+    border-radius: 70px;
+    border: 5px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+    transition: 0.3s;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    background: #e5e5e5;
+    padding: 0;
 }
 
 .boton-area:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    transform: translateY(-10px) scale(1.05);
 }
 
-.tone-rose    { background: #fff1f2; border-color: #fda4af; }
-.tone-amber   { background: #fffbeb; border-color: #fcd34d; }
-.tone-purple  { background: #faf5ff; border-color: #c084fc; }
-.tone-teal    { background: #f0fdfa; border-color: #5eead4; }
-.tone-blue    { background: #eff6ff; border-color: #93c5fd; }
-.tone-emerald { background: #ecfdf5; border-color: #6ee7b7; }
-.tone-indigo  { background: #eef2ff; border-color: #a5b4fc; }
-.tone-orange  { background: #fff7ed; border-color: #fdba74; }
-.tone-cyan    { background: #ecfeff; border-color: #67e8f9; }
-.tone-red     { background: #fef2f2; border-color: #fca5a5; }
-.tone-pink    { background: #fdf2f8; border-color: #f9a8d4; }
-.tone-gray    { background: #f8fafc; border-color: #cbd5e1; }
-
-.icono-area {
-  width: 64px;
-  height: 64px;
-  object-fit: contain;
-  margin-bottom: 0.75rem;
+.boton-area img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 8px;
 }
 
-.nombre-area {
-  font-weight: 700;
-  color: #334155;
-  font-size: 0.95rem;
+.boton-area .nombre-area {
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+    text-shadow:
+        -2px -2px 0 white,
+         2px -2px 0 white,
+        -2px  2px 0 white,
+         2px  2px 0 white;
+    line-height: 1.2;
+    max-width: 160px;
 }
 
-/* --- ESTILOS DEL MODAL --- */
+/* Design color classes cycling through 3 colors */
+.tone-celeste {
+    background: #aee8e6;
+}
+
+.tone-amarillo {
+    background: #f6db58;
+}
+
+.tone-gris {
+    background: #e5e5e5;
+}
+
+/* ---- MODAL ---- */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4); 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
 .modal-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 550px;
-  max-height: 85vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
-  animation: aparecer 0.2s ease-out;
+    background: white;
+    padding: 2rem;
+    border-radius: 28px;
+    width: 90%;
+    max-width: 550px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
+    animation: aparecer 0.2s ease-out;
 }
 
 .modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #f1f5f9;
-  padding-bottom: 0.75rem;
-  margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
 }
 
 .modal-header h2 {
-  margin: 0;
-  font-size: 1.3rem;
-  color: #1e293b;
+    margin: 0;
+    font-size: 1.3rem;
+    color: #1e293b;
 }
 
 .btn-cerrar {
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  color: #94a3b8;
-  transition: color 0.1s;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: color 0.1s;
 }
 
 .btn-cerrar:hover {
-  color: #ef4444;
+    color: #ef4444;
 }
 
 .modal-body {
-  text-align: left;
+    text-align: left;
 }
 
 .area-avatar {
-  width: 80px;
-  height: 80px;
-  background-color: #f1f5f9;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1rem auto;
+    width: 80px;
+    height: 80px;
+    background-color: #f1f5f9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem auto;
 }
 
 .avatar-icono {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
 }
 
 .modal-body h3 {
-  text-align: center;
-  margin-bottom: 0.5rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
 }
 
 .area-descripcion {
-  color: #475569;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  text-align: center;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    text-align: center;
 }
 
 .area-detalles {
-  background: #f8fafc;
-  border-radius: 12px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .detalle-item {
-  font-size: 0.9rem;
-  color: #334155;
-  margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #334155;
+    margin-bottom: 0.5rem;
 }
 
 .detalle-item:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .tag-telefono {
-  display: inline-block;
-  background: #e2e8f0;
-  padding: 0.15rem 0.5rem;
-  border-radius: 6px;
-  margin: 0.15rem 0.25rem;
-  font-size: 0.85rem;
+    display: inline-block;
+    background: #e2e8f0;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    margin: 0.15rem 0.25rem;
+    font-size: 0.85rem;
 }
 
 .actividades-seccion h4 {
-  font-size: 1.1rem;
-  color: #1e293b;
-  border-bottom: 2px solid #e2e8f0;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #1e293b;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .actividad-item {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 1rem;
-  margin-bottom: 0.75rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .actividad-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
 }
 
 .actividad-titulo {
-  font-weight: 700;
-  color: #1e293b;
-  font-size: 0.95rem;
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 0.95rem;
 }
 
 .actividad-sede {
-  font-size: 0.75rem;
-  background: #dbeafe;
-  color: #1e40af;
-  padding: 0.15rem 0.5rem;
-  border-radius: 6px;
-  font-weight: 600;
+    font-size: 0.75rem;
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    font-weight: 600;
 }
 
 .actividad-desc {
-  color: #64748b;
-  font-size: 0.85rem;
-  margin-bottom: 0.4rem;
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
 }
 
 .actividad-info {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  font-size: 0.8rem;
-  color: #475569;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: #475569;
 }
 
 .sin-actividades {
-  text-align: center;
-  color: #94a3b8;
-  margin-top: 1rem;
+    text-align: center;
+    color: #94a3b8;
+    margin-top: 1rem;
 }
 
 @keyframes aparecer {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 /* ---- Responsive ---- */
-@media (max-width: 768px) {
-  .grid-areas {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 1rem;
-  }
-
-  .boton-area {
-    padding: 1rem 0.75rem;
-    border-radius: 20px;
-  }
-
-  .icono-area {
-    width: 48px;
-    height: 48px;
-  }
-
-  .nombre-area {
-    font-size: 0.8rem;
-  }
-
-  .modal-content {
-    padding: 1.5rem;
-    width: 95%;
-    max-width: 500px;
-  }
-
-  .modal-header h2 {
-    font-size: 1.1rem;
-  }
-
-  .area-avatar {
-    width: 64px;
-    height: 64px;
-  }
-
-  .avatar-icono {
-    width: 36px;
-    height: 36px;
-  }
-
-  .actividad-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.3rem;
-  }
+@media (max-width: 968px) {
+    .grid-categorias {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+    }
 }
 
-@media (max-width: 576px) {
-  .grid-areas {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 0.75rem;
-  }
+@media (max-width: 768px) {
+    .grid-categorias {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
 
-  .boton-area {
-    padding: 0.75rem 0.5rem;
-    border-radius: 16px;
-    border-width: 2px;
-  }
+    .boton-area {
+        width: 160px;
+        height: 155px;
+        border-radius: 50px;
+    }
 
-  .icono-area {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 0.5rem;
-  }
+    .boton-area img {
+        width: 70px;
+        height: 70px;
+    }
 
-  .nombre-area {
-    font-size: 0.7rem;
-  }
+    .boton-area .nombre-area {
+        font-size: 16px;
+        max-width: 130px;
+    }
+}
 
-  .modal-content {
-    padding: 1rem;
-    border-radius: 16px;
-  }
+@media (max-width: 480px) {
+    .grid-categorias {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
 
-  .area-detalles {
-    padding: 0.75rem;
-  }
+    .boton-area {
+        width: 140px;
+        height: 135px;
+        border-radius: 40px;
+    }
 
-  .actividad-item {
-    padding: 0.75rem;
-  }
+    .boton-area img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .boton-area .nombre-area {
+        font-size: 14px;
+    }
+
+    .modal-content {
+        padding: 1rem;
+        border-radius: 20px;
+    }
+
+    .actividad-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
 }

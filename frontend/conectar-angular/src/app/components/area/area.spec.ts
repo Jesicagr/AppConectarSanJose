@@ -50,7 +50,7 @@ describe('AreaComponent', () => {
 
   it('should display area icon image with valid src', () => {
     fixture.detectChanges();
-    const img = fixture.nativeElement.querySelector('.icono-area') as HTMLImageElement;
+    const img = fixture.nativeElement.querySelector('.boton-area img') as HTMLImageElement;
     expect(img).toBeTruthy();
     expect(img.src).toContain('.webp');
   });

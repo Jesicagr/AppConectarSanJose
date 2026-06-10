@@ -85,6 +85,28 @@
   font-weight: 800;
 }
 
+.btn-flecha {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #475569;
+}
+
+.btn-flecha:hover {
+  background: #e2e6ea;
+  border-color: #dae0e5;
+  color: #1e293b;
+}
+
 /* Lista de Tarjetas */
 .lista-tarjetas {
   display: flex;
