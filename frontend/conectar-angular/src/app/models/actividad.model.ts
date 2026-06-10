@@ -33,6 +33,21 @@ export interface Area {
   id?: number;
   nombre: string;
   icono: string;
+  descripcion?: string;
+  telefono?: string;
+  esWhatsapp?: boolean;
+  telefonoEtiqueta?: string;
+  referente?: string;
+  direccion?: string;
+  email?: string;
+  redes?: string;
+  horarioAtencion?: string;
+  telefonos?: TelefonoContacto[];
+}
+
+export interface TelefonoContacto {
+  numero: string;
+  etiqueta?: string;
 }
 
 export interface HorarioActividad {

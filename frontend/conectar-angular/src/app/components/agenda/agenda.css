@@ -184,3 +184,86 @@
   border-radius: 4px;
   font-size: 0.85rem;
 }
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .agenda-container {
+    padding: 0 0.5rem;
+  }
+
+  .agenda-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .agenda-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .calendario-wrapper {
+    justify-content: center;
+  }
+
+  .selector-semana {
+    gap: 0.3rem;
+  }
+
+  .btn-dia {
+    min-width: 50px;
+    padding: 0.5rem;
+    border-radius: 8px;
+  }
+
+  .nombre-dia {
+    font-size: 0.65rem;
+  }
+
+  .nro-dia {
+    font-size: 1rem;
+  }
+
+  .tarjeta-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .titulo-actividad {
+    font-size: 1rem;
+  }
+
+  .tarjeta-body {
+    padding: 1rem;
+  }
+
+  .tarjeta-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .btn-dia {
+    min-width: 40px;
+    padding: 0.4rem 0.3rem;
+  }
+
+  .nombre-dia {
+    font-size: 0.55rem;
+  }
+
+  .nro-dia {
+    font-size: 0.85rem;
+  }
+
+  .descripcion {
+    font-size: 0.9rem;
+  }
+
+  .item-info {
+    font-size: 0.85rem;
+  }
+}

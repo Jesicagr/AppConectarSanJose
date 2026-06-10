@@ -13,6 +13,7 @@ export class App {
   title = 'conectar-angular';
 
   mostrarModalAyuda: boolean = false;
+  menuAbierto: boolean = false;
 
   abrirAyuda() {
     this.mostrarModalAyuda = true;
@@ -20,5 +21,13 @@ export class App {
 
   cerrarAyuda() {
     this.mostrarModalAyuda = false;
+  }
+
+  toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
+  }
+
+  cerrarMenu() {
+    this.menuAbierto = false;
   }
 }

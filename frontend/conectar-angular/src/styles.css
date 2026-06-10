@@ -658,28 +658,296 @@ body {
 }
 
 /* ==========================================================================
-   8. RESPONSIVE DESIGN (ADAPTACIÓN A CELULARES)
+   8. RESPONSIVE DESIGN
    ========================================================================== */
-@media (max-width: 968px) {
-    .navbar { padding: 0 20px; }
-    .nav-links a { margin-left: 15px; font-size: 0.9rem; }
-    .nav-logo{
-    display:flex;
-    align-items:center;
+
+/* ---- Hamburger Button ---- */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    gap: 5px;
+    padding: 0;
+    z-index: 1001;
 }
 
-    
-    .hero-section { flex-direction: column; text-align: center; gap: 40px; }
-    .hero-titulo { font-size: 2.5rem; }
-    .hero-image-container { justify-content: center; }
-    .hero-img { width: 100%; }
-    
-    .emergencia-container { flex-direction: column; text-align: center; }
-    .emergencia-texto h1 { justify-content: center; font-size: 2.2rem; }
-    .btn-ayuda { margin: 0 auto; }
-    .img-abrazo { width: 100%; }
-    
-    .contenido-turismo { flex-direction: column; }
-    .texto-turismo { position: relative; top: 0; text-align: center; }
-    .texto-turismo h1 span { display: inline; }
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 2.5px;
+    background: #334155;
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.hamburger.abierto span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.hamburger.abierto span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.abierto span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ---- Tablet & below ---- */
+@media (max-width: 968px) {
+    .seccion-bloque, .seccion-bloque-agenda {
+        padding: 40px 16px;
+    }
+
+    .seccion-titulo-centro h2 {
+        font-size: 1.8rem;
+    }
+
+    .seccion-titulo-centro p {
+        font-size: 0.95rem;
+    }
+
+    /* Navbar */
+    .navbar { padding: 0 20px; }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transform: translateY(-120%);
+        transition: transform 0.3s ease;
+        z-index: 999;
+    }
+
+    .nav-links.abierto {
+        transform: translateY(0);
+    }
+
+    .nav-links a {
+        margin: 0;
+        padding: 12px 0;
+        font-size: 1rem;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .nav-links a:last-child {
+        border-bottom: none;
+    }
+
+    /* Hero */
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+        padding: 20px;
+        min-height: auto;
+    }
+
+    .hero-titulo {
+        font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    .hero-titulo .subtitulo {
+        font-size: clamp(1.2rem, 4vw, 2rem);
+    }
+
+    .hero-titulo .subtitulo2 {
+        font-size: clamp(1.4rem, 5vw, 2.5rem);
+    }
+
+    .hero-titulo .resaltado {
+        font-size: clamp(1.8rem, 7vw, 3rem);
+    }
+
+    .decoracion-gotas {
+        width: 250px;
+        left: -30px;
+        top: -40px;
+    }
+
+    .hero-image-container {
+        justify-content: center;
+    }
+
+    .hero-img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        aspect-ratio: 470 / 540;
+        border-radius: 30px;
+    }
+
+    /* Emergencia */
+    .emergencia-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .emergencia-texto h1 {
+        justify-content: center;
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+    }
+
+    .emergencia-texto p {
+        font-size: 1rem;
+    }
+
+    .btn-ayuda {
+        margin: 0 auto;
+        padding: 14px 24px;
+    }
+
+    .img-abrazo {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        aspect-ratio: 620 / 430;
+    }
+
+    .emergencia-cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        padding: 0 10px;
+    }
+
+    /* Turismo */
+    .contenido-turismo {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .texto-turismo {
+        position: relative;
+        top: 0;
+        text-align: center;
+    }
+
+    .texto-turismo h1 {
+        font-size: clamp(2rem, 7vw, 3rem);
+    }
+
+    .texto-turismo h1 span {
+        display: inline;
+    }
+
+    .texto-turismo p {
+        font-size: 1rem;
+    }
+
+    .iconos-turismo {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .cards-turismo {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+    }
+
+    /* Contacto */
+    .titulo-contacto h1 {
+        font-size: 1.6rem;
+    }
+
+    .info-contacto {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 576px) {
+    .seccion-bloque, .seccion-bloque-agenda {
+        padding: 30px 12px;
+    }
+
+    .seccion-titulo-centro h2 {
+        font-size: 1.4rem;
+    }
+
+    .logo-img-nav {
+        height: 60px;
+    }
+
+    .hero-section {
+        padding: 16px;
+        gap: 20px;
+    }
+
+    .hero-img {
+        max-width: 300px;
+        border-radius: 20px;
+    }
+
+    .emergencia-texto h1 {
+        font-size: 1.6rem;
+    }
+
+    .emergencia-cards-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .mini-card {
+        padding: 12px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .mini-card img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .texto-card h3 {
+        font-size: 0.85rem;
+    }
+
+    .texto-card p {
+        font-size: 0.75rem;
+    }
+
+    .cards-turismo {
+        grid-template-columns: 1fr;
+    }
+
+    .frase-final p {
+        font-size: 1rem;
+    }
+
+    .bottom-sheet {
+        padding: 20px;
+    }
+
+    .bottom-sheet h2 {
+        font-size: 1.4rem;
+    }
+
+    .emergencia {
+        padding: 12px 16px;
+    }
+
+    .emergencia strong {
+        font-size: 1.1rem;
+    }
+
+    .info-contacto {
+        grid-template-columns: 1fr;
+    }
 }

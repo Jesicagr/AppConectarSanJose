@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { AreaService } from './area';
 
-import { Area } from './area';
-
-describe('Area', () => {
-  let service: Area;
+describe('AreaService', () => {
+  let service: AreaService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Area);
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient()],
+    });
+    service = TestBed.inject(AreaService);
   });
 
   it('should be created', () => {
