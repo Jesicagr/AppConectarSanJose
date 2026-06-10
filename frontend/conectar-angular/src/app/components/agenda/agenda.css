@@ -1,0 +1,186 @@
+/* src/app/components/agenda/agenda.component.css */
+.agenda-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.agenda-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.agenda-header h1 {
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+}
+
+.dia-actual-label {
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.calendario-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.input-fecha {
+  padding: 0.5rem;
+  border: 1px solid #bdc3c7;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Fila de botones de la semana */
+.selector-semana {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.btn-dia {
+  flex: 1;
+  min-width: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-dia:hover {
+  background-color: #e2e6ea;
+  border-color: #dae0e5;
+}
+
+.btn-dia.activo {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+  color: white;
+}
+
+.nombre-dia {
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.nro-dia {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+/* Lista de Tarjetas */
+.lista-tarjetas {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sin-actividades {
+  text-align: center;
+  padding: 3rem;
+  background-color: #f9fafb;
+  border: 2px dashed #e5e7eb;
+  border-radius: 12px;
+  color: #9ca3af;
+}
+
+.tarjeta-actividad {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f3f4f6;
+  overflow: hidden;
+}
+
+.tarjeta-header {
+  background-color: #f8fafc;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.titulo-actividad {
+  margin: 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+}
+
+.badge-sede {
+  background-color: #e0e7ff;
+  color: #4338ca;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tarjeta-body {
+  padding: 1.5rem;
+}
+
+.descripcion {
+  color: #475569;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.info-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.icono {
+  font-size: 1.1rem;
+}
+
+.tarjeta-footer {
+  background-color: #fdfdfd;
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.horarios-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-horario {
+  background-color: #f1f5f9;
+  color: #334155;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}

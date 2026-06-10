@@ -1,0 +1,38 @@
+<div class="areas-container">
+  
+  <div class="grid-areas">
+    <button 
+      *ngFor="let area of listaAreas" 
+      class="boton-area"
+      (click)="abrirModal(area.id)"
+    >
+      <span class="icono-area">{{ area.icono }}</span>
+      <span class="nombre-area">{{ area.nombre }}</span>
+    </button>
+  </div>
+
+  <div class="modal-overlay" *ngIf="mostrarModal" (click)="cerrarModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      
+      <header class="modal-header">
+        <h2>Detalles del Área</h2>
+        <button class="btn-cerrar" (click)="cerrarModal()">×</button>
+      </header>
+
+      <main class="modal-body" *ngIf="areaSeleccionada">
+        <div class="area-avatar">
+          <span class="avatar-icono">{{ areaSeleccionada.icono }}</span>
+        </div>
+        <h3>{{ areaSeleccionada.nombre }}</h3>
+        
+        <p class="area-id"><strong>Código interno:</strong> #{{ areaSeleccionada.id }}</p>
+        
+        <p class="mensaje-bienvenida">
+          ¡Te damos la bienvenida al espacio de {{ areaSeleccionada.nombre }}! Próximamente listaremos todas las actividades vigentes asociadas a este sector.
+        </p>
+      </main>
+
+    </div>
+  </div>
+
+</div>

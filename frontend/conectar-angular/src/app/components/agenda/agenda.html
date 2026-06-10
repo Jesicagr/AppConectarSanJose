@@ -1,0 +1,77 @@
+<div class="agenda-container">
+  
+  <header class="agenda-header">
+    <div class="header-left">
+      <h1>Agenda de Actividades</h1>
+      <p class="dia-actual-label">Actividades para el: <strong>{{ diaSeleccionado.labelDiaCompleto }} {{ diaSeleccionado.numero }}</strong></p>
+    </div>
+    <div class="calendario-wrapper">
+      <label for="input-cal">Seleccionar fecha:</label>
+      <input 
+        type="date" 
+        id="input-cal" 
+        [(ngModel)]="fechaCalendario" 
+        (change)="alCambiarCalendario($event)"
+        class="input-fecha"
+      />
+    </div>
+  </header>
+
+  <div class="selector-semana">
+    <button 
+      *ngFor="let dia of diasSemana" 
+      class="btn-dia" 
+      [class.activo]="dia.numero === diaSeleccionado.numero"
+      (click)="seleccionarDia(dia)"
+    >
+      <span class="nombre-dia">{{ dia.nombreCorto }}</span>
+      <span class="nro-dia">{{ dia.numero }}</span>
+    </button>
+  </div>
+
+  <main class="lista-tarjetas">
+    
+    <div *ngIf="actividadesFiltradas.length === 0" class="sin-actividades">
+      <p>No hay actividades programadas para este día.</p>
+    </div>
+
+    <div *ngFor="let act of actividadesFiltradas" class="tarjeta-actividad">
+      <div class="tarjeta-header">
+        <h3 class="titulo-actividad">{{ act.titulo }}</h3>
+        <span class="badge-sede" *ngIf="act.sede">{{ act.sede.nombre }}</span>
+      </div>
+
+      <div class="tarjeta-body">
+        <p class="descripcion" *ngIf="act.descripcion_corta">{{ act.descripcion_corta }}</p>
+        <p class="descripcion" *ngIf="!act.descripcion_corta && act.descripcion">{{ act.descripcion }}</p>
+        
+        <div class="info-items">
+          <div class="item-info" *ngIf="act.encargado">
+            <span class="icono">👤</span>
+            <span><strong>Encargado:</strong> {{ act.encargado }}</span>
+          </div>
+
+          <div class="item-info" *ngIf="act.telefono">
+            <span class="icono">📞</span>
+            <span><strong>Contacto:</strong> {{ act.telefono }}</span>
+          </div>
+
+          <div class="item-info" *ngIf="act.sede?.direccion">
+            <span class="icono">📍</span>
+            <span><strong>Dirección:</strong> {{ act.sede.direccion }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarjeta-footer" *ngIf="act.horarios && act.horarios.length > 0">
+        <span class="icono">⏰</span>
+        <div class="horarios-list">
+          <span *ngFor="let h of act.horarios" class="tag-horario">
+            {{ h.diaSemana }}: {{ h.horaInicio.substring(0, 5) }} a {{ h.horaFin.substring(0, 5) }}hs
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
