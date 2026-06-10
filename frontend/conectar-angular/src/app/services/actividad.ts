@@ -17,4 +17,8 @@ export class ActividadService {
   obtenerActividades(): Observable<Actividad[]> {
     return this.http.get<Actividad[]>(this.apiUrl);
   }
+
+  obtenerActividadesPorArea(areaId: number): Observable<Actividad[]> {
+    return this.http.get<Actividad[]>(`${this.apiUrl}/area/${areaId}`);
+  }
 }

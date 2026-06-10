@@ -52,6 +52,11 @@ public class ActividadController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/area/{areaId}")
+    public List<Actividad> listarPorArea(@PathVariable Integer areaId) {
+        return actividadService.obtenerActividadesPorArea(areaId);
+    }
+
     @PostMapping
     public Actividad crear(@RequestBody Actividad actividad) {
         return actividadService.guardar(actividad);

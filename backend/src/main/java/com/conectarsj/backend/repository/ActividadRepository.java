@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface ActividadRepository extends JpaRepository<Actividad, Long> {
 
     @Query("SELECT a FROM Actividad a ORDER BY a.fechaInicio DESC")
     List<Actividad> findAllOrdenadoPorAgenda();
+
+    @Query("SELECT a FROM Actividad a JOIN a.areas ar WHERE ar.id = :areaId ORDER BY a.fechaInicio DESC")
+    List<Actividad> findByAreaId(@Param("areaId") Integer areaId);
 
     @Query(value = "SELECT a FROM Actividad a ORDER BY a.fechaInicio DESC",
            countQuery = "SELECT COUNT(a) FROM Actividad a")

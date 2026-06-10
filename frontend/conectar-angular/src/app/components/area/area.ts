@@ -2,7 +2,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AreaService } from '../../services/area';
-import { Area } from '../../models/actividad.model';
+import { ActividadService } from '../../services/actividad';
+import { Area, Actividad } from '../../models/actividad.model';
+import { WEBP_MAP, AREA_ORDER } from '../../shared/area-tones';
 
 @Component({
   selector: 'app-area',
@@ -16,8 +18,12 @@ export class AreaComponent implements OnInit {
   listaAreas: Area[] = [];
   mostrarModal: boolean = false;
   areaSeleccionada: Area | null = null;
+  actividadesPorArea: Actividad[] = [];
 
-  constructor(private areaService: AreaService) {}
+  constructor(
+    private areaService: AreaService,
+    private actividadService: ActividadService,
+  ) {}
 
   ngOnInit(): void {
     this.cargarAreas();
@@ -26,7 +32,14 @@ export class AreaComponent implements OnInit {
   cargarAreas(): void {
     this.areaService.obtenerAreas().subscribe({
       next: (data) => {
-        this.listaAreas = data;
+        this.listaAreas = [...data].sort((a, b) => {
+          const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          const aNorm = normalize(a.nombre);
+          const bNorm = normalize(b.nombre);
+          const ai = AREA_ORDER.findIndex(name => normalize(name) === aNorm);
+          const bi = AREA_ORDER.findIndex(name => normalize(name) === bNorm);
+          return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+        });
       },
       error: (err) => console.error('Error al cargar áreas:', err)
     });
@@ -43,10 +56,35 @@ export class AreaComponent implements OnInit {
       },
       error: (err) => console.error('Error al traer detalles del área:', err)
     });
+
+    this.actividadService.obtenerActividadesPorArea(areaId).subscribe({
+      next: (actividades) => {
+        this.actividadesPorArea = actividades;
+      },
+      error: (err) => console.error('Error al cargar actividades del área:', err)
+    });
   }
 
   cerrarModal(): void {
     this.mostrarModal = false;
     this.areaSeleccionada = null;
+    this.actividadesPorArea = [];
+  }
+
+  getIconPath(area: Area): string {
+    const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    const aNorm = normalize(area.nombre);
+    const key = Object.keys(WEBP_MAP).find(k => normalize(k) === aNorm);
+    return WEBP_MAP[key || ''] || 'assets/comunidad.webp';
+  }
+
+  getAreaTone(index: number): string {
+    const colors = ['tone-celeste', 'tone-amarillo', 'tone-gris'];
+    return colors[index % 3];
+  }
+
+  onImgError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.style.display = 'none';
   }
 }

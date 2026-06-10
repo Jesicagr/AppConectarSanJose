@@ -21,7 +21,7 @@ export interface ActividadPayload {
 })
 export class ActividadService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/actividades';
+  private apiUrl = '/api/actividades';
 
   obtenerTodas(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);

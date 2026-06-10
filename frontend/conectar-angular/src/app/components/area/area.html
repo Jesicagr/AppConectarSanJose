@@ -1,12 +1,12 @@
-<div class="areas-container">
+<div class="categorias-container">
   
-  <div class="grid-areas">
+  <div class="grid-categorias">
     <button 
-      *ngFor="let area of listaAreas" 
-      class="boton-area"
+      *ngFor="let area of listaAreas; let i = index" 
+      [ngClass]="['boton-area', getAreaTone(i)]"
       (click)="abrirModal(area.id)"
     >
-      <span class="icono-area">{{ area.icono }}</span>
+      <img [src]="getIconPath(area)" alt="{{ area.nombre }}" (error)="onImgError($event)">
       <span class="nombre-area">{{ area.nombre }}</span>
     </button>
   </div>
@@ -21,14 +21,59 @@
 
       <main class="modal-body" *ngIf="areaSeleccionada">
         <div class="area-avatar">
-          <span class="avatar-icono">{{ areaSeleccionada.icono }}</span>
+          <img class="avatar-icono" [src]="getIconPath(areaSeleccionada)" alt="{{ areaSeleccionada.nombre }}" (error)="onImgError($event)">
         </div>
         <h3>{{ areaSeleccionada.nombre }}</h3>
-        
-        <p class="area-id"><strong>Código interno:</strong> #{{ areaSeleccionada.id }}</p>
-        
-        <p class="mensaje-bienvenida">
-          ¡Te damos la bienvenida al espacio de {{ areaSeleccionada.nombre }}! Próximamente listaremos todas las actividades vigentes asociadas a este sector.
+
+        <p class="area-descripcion" *ngIf="areaSeleccionada.descripcion">{{ areaSeleccionada.descripcion }}</p>
+
+        <div class="area-detalles">
+          <div class="detalle-item" *ngIf="areaSeleccionada.referente">
+            <strong>Referente:</strong> {{ areaSeleccionada.referente }}
+          </div>
+          <div class="detalle-item" *ngIf="areaSeleccionada.direccion">
+            <strong>Dirección:</strong> {{ areaSeleccionada.direccion }}
+          </div>
+          <div class="detalle-item" *ngIf="areaSeleccionada.telefono">
+            <strong>Teléfono:</strong> {{ areaSeleccionada.telefono }}
+          </div>
+          <div class="detalle-item" *ngIf="areaSeleccionada.email">
+            <strong>Email:</strong> {{ areaSeleccionada.email }}
+          </div>
+          <div class="detalle-item" *ngIf="areaSeleccionada.horarioAtencion">
+            <strong>Horario:</strong> {{ areaSeleccionada.horarioAtencion }}
+          </div>
+          <div class="detalle-item" *ngIf="areaSeleccionada.redes">
+            <strong>Redes:</strong> {{ areaSeleccionada.redes }}
+          </div>
+          <div class="detalle-item" *ngIf="areaSeleccionada.telefonos && areaSeleccionada.telefonos.length > 0">
+            <strong>Teléfonos adicionales:</strong>
+            <span *ngFor="let t of areaSeleccionada.telefonos" class="tag-telefono">
+              {{ t.etiqueta ? t.etiqueta + ': ' : '' }}{{ t.numero }}
+            </span>
+          </div>
+        </div>
+
+        <div class="actividades-seccion" *ngIf="actividadesPorArea.length > 0">
+          <h4>Actividades</h4>
+          <div class="actividad-item" *ngFor="let act of actividadesPorArea">
+            <div class="actividad-header">
+              <span class="actividad-titulo">{{ act.titulo }}</span>
+              <span class="actividad-sede" *ngIf="act.sede">{{ act.sede.nombre }}</span>
+            </div>
+            <p class="actividad-desc" *ngIf="act.descripcion_corta">{{ act.descripcion_corta }}</p>
+            <div class="actividad-info">
+              <span *ngIf="act.encargado">👤 {{ act.encargado }}</span>
+              <span *ngIf="act.telefono">📞 {{ act.telefono }}</span>
+              <span *ngIf="act.horarios && act.horarios.length > 0">
+                ⏰ {{ act.horarios[0].horaInicio?.substring(0, 5) || '' }} - {{ act.horarios[0].horaFin?.substring(0, 5) || '' }}hs
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <p class="sin-actividades" *ngIf="actividadesPorArea.length === 0">
+          No hay actividades disponibles para esta área.
         </p>
       </main>
 

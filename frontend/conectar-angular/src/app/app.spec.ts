@@ -14,10 +14,11 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it('should render the hero title', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, conectar-angular');
+    expect(compiled.querySelector('.texto h1')?.textContent).toContain('DESCUBRÍ');
+    expect(compiled.querySelector('.texto h2')?.textContent).toContain('SAN JOSÉ');
   });
 });

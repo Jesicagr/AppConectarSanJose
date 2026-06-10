@@ -26,6 +26,7 @@ export class AgendaComponent implements OnInit {
   diasSemana: DiaAgenda[] = [];
   diaSeleccionado!: DiaAgenda;
   fechaCalendario: string = ''; // Enlace con el <input type="date">
+  offsetDias: number = 0;
 
   private mapJsDiaAEnumJava: { [key: number]: DiaSemana } = {
     1: DiaSemana.LUNES,
@@ -52,7 +53,7 @@ export class AgendaComponent implements OnInit {
     this.diasSemana = [];
     for (let i = 0; i < 6; i++) {
       const fechaNueva = new Date();
-      fechaNueva.setDate(hoy.getDate() + i);
+      fechaNueva.setDate(hoy.getDate() + this.offsetDias + i);
 
       this.diasSemana.push({
         nombreCorto: nombresCortos[fechaNueva.getDay()],
@@ -61,21 +62,34 @@ export class AgendaComponent implements OnInit {
         labelDiaCompleto: nombresCompletos[fechaNueva.getDay()]
       });
     }
-    // Por defecto, seleccionamos el día de hoy
     this.diaSeleccionado = this.diasSemana[0];
-    this.fechaCalendario = this.formatearFechaAInput(hoy);
+    this.fechaCalendario = this.formatearFechaAInput(this.diaSeleccionado.fechaCompleta);
   }
 
   cargarActividadesDesdeBackend(): void {
     this.actividadService.obtenerActividades().subscribe({
       next: (data) => {
+        console.log('Actividades recibidas:', data.length);
+        data.forEach(a => {
+          console.log(`  - ${a.titulo} | horarios:`, JSON.stringify(a.horarios));
+        });
         this.listaActividades = data;
         this.filtrarActividades();
       },
       error: (err) => {
         console.error('Error al conectar con Spring Boot:', err);
+        console.error('Status:', err.status, 'Mensaje:', err.message);
+        if (err.status === 0) {
+          console.error('Esto puede ser un problema de CORS o de conexión con el backend.');
+        }
       }
     });
+  }
+
+  navegarDias(direccion: number): void {
+    this.offsetDias += direccion;
+    this.generarDiasSemana();
+    this.filtrarActividades();
   }
 
   // Al tocar un botón de la semana (LUN 14, MAR 15...)
@@ -106,16 +120,13 @@ export class AgendaComponent implements OnInit {
     this.filtrarActividades();
   }
 
-  
   filtrarActividades(): void {
     const numeroDiaSemanaJs = this.diaSeleccionado.fechaCompleta.getDay();
     const enumDiaJava = this.mapJsDiaAEnumJava[numeroDiaSemanaJs];
 
     this.actividadesFiltradas = this.listaActividades.filter(actividad => {
-      
       if (!actividad.horarios || actividad.horarios.length === 0) return false;
-
-            return actividad.horarios.some(h => h.diaSemana === enumDiaJava);
+      return actividad.horarios.some(h => h.diaSemana === enumDiaJava);
     });
   }
 
