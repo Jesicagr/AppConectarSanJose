@@ -2,10 +2,11 @@
 
 ## Vista General
 
-El frontend del proyecto **Conectar San José** consta de **dos aplicaciones** independientes dentro del directorio `frontend/`:
+El frontend del proyecto **Conectar San José** consta de **tres aplicaciones** dentro del directorio `frontend/`:
 
-1. **Sitio Público** — Sitio web estático (HTML + CSS + JavaScript vanilla) orientado al ciudadano. Muestra información sobre categorías, servicios municipales, turismo y contactos de emergencia.
-2. **Panel Administrativo (SPA)** — Aplicación Angular 21 (standalone) para que el personal municipal gestione actividades, sedes, áreas y contactos. Incluye autenticación JWT, mapas interactivos (Leaflet) y Tailwind CSS v4.
+1. **Sitio Público (estático)** — Sitio web estático (HTML + CSS + JavaScript vanilla) orientado al ciudadano. Muestra información sobre categorías, servicios municipales, turismo y contactos de emergencia.
+2. **Panel Administrativo (SPA)** — Aplicación Angular 21 (standalone) en `frontend/conectar-sj/` para que el personal municipal gestione actividades, sedes, áreas y contactos. Corre en **puerto 4201**. Incluye autenticación JWT, mapas interactivos (Leaflet) y Tailwind CSS v4.
+3. **Sitio Público (Angular)** — Aplicación Angular 21 (standalone) en `frontend/conectar-angular/` orientada al ciudadano con agenda de actividades, detalle de áreas y contacto. Corre en **puerto 4200**.
 
 ---
 
@@ -73,7 +74,7 @@ Endpoint base: `http://localhost:8080/api`
 frontend/conectar-sj/
 ├── angular.json              # Configuración del build/serve
 ├── package.json               # Dependencias y scripts
-├── proxy.conf.json            # Proxy para rutas /auth/ al backend
+├── proxy.conf.json            # Proxy para rutas /auth/** y /api/** al backend
 ├── playwright.config.ts       # Config de tests E2E
 ├── postcss.config.js          # Config PostCSS para Tailwind v4
 ├── tsconfig.json              # TypeScript config
@@ -121,7 +122,14 @@ frontend/conectar-sj/
 
 **`angular.json`**: Usa el builder `@angular/build:application` (Vite-based). Incluye `proxy.conf.json` para desarrollo y hojas de estilo Leaflet.
 
-**`proxy.conf.json`**: Redirige `/auth/**` a `http://localhost:8080` para desarrollo local.
+**`proxy.conf.json`**: Redirige `/auth/**` y `/api/**` a `http://localhost:8080` para desarrollo local.
+
+```json
+{
+  "/auth/**": { "target": "http://localhost:8080", "secure": false, "logLevel": "debug" },
+  "/api/**":  { "target": "http://localhost:8080", "secure": false, "logLevel": "debug" }
+}
+```
 
 ### Rutas (`app.routes.ts`)
 
@@ -292,12 +300,77 @@ Servicio con `BehaviorSubject` para notificaciones tipo toast:
 
 ---
 
+### Configuración de Servicios
+
+Todos los servicios del panel administrativo usan URLs **relativas** (`/api/...`) que son proxyadas por Angular Dev Server a `http://localhost:8080`. Anteriormente usaban URLs absolutas (`http://localhost:8080/api/...`), pero se cambiaron a relativas para soportar el panel en puerto 4201 sin conflictos CORS.
+
+| Servicio | URL (admin) | URL (público Angular) |
+|---|---|---|
+| `ActividadService` | `GET /api/actividades` | `http://localhost:8080/api/actividades` |
+| `AreaService` | `GET /api/areas` | `http://localhost:8080/api/areas` |
+| `SedeService` | `GET /api/sedes` | `http://localhost:8080/api/sedes` |
+| `ContactoService` | `GET /api/contactos` | `http://localhost:8080/api/contactos` |
+| `VisitaService` | `POST /api/visitas` | `http://localhost:8080/api/visitas` |
+
+---
+
+## 4. Sitio Público (Angular) — `conectar-angular`
+
+### Stack Tecnológico
+
+| Tecnología | Versión |
+|---|---|
+| Angular | 21.2 |
+| TypeScript | 5.9 |
+| Leaflet | 1.9 |
+| RxJS | 7.8 |
+
+### Estructura
+
+```
+frontend/conectar-angular/
+├── angular.json
+├── package.json
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.spec.json
+├── public/
+└── src/
+    ├── index.html
+    ├── main.ts
+    ├── styles.css
+    └── app/
+        ├── app.ts / app.html / app.config.ts / app.routes.ts
+        ├── components/
+        │   ├── home/          # Página principal
+        │   ├── agenda/        # Agenda de actividades con filtro por día
+        │   ├── sedes/         # Mapa de sedes (Leaflet)
+        │   ├── area/          # Detalle de área con actividades
+        │   └── contacto/      # Formulario de contacto / info
+        ├── services/
+        │   ├── actividad.service.ts  → http://localhost:8080/api/actividades
+        │   ├── area.service.ts       → http://localhost:8080/api/areas
+        │   ├── sede.service.ts       → http://localhost:8080/api/sedes
+        │   └── visita.service.ts     → http://localhost:8080/api/visitas
+        └── pipes/
+            └── date-format.pipe.ts
+```
+
+### Funcionalidades Clave
+
+- **Agenda**: Lista actividades agrupadas por día de la semana. Filtra actividades por horarios (solo muestra actividades que tienen `horarios` con `diaSemana` coincidente). Usa `horaInicio?.substring(0,5)` con safe navigation para evitar errores de template si `horaInicio` es null.
+- **Áreas**: Muestra detalle de cada área municipal con sus actividades asociadas.
+- **Sedes**: Mapa Leaflet con las sedes geolocalizadas.
+
+---
+
 ## 3. Comunicación con el Backend
 
-- **API base**: `http://localhost:8080/api`
+- **API base (admin)**: `/api` (relativo, proxy Angular → `http://localhost:8080/api`)
+- **API base (público Angular)**: `http://localhost:8080/api` (absoluto, CORS permitido)
 - **Autenticación**: JWT via `POST /auth/login`
 - **Interceptor**: Agrega `Authorization: Bearer <token>` automáticamente
-- **Proxy dev**: `/auth/**` redirigido a `http://localhost:8080`
+- **Proxy dev**: `/auth/**` y `/api/**` redirigidos a `http://localhost:8080`
 
 ### Endpoints consumidos
 
@@ -322,7 +395,7 @@ Servicio con `BehaviorSubject` para notificaciones tipo toast:
 
 ---
 
-## 4. Testing
+## 5. Testing
 
 - **Unitarios**: Vitest con builder `@angular/build:unit-test`
   - Test básico del componente `App` en `app.spec.ts`
@@ -342,25 +415,29 @@ Servicio con `BehaviorSubject` para notificaciones tipo toast:
 
 ---
 
-## 5. Flujo de Desarrollo
+## 6. Flujo de Desarrollo
 
 ```bash
 # 1. Iniciar backend (Spring Boot) en puerto 8080
-# 2. Iniciar frontend
+# 2. Iniciar panel admin (conectar-sj)
 cd frontend/conectar-sj
 npm install
-npm start        # http://localhost:4200
-# 3. Login: admin@sanjose.gob.ar (credenciales configuradas en backend)
+ng serve --port 4201  # http://localhost:4201
+# 3. Iniciar sitio público (conectar-angular)
+cd ../conectar-angular
+ng serve              # http://localhost:4200
+# 4. Login: admin@sanjose.gob.ar (credenciales configuradas en backend)
 ```
 
 Para producción:
 ```bash
+cd frontend/conectar-sj
 npm run build    # Genera dist/conectar-sj/browser/
 npm run preview  # Sirve con proxy a backend
 ```
 
 ---
 
-## 6. Configuración del Entorno
+## 7. Configuración del Entorno
 
-No hay archivos `environment.ts`. Los endpoints se definen directamente en los servicios (`http://localhost:8080/api`). En producción se espera un proxy reverso que sirva el frontend estático y redirija `/api/*` y `/auth/*` al backend.
+No hay archivos `environment.ts`. Los endpoints se definen directamente en los servicios. El panel admin (`conectar-sj`) usa URLs relativas (`/api/...`) proxyadas por Angular Dev Server; el sitio público (`conectar-angular`) usa URLs absolutas (`http://localhost:8080/api/...`). En producción se espera un proxy reverso que sirva el frontend estático y redirija `/api/*` y `/auth/*` al backend.

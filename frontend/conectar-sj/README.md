@@ -17,10 +17,14 @@ npm install -g @angular/cli
 Para iniciar un servidor de desarrollo local, ejecuta:
 
 ```bash
-ng serve
+ng serve --port 4201
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Una vez iniciado, abre el navegador en `http://localhost:4201/`. La aplicación se recarga automáticamente al modificar archivos fuente.
+
+### Proxy de Desarrollo
+
+El archivo `proxy.conf.json` redirige las rutas `/auth/**` y `/api/**` al backend en `http://localhost:8080`, permitiendo que los servicios usen URLs relativas.
 
 ## Vista de Producción
 

@@ -2,7 +2,7 @@
 
 ## 1. Resumen del Proyecto
 
-Backend del sistema **Conectar San José**, desarrollado con **Spring Boot 3.5.14**, **Java 21**, **Maven**, **PostgreSQL** y **JWT** para autenticación. Expone una API RESTful consumida por el frontend Angular (panel administrativo) y el sitio público.
+Backend del sistema **Conectar San José**, desarrollado con **Spring Boot 3.5.14**, **Java 21**, **Maven**, **PostgreSQL** y **JWT** para autenticación. Expone una API RESTful consumida por el frontend Angular (panel administrativo en puerto 4201) y el sitio público (Angular en puerto 4200).
 
 ---
 
@@ -107,7 +107,7 @@ com.conectarsj.backend
 | fechaInicio | LocalDate | Indexado |
 | fechaFin | LocalDate | |
 | repetirTodoAnio | Boolean | |
-| creadoPor | Administrador (ManyToOne LAZY) | |
+| creadoPor | Administrador (ManyToOne LAZY, @JsonIgnore) | No se serializa |
 | descripcion_corta | String (255) | |
 | dia | String (255) | |
 | encargado | String (255) | |
@@ -161,7 +161,7 @@ com.conectarsj.backend
 ### 6.1 Arquitectura
 - **Stateless** (sin sesiones HTTP)
 - **JWT** en header `Authorization: Bearer <token>`
-- **CORS** permitido solo desde `http://localhost:4200`
+- **CORS** permitido desde `http://localhost:4200` (sitio público) y `http://localhost:4201` (panel admin)
 - **CSRF** deshabilitado
 
 ### 6.2 `SecurityConfig`
@@ -265,11 +265,12 @@ com.conectarsj.backend
 - CRUD estándar
 
 ### 8.4 `ActividadService`
-- `obtenerTodasOrdenadas()` — JPQL ordenado por fecha
-- `obtenerPaginadas(pageable)` — Paginación JPQL
+- `obtenerTodasOrdenadas()` — JPQL ordenado por fecha, con `@Transactional(readOnly = true)`
+- `obtenerPaginadas(pageable)` — Paginación JPQL, con `@Transactional(readOnly = true)`
 - `obtenerResumenPaginado(pageable)` — Paginación con SQL nativo y `ActividadResumenDTO`
 - `actualizar(id, datos)` — Merge manual de campos (transaccional)
 - `cleanDuplicateHorarios()` — Limpieza de duplicados al iniciar (`@PostConstruct`)
+- `asignarHorariosDefault()` — Migración automática (@PostConstruct): asigna un horario (10:00-12:00) a actividades sin horarios, distribuyendo el día según `id % 7`. Primero hace `UPDATE` de horarios existentes que coinciden con 10:00-12:00, luego `INSERT` para actividades que aún no tienen horarios.
 
 ### 8.5 `ContactoEmergenciaService`
 - CRUD estándar
@@ -358,7 +359,16 @@ Al arrancar (`ApplicationReadyEvent` en `ContactoEmergenciaService.seedData()`):
 
 ## 14. CORS
 
-Permitido solo desde `http://localhost:4200` con métodos `GET, POST, PUT, DELETE, OPTIONS` y headers `Authorization, Cache-Control, Content-Type`.
+Permitido desde `http://localhost:4200` (sitio público) y `http://localhost:4201` (panel administrativo) con métodos `GET, POST, PUT, DELETE, OPTIONS` y headers `Authorization, Cache-Control, Content-Type`.
+
+Configurado en `SecurityConfig.java` mediante `CorsConfigurationSource`:
+
+```java
+configuration.setAllowedOrigins(List.of(
+    "http://localhost:4200",
+    "http://localhost:4201"
+));
+```
 
 ---
 

@@ -1,16 +1,18 @@
-# ConectarAngular
+# Sitio Público — Conectar San José
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.5.
+Aplicación Angular 21 (standalone) orientada al ciudadano. Muestra la agenda de actividades, detalle de áreas municipales, sedes en mapa y contacto.
 
-## Development server
-
-To start a local development server, run:
+## Servidor de Desarrollo
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Abrir en `http://localhost:4200/`. Se recarga automáticamente al modificar archivos fuente.
+
+### API
+
+Los servicios se conectan directamente a `http://localhost:8080/api/...` (CORS permitido desde puerto 4200).
 
 ## Code scaffolding
 
