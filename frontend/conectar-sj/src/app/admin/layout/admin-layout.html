@@ -18,7 +18,7 @@
     </div>
 
     <div class="nav-list">
-      @for (item of navItems; track item.label) {
+      @for (item of navItemsAll; track item.label) {
         <a
           [routerLink]="item.route"
           routerLinkActive="active"
@@ -36,11 +36,11 @@
       <div class="profile-card">
         <div class="avatar" aria-hidden="true">SJ</div>
         <div>
-          <strong>Admin San José</strong>
-          <span>Superusuario</span>
+          <strong>{{ userEmail }}</strong>
+          <span>{{ userRol }}</span>
         </div>
       </div>
-      <a href="#" class="nav-link danger">
+      <a (click)="auth.clear()" class="nav-link danger">
         <span class="material-symbols-outlined">logout</span>
         <span>Cerrar Sesión</span>
       </a>

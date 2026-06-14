@@ -84,12 +84,16 @@
 
     <div class="activities-grid" (click)="closeMenu()">
       @for (activity of filteredActivities; track $index) {
-        <article class="activity-card" [class]="'activity-card border-tone-' + categoryTone(activity.category)">
+        <article class="activity-card" [class]="'activity-card border-tone-' + categoryTone(activity.categories[0])">
           <div class="card-top">
-            <span class="category-pill" [class]="'category-pill tone-' + categoryTone(activity.category)">
-              <span class="material-symbols-outlined">{{ activity.categoryIcon }}</span>
-              {{ activity.category }}
-            </span>
+            <div class="category-pills">
+              @for (cat of activity.categories; track $index) {
+                <span class="category-pill" [class]="'category-pill tone-' + categoryTone(cat)">
+                  <span class="material-symbols-outlined">{{ activity.categoryIcons[$index] || 'help' }}</span>
+                  {{ cat }}
+                </span>
+              }
+            </div>
             <div class="menu-container">
               <button type="button" class="icon-btn" aria-label="Ver acciones" (click)="toggleMenu($index); $event.stopPropagation()">
                 <span class="material-symbols-outlined">more_horiz</span>

@@ -305,7 +305,7 @@ record ActividadResumenDTO(
     Long id, String titulo, String descripcion,
     LocalDate fechaInicio, LocalDate fechaFin,
     String status, String encargado,
-    String areaNombre, String areaIcono,
+    List<String> areaNombres, List<String> areaIconos,
     String sedeNombre, String horario, String telefono
 )
 ```

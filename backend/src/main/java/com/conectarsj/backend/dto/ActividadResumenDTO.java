@@ -1,6 +1,7 @@
 package com.conectarsj.backend.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record ActividadResumenDTO(
     Long id,
@@ -10,8 +11,8 @@ public record ActividadResumenDTO(
     LocalDate fechaFin,
     String status,
     String encargado,
-    String areaNombre,
-    String areaIcono,
+    List<String> areaNombres,
+    List<String> areaIconos,
     String sedeNombre,
     String horario,
     String telefono

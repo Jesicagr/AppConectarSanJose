@@ -17,6 +17,10 @@ public class Administrador {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Rol rol = Rol.ADMIN;
+
     @Column(name = "token_recuperacion")
     private String tokenRecuperacion;
 
@@ -32,6 +36,9 @@ public class Administrador {
 
     public String getPasswordHash() { return passwordHash; }
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+    public Rol getRol() { return rol; }
+    public void setRol(Rol rol) { this.rol = rol; }
 
     public String getTokenRecuperacion() { return tokenRecuperacion; }
     public void setTokenRecuperacion(String tokenRecuperacion) { this.tokenRecuperacion = tokenRecuperacion; }

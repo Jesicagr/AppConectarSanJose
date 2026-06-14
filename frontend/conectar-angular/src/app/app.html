@@ -1,5 +1,5 @@
 <header class="main-header">
-  <img src="logo.png" class="logo-img-nav" alt="Conectar San José">
+  <a href="#inicio" (click)="cerrarMenu()"><img src="logo.png" class="logo-img-nav" alt="Conectar San José"></a>
   <button class="hamburger" (click)="toggleMenu()" aria-label="Menú">
     <span></span>
     <span></span>
@@ -186,6 +186,10 @@
       Cada rincón tiene una historia para contar.
       ¡Animate a <span>descubrirla</span>!
     </p>
+    <a href="https://sanjose.tur.ar" target="_blank" rel="noopener noreferrer" class="btn-turismo-web">
+      <span>Visitar San José Turismo</span>
+      <span class="icono-link">↗</span>
+    </a>
   </div>
 
 </section>
@@ -198,15 +202,15 @@
       <div class="info-contacto">
         <div class="columna">
           <h3>OFICINA PRINCIPAL</h3>
-          <p>Centenario 2180,<br>San José, Entre Ríos<br>3447-438354</p>
+          <p><a href="https://www.google.com/maps/search/?api=1&query=Centenario+2180+San+Jos%C3%A9+Entre+R%C3%ADos" target="_blank" rel="noopener noreferrer" class="contacto-link">Centenario 2180,<br>San José, Entre Ríos</a><br><a href="tel:3447438354" class="contacto-link">3447-438354</a></p>
         </div>
         <div class="columna">
           <h3>REDES SOCIALES</h3>
-          <p>Facebook</p>
-          <p>Instagram</p>
+          <p><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="contacto-link">Facebook</a></p>
+          <p><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="contacto-link">Instagram</a></p>
         </div>
         <div class="email">
-          <p>contacto@sanjose.gob.ar</p>
+          <p><a href="mailto:contacto@sanjose.gob.ar" class="contacto-link">contacto@sanjose.gob.ar</a></p>
         </div>
       </div>
     </div>

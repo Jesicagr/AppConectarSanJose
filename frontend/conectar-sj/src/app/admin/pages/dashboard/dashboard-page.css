@@ -21,7 +21,7 @@
 .dashboard-page {
   background: linear-gradient(90deg, #e0f5f0 0%, #f5edf8 100%);
   min-height: 100%;
-  padding: 80px 14px 28px;
+  padding: 56px 14px 28px;
 }
 
 h1, h2 {
@@ -405,6 +405,12 @@ h1, h2 {
 .category-pill.tone-danger { background: rgba(255, 218, 214, 0.5); color: var(--danger); }
 .category-pill.tone-warning { background: rgba(255, 223, 153, 0.4); color: var(--warning); }
 
+.category-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .category-pill .material-symbols-outlined {
   font-size: 14px;
 }
@@ -579,10 +585,25 @@ h1, h2 {
   text-align: center;
 }
 
+/* ───── ≥ 640px: tablet compact ───── */
+@media (min-width: 640px) {
+  .dashboard-page {
+    padding: 56px 20px 32px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 /* ───── ≥ 681px ───── */
 @media (min-width: 681px) {
   .dashboard-page {
-    padding: 80px 20px 32px;
+    padding: 56px 20px 32px;
   }
 
   .metrics-grid {
@@ -688,9 +709,9 @@ h1, h2 {
 }
 
 /* ───── ≥ 1041px: 3 column metrics ───── */
-@media (min-width: 1041px) {
+@media (min-width: 901px) {
   .dashboard-page {
-    padding: 32px 48px 56px;
+    padding: 32px 48px 48px;
   }
 
   .metrics-grid {

@@ -38,6 +38,10 @@ export const routes: Routes = [
         path: 'contactos', 
         loadComponent: () => import('./admin/pages/contacts/contacts-page').then(m => m.ContactsPage) 
       },
+      { 
+        path: 'usuarios', 
+        loadComponent: () => import('./admin/pages/usuarios/usuarios-page').then(m => m.UsuariosPage) 
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

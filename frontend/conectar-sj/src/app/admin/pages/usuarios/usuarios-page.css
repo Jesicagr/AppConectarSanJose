@@ -1,0 +1,133 @@
+.usuarios-page {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.card {
+  background: var(--surface-color, #fff);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+.card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.field label {
+  font-size: .85rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.field input,
+.field select {
+  padding: .5rem .75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: .9rem;
+}
+
+.btn-primary {
+  padding: .6rem 1.5rem;
+  background: #0b5f61;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.msg {
+  margin-top: .75rem;
+  padding: .5rem .75rem;
+  border-radius: 6px;
+  font-size: .9rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.loading,
+.error {
+  color: #888;
+  font-style: italic;
+}
+
+.error {
+  color: #c62828;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+  text-align: left;
+  padding: .6rem .5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.users-table th {
+  font-size: .8rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.rol-badge {
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: 20px;
+  font-size: .8rem;
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.rol-badge.super {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.btn-danger-sm {
+  padding: .3rem .7rem;
+  background: transparent;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+  border-radius: 6px;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.btn-danger-sm:hover {
+  background: #ffebee;
+}

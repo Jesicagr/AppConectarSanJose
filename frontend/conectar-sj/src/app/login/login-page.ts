@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -14,6 +15,7 @@ import { HttpClient } from '@angular/common/http';
 export class LoginPage implements OnInit {
   private router = inject(Router);
   private http = inject(HttpClient);
+  private auth = inject(AuthService);
 
   showPassword = false;
 
@@ -44,7 +46,7 @@ export class LoginPage implements OnInit {
 
     this.http.post<{ token: string }>('/auth/login', credentials).subscribe({
       next: (response) => {
-        localStorage.setItem('token', response.token);
+        this.auth.setToken(response.token);
 
         if (this.loginForm.rememberMe) {
           localStorage.setItem('savedEmail', this.loginForm.email);

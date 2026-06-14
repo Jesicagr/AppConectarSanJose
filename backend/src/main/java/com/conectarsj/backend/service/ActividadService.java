@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,14 +53,14 @@ public class ActividadService {
         String sql = """
             SELECT a.id, a.titulo, a.descripcion, a.fecha_inicio, a.fecha_fin,
                    'Confirmado' AS status, a.encargado, a.telefono,
-                   (SELECT ar.nombre FROM areas ar
-                    JOIN actividad_areas aa ON aa.area_id = ar.id
-                    WHERE aa.actividad_id = a.id
-                    ORDER BY ar.nombre LIMIT 1) AS area_nombre,
-                   (SELECT ar.icono FROM areas ar
-                    JOIN actividad_areas aa ON aa.area_id = ar.id
-                    WHERE aa.actividad_id = a.id
-                    ORDER BY ar.nombre LIMIT 1) AS area_icono,
+                   ARRAY(SELECT ar.nombre FROM areas ar
+                         JOIN actividad_areas aa ON aa.area_id = ar.id
+                         WHERE aa.actividad_id = a.id
+                         ORDER BY ar.nombre) AS area_nombres,
+                   ARRAY(SELECT ar.icono FROM areas ar
+                         JOIN actividad_areas aa ON aa.area_id = ar.id
+                         WHERE aa.actividad_id = a.id
+                         ORDER BY ar.nombre) AS area_iconos,
                    s.nombre AS sede_nombre,
                    (SELECT STRING_AGG(
                               CONCAT(h.dia_semana, ' ', TO_CHAR(h.hora_inicio, 'HH24:MI'),
@@ -81,6 +83,16 @@ public class ActividadService {
                 LocalDate fechaFin = rs.getDate("fecha_fin") != null
                     ? rs.getDate("fecha_fin").toLocalDate()
                     : null;
+
+                java.sql.Array areaNombresArr = rs.getArray("area_nombres");
+                java.sql.Array areaIconosArr = rs.getArray("area_iconos");
+                List<String> areaNombres = areaNombresArr != null
+                    ? Arrays.asList((String[]) areaNombresArr.getArray())
+                    : Collections.emptyList();
+                List<String> areaIconos = areaIconosArr != null
+                    ? Arrays.asList((String[]) areaIconosArr.getArray())
+                    : Collections.emptyList();
+
                 return new ActividadResumenDTO(
                     rs.getLong("id"),
                     rs.getString("titulo"),
@@ -89,8 +101,8 @@ public class ActividadService {
                     fechaFin,
                     "Confirmado",
                     rs.getString("encargado"),
-                    rs.getString("area_nombre"),
-                    rs.getString("area_icono"),
+                    areaNombres,
+                    areaIconos,
                     rs.getString("sede_nombre"),
                     rs.getString("horario"),
                     rs.getString("telefono")

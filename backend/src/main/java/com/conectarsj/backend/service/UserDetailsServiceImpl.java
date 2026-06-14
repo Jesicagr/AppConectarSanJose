@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -22,11 +22,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Administrador admin = administradorRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Administrador no encontrado con email: " + email));
 
-        // Transforma tu entidad de pgAdmin al objeto User que entiende la "cebolla" de Spring Security
         return new User(
                 admin.getEmail(),
                 admin.getPasswordHash(),
-                Collections.emptyList() // Sin roles/permisos complejos por ahora
+                List.of(() -> "ROLE_" + admin.getRol().name())
         );
     }
 }

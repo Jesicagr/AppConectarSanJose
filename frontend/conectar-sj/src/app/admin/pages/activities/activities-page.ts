@@ -17,8 +17,8 @@ interface Activity {
   id?: number;
   title: string;
   description: string;
-  category: string;
-  categoryIcon: string;
+  categories: string[];
+  categoryIcons: string[];
   date: string;
   endDate?: string;
   time: string;
@@ -97,8 +97,8 @@ export class ActivitiesPage implements OnInit, OnDestroy {
       id: a.id,
       title: a.titulo,
       description: a.descripcion || 'Sin descripción',
-      category: a.areaNombre || 'Sin Área',
-      categoryIcon: a.areaIcono || 'assets/comunidad.webp',
+      categories: a.areaNombres?.length ? a.areaNombres : ['Sin Área'],
+      categoryIcons: a.areaIconos?.length ? a.areaIconos : ['assets/comunidad.webp'],
       date: a.fechaInicio || '',
       endDate: a.fechaFin || '',
       time: a.horario || 'Sin horario',
@@ -172,10 +172,10 @@ export class ActivitiesPage implements OnInit, OnDestroy {
   private applyFilters(): void {
     const query = this.normalize(this.searchTerm);
     const filtered = this.allActivities.filter((activity) => {
-      const matchesCategory = !this.selectedCategory || activity.category === this.selectedCategory;
+      const matchesCategory = !this.selectedCategory || activity.categories.includes(this.selectedCategory);
       const matchesStatus = !this.selectedStatus || activity.status === this.selectedStatus;
       const searchable = this.normalize(
-        `${activity.title} ${activity.description} ${activity.location} ${activity.category} ${activity.status}`,
+        `${activity.title} ${activity.description} ${activity.location} ${activity.categories.join(' ')} ${activity.status}`,
       );
       const matchesSearch = !query || searchable.includes(query);
       return matchesCategory && matchesStatus && matchesSearch;
@@ -274,8 +274,10 @@ export class ActivitiesPage implements OnInit, OnDestroy {
       id: activity.id,
       title: activity.title,
       description: activity.description,
-      category: activity.category,
-      categoryIcon: activity.categoryIcon,
+      category: activity.categories[0],
+      categoryIcon: activity.categoryIcons[0],
+      categories: activity.categories,
+      categoryIcons: activity.categoryIcons,
       date: activity.date,
       endDate: activity.endDate,
       time: activity.time,
@@ -292,8 +294,10 @@ export class ActivitiesPage implements OnInit, OnDestroy {
       id: activity.id,
       title: activity.title,
       description: activity.description,
-      category: activity.category,
-      categoryIcon: activity.categoryIcon,
+      category: activity.categories[0],
+      categoryIcon: activity.categoryIcons[0],
+      categories: activity.categories,
+      categoryIcons: activity.categoryIcons,
       date: activity.date,
       endDate: activity.endDate,
       time: activity.time,
