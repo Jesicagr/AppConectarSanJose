@@ -33,9 +33,6 @@ export class VisitaService {
   }
 
   visitasPorActividad(): Observable<Record<number, number>> {
-    if (!this.visitasActividadCache$) {
-      this.visitasActividadCache$ = this.http.get<Record<number, number>>(`${this.apiUrl}/stats/actividades`).pipe(shareReplay(1));
-    }
-    return this.visitasActividadCache$;
+    return this.http.get<Record<number, number>>(`${this.apiUrl}/stats/actividades`);
   }
 }

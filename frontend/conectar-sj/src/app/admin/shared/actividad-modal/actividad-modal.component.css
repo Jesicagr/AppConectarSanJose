@@ -494,6 +494,50 @@
   }
 }
 
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-confirmed {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-review {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.status-cancelled {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-confirmed {
+  background: #4caf50;
+}
+
+.dot-review {
+  background: #ff9800;
+}
+
+.dot-cancelled {
+  background: #f44336;
+}
+
 @media (min-width: 901px) {
   .view-body {
     padding: 24px 32px;

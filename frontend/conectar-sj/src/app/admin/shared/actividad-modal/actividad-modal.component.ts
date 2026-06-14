@@ -21,6 +21,7 @@ export interface ActividadModalData {
   location?: string;
   encargado?: string;
   telefono?: string;
+  status?: string;
 }
 
 @Component({
@@ -61,7 +62,8 @@ export class ActividadModalComponent implements OnInit, OnChanges {
       { day: 'Martes', startTime: '10:00', endTime: '12:00' }
     ],
     selectedCategories: [] as string[],
-    whatsapp: ''
+    whatsapp: '',
+    status: 'Confirmado'
   };
 
   ngOnInit(): void {
@@ -105,7 +107,8 @@ export class ActividadModalComponent implements OnInit, OnChanges {
         repeatYearly: true,
         schedules: [{ day: 'Martes', startTime: '10:00', endTime: '12:00' }],
         selectedCategories: this.data.categories?.length ? [...this.data.categories] : [],
-        whatsapp: this.data.telefono || ''
+        whatsapp: this.data.telefono || '',
+        status: (this.data as any)?.status || 'Confirmado'
       };
       this.actividadService.obtenerPorId(this.editingId).subscribe({
         next: (actividad) => {
@@ -137,7 +140,8 @@ export class ActividadModalComponent implements OnInit, OnChanges {
           { day: 'Martes', startTime: '10:00', endTime: '12:00' }
         ],
         selectedCategories: [],
-        whatsapp: ''
+        whatsapp: '',
+        status: 'Confirmado'
       };
     }
     this.cdr.detectChanges();
@@ -182,6 +186,21 @@ export class ActividadModalComponent implements OnInit, OnChanges {
     }
   }
 
+  get statusClass(): string {
+    const s = this.data?.status || 'Confirmado';
+    return this.getStatusClass(s);
+  }
+
+  get statusLabel(): string {
+    return this.data?.status || 'Confirmado';
+  }
+
+  getStatusClass(status: string): string {
+    if (status === 'Confirmado') return 'confirmed';
+    if (status === 'En Revisión') return 'review';
+    return 'cancelled';
+  }
+
   categoryToneClass(category: string): string {
     const found = this.categories.find(c => c.label === category);
     return found ? found.tone : 'surface-variant';
@@ -212,7 +231,8 @@ export class ActividadModalComponent implements OnInit, OnChanges {
       })),
       descripcion_corta: '',
       encargado: this.form.encargado || undefined,
-      telefono: this.form.whatsapp || undefined
+      telefono: this.form.whatsapp || undefined,
+      status: this.form.status
     };
 
     this.saving = true;

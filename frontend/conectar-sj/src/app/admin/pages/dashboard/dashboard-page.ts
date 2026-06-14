@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
+
 import { ActividadService } from '../../../services/actividad.service';
 import { AreaService, Area } from '../../../services/area.service';
 import { VisitaService } from '../../../services/visita.service';
@@ -59,6 +60,8 @@ export class DashboardPage implements OnInit {
   private areaToneMap: Record<string, string> = {};
 
   activities: DashboardActivity[] = [];
+  visitasActividad: { id: number; title: string; visits: number }[] = [];
+  medals = ['🥇', '🥈', '🥉'];
 
   ngOnInit(): void {
     forkJoin({
@@ -109,6 +112,10 @@ export class DashboardPage implements OnInit {
           telefono: a.telefono || '',
         }));
 
+        const enRevision = this.activities.filter(a => a.status === 'En Revisión').length;
+        this.metrics[1].value = String(enRevision);
+
+        this.cargarVisitas();
         this.loading = false;
         this.cdr.detectChanges();
       },
@@ -117,6 +124,20 @@ export class DashboardPage implements OnInit {
         this.loading = false;
         this.cdr.detectChanges();
       },
+    });
+  }
+
+  private cargarVisitas(): void {
+    this.visitaService.visitasPorActividad().subscribe({
+      next: (visitas) => {
+        this.visitasActividad = this.activities
+          .map(a => ({ id: a.id, title: a.title, visits: visitas[a.id] || 0 }))
+          .filter(v => v.visits > 0)
+          .sort((a, b) => b.visits - a.visits)
+          .slice(0, 10);
+        this.cdr.detectChanges();
+      },
+      error: () => {},
     });
   }
 
@@ -166,6 +187,7 @@ export class DashboardPage implements OnInit {
       endDate: activity.endDate,
       location: activity.place,
       telefono: activity.telefono,
+      status: activity.status,
     };
     this.modalViewMode = true;
     this.modalOpen = true;
@@ -217,6 +239,17 @@ export class DashboardPage implements OnInit {
         this.toast.show('Error al eliminar la actividad', 'error');
       },
     });
+  }
+
+  onVisitaClick(v: { id: number; title: string }): void {
+    const activity = this.activities.find(a => a.id === v.id);
+    if (activity) this.viewActivity(activity);
+  }
+
+  barWidth(visits: number): number {
+    if (this.visitasActividad.length === 0) return 0;
+    const max = this.visitasActividad[0].visits;
+    return max > 0 ? (visits / max) * 100 : 0;
   }
 
   private normalize(value: string): string {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActividadService } from '../../services/actividad';
+import { VisitaService } from '../../services/visita.service';
 import { Actividad, DiaSemana } from '../../models/actividad.model';
 
 interface DiaAgenda {
@@ -28,6 +29,22 @@ export class AgendaComponent implements OnInit {
   fechaCalendario: string = ''; // Enlace con el <input type="date">
   offsetDias: number = 0;
 
+  actividadSeleccionada: Actividad | null = null;
+  modalAbierto = false;
+
+  abrirDetalle(act: Actividad): void {
+    this.actividadSeleccionada = act;
+    this.modalAbierto = true;
+    if (act.id != null) {
+      this.visitaService.registrarActividad(act.id);
+    }
+  }
+
+  cerrarDetalle(): void {
+    this.modalAbierto = false;
+    this.actividadSeleccionada = null;
+  }
+
   private mapJsDiaAEnumJava: { [key: number]: DiaSemana } = {
     1: DiaSemana.LUNES,
     2: DiaSemana.MARTES,
@@ -38,7 +55,10 @@ export class AgendaComponent implements OnInit {
     0: DiaSemana.DOMINGO
   };
 
-  constructor(private actividadService: ActividadService) {}
+  constructor(
+    private actividadService: ActividadService,
+    private visitaService: VisitaService
+  ) {}
 
   ngOnInit(): void {
     this.generarDiasSemana();

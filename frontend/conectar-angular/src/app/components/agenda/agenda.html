@@ -37,7 +37,7 @@
       <p>No hay actividades programadas para este día.</p>
     </div>
 
-    <div *ngFor="let act of actividadesFiltradas" class="tarjeta-actividad">
+    <div *ngFor="let act of actividadesFiltradas" class="tarjeta-actividad" (click)="abrirDetalle(act)">
       <div class="tarjeta-header">
         <h3 class="titulo-actividad">{{ act.titulo }}</h3>
         <span class="badge-sede" *ngIf="act.sede">{{ act.sede.nombre }}</span>
@@ -77,3 +77,47 @@
 
   </main>
 </div>
+
+@if (modalAbierto && actividadSeleccionada) {
+  <div class="modal-overlay" (click)="cerrarDetalle()">
+    <div class="modal-contenido" (click)="$event.stopPropagation()">
+      <button class="modal-cerrar" (click)="cerrarDetalle()" aria-label="Cerrar">&times;</button>
+
+      <div class="modal-header">
+        <h2>{{ actividadSeleccionada.titulo }}</h2>
+        <span class="badge-sede" *ngIf="actividadSeleccionada.sede">{{ actividadSeleccionada.sede.nombre }}</span>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-descripcion" *ngIf="actividadSeleccionada.descripcion_corta">{{ actividadSeleccionada.descripcion_corta }}</p>
+        <p class="modal-descripcion" *ngIf="!actividadSeleccionada.descripcion_corta && actividadSeleccionada.descripcion">{{ actividadSeleccionada.descripcion }}</p>
+
+        <div class="modal-grid">
+          <div class="modal-field" *ngIf="actividadSeleccionada.encargado">
+            <span class="modal-label">Encargado</span>
+            <span class="modal-value">👤 {{ actividadSeleccionada.encargado }}</span>
+          </div>
+
+          <div class="modal-field" *ngIf="actividadSeleccionada.telefono">
+            <span class="modal-label">Contacto</span>
+            <span class="modal-value">📞 {{ actividadSeleccionada.telefono }}</span>
+          </div>
+
+          <div class="modal-field" *ngIf="actividadSeleccionada.sede.direccion">
+            <span class="modal-label">Dirección</span>
+            <span class="modal-value">📍 {{ actividadSeleccionada.sede.direccion }}</span>
+          </div>
+        </div>
+
+        <div class="modal-horarios" *ngIf="actividadSeleccionada.horarios && actividadSeleccionada.horarios.length > 0">
+          <span class="modal-label">Horarios</span>
+          <div class="horarios-list">
+            <span *ngFor="let h of actividadSeleccionada.horarios" class="tag-horario">
+              {{ h.diaSemana }}: {{ h.horaInicio.substring(0, 5) }} a {{ h.horaFin.substring(0, 5) }}hs
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

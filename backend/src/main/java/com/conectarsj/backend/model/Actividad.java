@@ -61,6 +61,9 @@ public class Actividad {
     @Column(length = 50)
     private String telefono;
 
+    @Column(length = 30)
+    private String status = "Confirmado";
+
     // --- RELACIÓN MUCHOS A MUCHOS CON AREAS ---
     @ManyToMany(fetch = FetchType.LAZY)
     @BatchSize(size = 30)
