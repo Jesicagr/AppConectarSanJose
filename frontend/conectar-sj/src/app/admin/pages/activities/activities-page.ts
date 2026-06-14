@@ -269,8 +269,8 @@ export class ActivitiesPage implements OnInit, OnDestroy {
     this.modalViewMode = false;
   }
 
-  openViewModal(activity: Activity): void {
-    this.modalData = {
+  private buildModalData(activity: Activity): ActividadModalData {
+    return {
       id: activity.id,
       title: activity.title,
       description: activity.description,
@@ -284,27 +284,18 @@ export class ActivitiesPage implements OnInit, OnDestroy {
       location: activity.location,
       encargado: activity.encargado,
       telefono: activity.telefono,
+      status: activity.status,
     };
+  }
+
+  openViewModal(activity: Activity): void {
+    this.modalData = this.buildModalData(activity);
     this.modalViewMode = true;
     this.modalOpen = true;
   }
 
   openEditModal(activity: Activity): void {
-    this.modalData = {
-      id: activity.id,
-      title: activity.title,
-      description: activity.description,
-      category: activity.categories[0],
-      categoryIcon: activity.categoryIcons[0],
-      categories: activity.categories,
-      categoryIcons: activity.categoryIcons,
-      date: activity.date,
-      endDate: activity.endDate,
-      time: activity.time,
-      location: activity.location,
-      encargado: activity.encargado,
-      telefono: activity.telefono,
-    };
+    this.modalData = this.buildModalData(activity);
     this.modalViewMode = false;
     this.modalOpen = true;
   }

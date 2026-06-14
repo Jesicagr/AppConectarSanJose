@@ -52,7 +52,7 @@ public class ActividadService {
 
         String sql = """
             SELECT a.id, a.titulo, a.descripcion, a.fecha_inicio, a.fecha_fin,
-                   'Confirmado' AS status, a.encargado, a.telefono,
+                   COALESCE(a.status, 'Confirmado') AS status, a.encargado, a.telefono,
                    ARRAY(SELECT ar.nombre FROM areas ar
                          JOIN actividad_areas aa ON aa.area_id = ar.id
                          WHERE aa.actividad_id = a.id
@@ -99,7 +99,7 @@ public class ActividadService {
                     rs.getString("descripcion"),
                     fechaInicio,
                     fechaFin,
-                    "Confirmado",
+                    rs.getString("status"),
                     rs.getString("encargado"),
                     areaNombres,
                     areaIconos,
@@ -223,6 +223,9 @@ public class ActividadService {
             existente.setFechaFin(datosNuevos.getFechaFin());
         }
         existente.setRepetirTodoAnio(datosNuevos.getRepetirTodoAnio());
+        if (datosNuevos.getStatus() != null) {
+            existente.setStatus(datosNuevos.getStatus());
+        }
         existente.setDia(datosNuevos.getDia());
         existente.setEncargado(datosNuevos.getEncargado());
         existente.setHorario(datosNuevos.getHorario());

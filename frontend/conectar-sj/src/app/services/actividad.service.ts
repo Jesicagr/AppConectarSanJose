@@ -14,6 +14,7 @@ export interface ActividadPayload {
   descripcion_corta?: string;
   encargado?: string;
   telefono?: string;
+  status?: string;
 }
 
 @Injectable({

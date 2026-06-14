@@ -47,6 +47,15 @@
                   </span>
                 </div>
               }
+              <div class="view-field col-full">
+                <span class="view-label">Estado</span>
+                <span class="view-value">
+                  <span class="status-badge" [class]="'status-' + statusClass">
+                    <span class="status-dot" [class]="'dot-' + statusClass"></span>
+                    {{ statusLabel }}
+                  </span>
+                </span>
+              </div>
             </div>
           </div>
 
@@ -139,6 +148,14 @@
               <div class="form-group col-full">
                 <label>Encargado / Responsable</label>
                 <input type="text" placeholder="Ej: Prof. Juan Pérez, Dra. María Gómez" class="form-input" [(ngModel)]="form.encargado" name="encargado" />
+              </div>
+              <div class="form-group col-full">
+                <label>Estado</label>
+                <select class="form-input" [(ngModel)]="form.status" name="status">
+                  <option value="Confirmado">Confirmado</option>
+                  <option value="En Revisión">En Revisión</option>
+                  <option value="Cancelado">Cancelado</option>
+                </select>
               </div>
             </div>
           </section>
