@@ -45,6 +45,9 @@ public class Area {
     @Column(length = 200)
     private String redes;
 
+    @Column(name = "sitio_web", length = 500)
+    private String sitioWeb;
+
     @Column(length = 200)
     private String horarioAtencion;
 

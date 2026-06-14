@@ -21,8 +21,14 @@
     linear-gradient(180deg, #ffffff 0%, var(--surface) 100%);
   color: var(--text);
   display: block;
-  min-height: 100dvh;
+  min-height: 100vh;
   overflow: visible;
+}
+
+@supports (min-height: 100dvh) {
+  .admin-shell {
+    min-height: 100dvh;
+  }
 }
 
 .sidebar {
@@ -179,12 +185,19 @@
 
 .main-panel {
   flex: 1;
-  height: 100dvh;
+  height: 100vh;
   min-width: 0;
   overflow-y: auto;
   position: relative;
-  min-height: 100dvh;
+  min-height: 100vh;
   padding-top: 56px;
+}
+
+@supports (height: 100dvh) {
+  .main-panel {
+    height: 100dvh;
+    min-height: 100dvh;
+  }
 }
 
 .mobile-icon-button {
@@ -309,8 +322,8 @@
 @media (max-width: 420px) {
   .sidebar {
     border-radius: 0;
-    max-width: 100vw;
-    width: 100vw;
+    max-width: 100%;
+    width: 100%;
   }
 
   .nav-link {

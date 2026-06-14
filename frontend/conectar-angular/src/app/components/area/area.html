@@ -66,7 +66,7 @@
               <span *ngIf="act.encargado">👤 {{ act.encargado }}</span>
               <span *ngIf="act.telefono">📞 {{ act.telefono }}</span>
               <span *ngIf="act.horarios && act.horarios.length > 0">
-                ⏰ {{ act.horarios[0].horaInicio?.substring(0, 5) || '' }} - {{ act.horarios[0].horaFin?.substring(0, 5) || '' }}hs
+                ⏰ {{ act.horarios[0].horaInicio.substring(0, 5) || '' }} - {{ act.horarios[0].horaFin.substring(0, 5) || '' }}hs
               </span>
             </div>
           </div>

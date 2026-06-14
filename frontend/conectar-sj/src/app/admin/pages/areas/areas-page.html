@@ -61,14 +61,14 @@
             @if (area.direccion) {
               <div class="area-detail">
                 <span class="material-symbols-outlined">location_on</span>
-                <span>{{ area.direccion }}</span>
+                <a [href]="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(area.direccion)" target="_blank" rel="noopener noreferrer" class="detail-link">{{ area.direccion }}</a>
               </div>
             }
 
             @if (area.email) {
               <div class="area-detail">
                 <span class="material-symbols-outlined">mail</span>
-                <span>{{ area.email }}</span>
+                <a [href]="'mailto:' + area.email" class="detail-link">{{ area.email }}</a>
               </div>
             }
 
@@ -76,6 +76,13 @@
               <div class="area-detail">
                 <span class="material-symbols-outlined">share</span>
                 <span>{{ area.redes }}</span>
+              </div>
+            }
+
+            @if (area.sitioWeb) {
+              <div class="area-detail">
+                <span class="material-symbols-outlined">language</span>
+                <a [href]="area.sitioWeb" target="_blank" rel="noopener noreferrer">{{ area.sitioWeb }}</a>
               </div>
             }
 
@@ -96,7 +103,7 @@
                 @if (area.telefonoEtiqueta) {
                   <span class="phone-tag">{{ area.telefonoEtiqueta }}</span>
                 }
-                <span>{{ area.phone }}</span>
+                <a [href]="area.esWhatsapp ? 'https://wa.me/' + area.phone : 'tel:' + area.phone" target="_blank" rel="noopener noreferrer" class="detail-link">{{ area.phone }}</a>
               </div>
             }
 
@@ -112,7 +119,7 @@
                     @if (tel.etiqueta) {
                       <span class="phone-tag">{{ tel.etiqueta }}</span>
                     }
-                    <strong>{{ tel.numero }}</strong>
+                    <a [href]="tel.esWhatsapp ? 'https://wa.me/' + tel.numero : 'tel:' + tel.numero" target="_blank" rel="noopener noreferrer" class="detail-link"><strong>{{ tel.numero }}</strong></a>
                   </div>
                 }
               </div>
@@ -178,6 +185,10 @@
             <div class="form-group">
               <label for="area-redes">Redes Sociales</label>
               <input id="area-redes" type="text" placeholder="Instagram, Facebook, etc." [(ngModel)]="newArea.redes">
+            </div>
+            <div class="form-group">
+              <label for="area-sitio-web">Sitio Web</label>
+              <input id="area-sitio-web" type="url" placeholder="https://ejemplo.com" [(ngModel)]="newArea.sitioWeb">
             </div>
             <div class="form-group">
               <label for="area-horario">Horario de Atención</label>

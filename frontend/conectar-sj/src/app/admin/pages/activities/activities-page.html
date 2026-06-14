@@ -56,15 +56,19 @@
 
     <section class="activities-grid">
       @for (activity of filteredActivities; track activity.id) {
-        <article class="activity-card" [class]="'activity-card border-tone-' + categoryToneClass(activity.category)">
+        <article class="activity-card" [class]="'activity-card border-tone-' + categoryToneClass(activity.categories[0])" (click)="openViewModal(activity)">
           <div class="card-header">
             <div class="card-info">
-              <span class="category-pill" [class]="'category-pill tone-' + categoryToneClass(activity.category)">
-                @if (activity.categoryIcon && !activity.categoryIcon.startsWith('assets/')) {
-                  <span class="material-symbols-outlined pill-icon">{{ activity.categoryIcon }}</span>
+              <div class="category-pills">
+                @for (cat of activity.categories; track $index) {
+                  <span class="category-pill" [class]="'category-pill tone-' + categoryToneClass(cat)">
+                    @if (activity.categoryIcons[$index] && !activity.categoryIcons[$index].startsWith('assets/')) {
+                      <span class="material-symbols-outlined pill-icon">{{ activity.categoryIcons[$index] }}</span>
+                    }
+                    {{ cat }}
+                  </span>
                 }
-                {{ activity.category }}
-              </span>
+              </div>
               <h3>{{ activity.title }}</h3>
               <p class="card-desc">{{ activity.description }}</p>
               @if (activity.encargado) {
@@ -75,13 +79,10 @@
               }
             </div>
             <div class="card-actions-top">
-              <button type="button" (click)="openViewModal(activity)" aria-label="Ver detalle">
-                <span class="material-symbols-outlined">visibility</span>
-              </button>
-              <button type="button" (click)="openEditModal(activity)" aria-label="Editar">
+              <button type="button" (click)="$event.stopPropagation(); openEditModal(activity)" aria-label="Editar">
                 <span class="material-symbols-outlined">edit</span>
               </button>
-              <button type="button" class="delete-icon" (click)="deleteActivity(activity)" aria-label="Eliminar">
+              <button type="button" class="delete-icon" (click)="$event.stopPropagation(); deleteActivity(activity)" aria-label="Eliminar">
                 <span class="material-symbols-outlined">delete</span>
               </button>
             </div>

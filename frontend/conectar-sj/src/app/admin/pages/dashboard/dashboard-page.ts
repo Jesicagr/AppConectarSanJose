@@ -13,8 +13,8 @@ interface DashboardActivity {
   id: number;
   title: string;
   place: string;
-  category: string;
-  categoryIcon: string;
+  categories: string[];
+  categoryIcons: string[];
   date: string;
   endDate?: string;
   status: string;
@@ -100,8 +100,8 @@ export class DashboardPage implements OnInit {
           id: a.id,
           title: a.titulo,
           place: a.sedeNombre || 'Sin Sede',
-          category: a.areaNombre || 'Sin Área',
-          categoryIcon: a.areaIcono || 'help',
+          categories: a.areaNombres?.length ? a.areaNombres : ['Sin Área'],
+          categoryIcons: a.areaIconos?.length ? a.areaIconos : ['help'],
           date: a.fechaInicio || '',
           endDate: a.fechaFin || '',
           status: a.status || 'Confirmado',
@@ -128,8 +128,8 @@ export class DashboardPage implements OnInit {
     const query = this.normalize(this.searchTerm);
 
     return this.activities.filter((activity) => {
-      const matchesCategory = !this.selectedCategory || activity.category === this.selectedCategory;
-      const searchable = this.normalize(`${activity.title} ${activity.place} ${activity.category} ${activity.status}`);
+      const matchesCategory = !this.selectedCategory || activity.categories.includes(this.selectedCategory);
+      const searchable = this.normalize(`${activity.title} ${activity.place} ${activity.categories.join(' ')} ${activity.status}`);
       const matchesSearch = !query || searchable.includes(query);
 
       return matchesCategory && matchesSearch;
@@ -158,8 +158,10 @@ export class DashboardPage implements OnInit {
     this.modalData = {
       id: activity.id,
       title: activity.title,
-      category: activity.category,
-      categoryIcon: activity.categoryIcon,
+      category: activity.categories[0],
+      categoryIcon: activity.categoryIcons[0],
+      categories: activity.categories,
+      categoryIcons: activity.categoryIcons,
       date: activity.date,
       endDate: activity.endDate,
       location: activity.place,
@@ -174,8 +176,10 @@ export class DashboardPage implements OnInit {
     this.modalData = {
       id: activity.id,
       title: activity.title,
-      category: activity.category,
-      categoryIcon: activity.categoryIcon,
+      category: activity.categories[0],
+      categoryIcon: activity.categoryIcons[0],
+      categories: activity.categories,
+      categoryIcons: activity.categoryIcons,
       date: activity.date,
       endDate: activity.endDate,
       location: activity.place,

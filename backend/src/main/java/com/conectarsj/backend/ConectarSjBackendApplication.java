@@ -1,6 +1,7 @@
 package com.conectarsj.backend;
 
 import com.conectarsj.backend.model.Administrador;
+import com.conectarsj.backend.model.Rol;
 import com.conectarsj.backend.repository.AdministradorRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,15 +27,17 @@ public class ConectarSjBackendApplication {
                 Administrador admin = new Administrador();
                 admin.setEmail("admin@sanjose.com");
                 admin.setPasswordHash(encoder.encode("admin123"));
+                admin.setRol(Rol.SUPER_ADMIN);
                 repo.save(admin);
-                System.out.println("✅ Usuario creado: admin@sanjose.com / admin123");
+                System.out.println("✅ Usuario creado: admin@sanjose.com / admin123 (SUPER_ADMIN)");
             }
             if (repo.findByEmail("jesiagr@gmail.com").isEmpty()) {
-                Administrador admin = new Administrador();
-                admin.setEmail("jesiagr@gmail.com");
-                admin.setPasswordHash(encoder.encode("admin1919"));
-                repo.save(admin);
-                System.out.println("✅ Usuario creado: jesiagr@gmail.com / admin1919");
+                Administrador user2 = new Administrador();
+                user2.setEmail("jesiagr@gmail.com");
+                user2.setPasswordHash(encoder.encode("admin1919"));
+                user2.setRol(Rol.SUPER_ADMIN);
+                repo.save(user2);
+                System.out.println("✅ Usuario creado: jesiagr@gmail.com / admin1919 (SUPER_ADMIN)");
             }
         };
     }

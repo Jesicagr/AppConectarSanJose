@@ -41,12 +41,14 @@ export interface Area {
   direccion?: string;
   email?: string;
   redes?: string;
+  sitioWeb?: string;
   horarioAtencion?: string;
   telefonos?: TelefonoContacto[];
 }
 
 export interface TelefonoContacto {
   numero: string;
+  esWhatsapp?: boolean;
   etiqueta?: string;
 }
 

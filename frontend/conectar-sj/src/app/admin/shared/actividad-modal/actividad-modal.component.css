@@ -48,8 +48,16 @@
   display: flex;
 }
 
+.icon-box.view-icon {
+  background: rgba(0, 80, 203, 0.12);
+}
+
 .icon-box span {
   color: var(--success);
+}
+
+.icon-box.view-icon span {
+  color: var(--primary);
 }
 
 .modal-header h2 {
@@ -349,6 +357,148 @@
 .save-button {
   width: 100%;
   justify-content: center;
+}
+
+/* ───── View mode ───── */
+
+.view-body {
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.view-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.view-section-highlight {
+  background: rgba(218, 226, 253, 0.3);
+  padding: 16px;
+  border-radius: 16px;
+  border: 2px solid rgba(194, 198, 216, 0.3);
+}
+
+.view-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+}
+
+.view-section-header span.material-symbols-outlined {
+  font-size: 18px;
+}
+
+.view-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.view-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.view-field.col-full {
+  grid-column: 1 / -1;
+}
+
+.view-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.view-value {
+  font-size: 16px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.view-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #131b2e;
+}
+
+.view-icon {
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+.view-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.view-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 2px solid rgba(194, 198, 216, 0.5);
+  color: var(--text-muted);
+}
+
+.view-chip span.material-symbols-outlined {
+  font-size: 16px;
+}
+
+.view-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #25d366;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 8px 0;
+}
+
+.view-phone:hover {
+  text-decoration: underline;
+}
+
+.view-icon-box {
+  background: rgba(108, 248, 187, 0.3);
+}
+
+.view-icon-box span {
+  color: var(--success);
+}
+
+@media (min-width: 769px) {
+  .view-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .view-section-highlight {
+    padding: 24px;
+  }
+}
+
+@media (min-width: 901px) {
+  .view-body {
+    padding: 24px 32px;
+    gap: 32px;
+  }
 }
 
 /* ───── ≥ 769px ───── */

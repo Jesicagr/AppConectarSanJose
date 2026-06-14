@@ -20,6 +20,7 @@ export interface Area {
   direccion?: string;
   email?: string;
   redes?: string;
+  sitioWeb?: string;
   horarioAtencion?: string;
   telefonos?: TelefonoItem[];
 }

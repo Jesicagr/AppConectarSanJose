@@ -5,6 +5,7 @@ import { SedeService, Sede } from '../../../services/sede.service';
 import { AreaService, Area } from '../../../services/area.service';
 import { getAreaTone, sortByAreaOrder } from '../../../shared/area-tones';
 import { ToastService } from '../../../shared/toast.service';
+import { DateFormatPipe } from '../../../shared/date-format.pipe';
 
 export interface ActividadModalData {
   id?: number;
@@ -12,6 +13,8 @@ export interface ActividadModalData {
   description?: string;
   category?: string;
   categoryIcon?: string;
+  categories?: string[];
+  categoryIcons?: string[];
   date?: string;
   endDate?: string;
   time?: string;
@@ -22,7 +25,7 @@ export interface ActividadModalData {
 
 @Component({
   selector: 'app-actividad-modal',
-  imports: [FormsModule],
+  imports: [FormsModule, DateFormatPipe],
   templateUrl: './actividad-modal.component.html',
   styleUrl: './actividad-modal.component.css',
 })
@@ -57,7 +60,7 @@ export class ActividadModalComponent implements OnInit, OnChanges {
     schedules: [
       { day: 'Martes', startTime: '10:00', endTime: '12:00' }
     ],
-    selectedCategory: null as string | null,
+    selectedCategories: [] as string[],
     whatsapp: ''
   };
 
@@ -101,7 +104,7 @@ export class ActividadModalComponent implements OnInit, OnChanges {
         endDate: this.data.endDate || '',
         repeatYearly: true,
         schedules: [{ day: 'Martes', startTime: '10:00', endTime: '12:00' }],
-        selectedCategory: this.data.category ? this.data.category : null,
+        selectedCategories: this.data.categories?.length ? [...this.data.categories] : [],
         whatsapp: this.data.telefono || ''
       };
       this.actividadService.obtenerPorId(this.editingId).subscribe({
@@ -112,6 +115,9 @@ export class ActividadModalComponent implements OnInit, OnChanges {
               startTime: h.horaInicio?.substring(0, 5) || '10:00',
               endTime: h.horaFin?.substring(0, 5) || ''
             }));
+          }
+          if (actividad.areas?.length) {
+            this.form.selectedCategories = actividad.areas.map((a: any) => a.nombre);
           }
           this.cdr.detectChanges();
         },
@@ -130,7 +136,7 @@ export class ActividadModalComponent implements OnInit, OnChanges {
         schedules: [
           { day: 'Martes', startTime: '10:00', endTime: '12:00' }
         ],
-        selectedCategory: null,
+        selectedCategories: [],
         whatsapp: ''
       };
     }
@@ -155,7 +161,12 @@ export class ActividadModalComponent implements OnInit, OnChanges {
   }
 
   pickCategory(categoryLabel: string): void {
-    this.form.selectedCategory = categoryLabel;
+    const idx = this.form.selectedCategories.indexOf(categoryLabel);
+    if (idx >= 0) {
+      this.form.selectedCategories.splice(idx, 1);
+    } else {
+      this.form.selectedCategories.push(categoryLabel);
+    }
   }
 
   soloNumeros(value: string): string {
@@ -182,9 +193,9 @@ export class ActividadModalComponent implements OnInit, OnChanges {
       return;
     }
 
-    const selectedAreaId = this.form.selectedCategory
-      ? (this.categories.find(c => c.label === this.form.selectedCategory)?.id ?? null)
-      : null;
+    const selectedAreaIds = this.form.selectedCategories
+      .map(label => this.categories.find(c => c.label === label)?.id)
+      .filter((id): id is number => id != null);
 
     const payload: ActividadPayload = {
       titulo: this.form.title,
@@ -193,7 +204,7 @@ export class ActividadModalComponent implements OnInit, OnChanges {
       fechaInicio: this.form.startDate,
       fechaFin: this.form.endDate || null,
       repetirTodoAnio: this.form.repeatYearly,
-      areas: selectedAreaId ? [{ id: selectedAreaId }] : [],
+      areas: selectedAreaIds.map(id => ({ id })),
       horarios: this.form.schedules.map(sch => ({
         diaSemana: sch.day.toUpperCase(),
         horaInicio: sch.startTime + ':00',

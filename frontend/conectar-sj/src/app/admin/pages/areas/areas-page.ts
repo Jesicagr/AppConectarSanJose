@@ -19,6 +19,7 @@ interface AreaCard {
   direccion?: string;
   email?: string;
   redes?: string;
+  sitioWeb?: string;
   horarioAtencion?: string;
   telefonos?: TelefonoItem[];
 }
@@ -69,6 +70,7 @@ export class AreasPage implements OnInit {
     direccion: string;
     email: string;
     redes: string;
+    sitioWeb: string;
     horarioAtencion: string;
     telefonos: TelefonoItem[];
   } = {
@@ -83,6 +85,7 @@ export class AreasPage implements OnInit {
     direccion: '',
     email: '',
     redes: '',
+    sitioWeb: '',
     horarioAtencion: '',
     telefonos: [],
   };
@@ -123,6 +126,7 @@ export class AreasPage implements OnInit {
       direccion: a.direccion,
       email: a.email,
       redes: a.redes,
+      sitioWeb: a.sitioWeb,
       horarioAtencion: a.horarioAtencion,
       telefonos: a.telefonos,
     };
@@ -140,7 +144,7 @@ export class AreasPage implements OnInit {
 
   openModal(): void {
     this.editId = null;
-    this.newArea = { nombre: '', telefono: '', descripcion: '', icono: '', activo: true, esWhatsapp: false, telefonoEtiqueta: '', referente: '', direccion: '', email: '', redes: '', horarioAtencion: '', telefonos: [] };
+    this.newArea = { nombre: '', telefono: '', descripcion: '', icono: '', activo: true, esWhatsapp: false, telefonoEtiqueta: '', referente: '', direccion: '', email: '', redes: '', sitioWeb: '', horarioAtencion: '', telefonos: [] };
     this.isModalOpen = true;
   }
 
@@ -160,6 +164,7 @@ export class AreasPage implements OnInit {
       direccion: backend.direccion || '',
       email: backend.email || '',
       redes: backend.redes || '',
+      sitioWeb: backend.sitioWeb || '',
       horarioAtencion: backend.horarioAtencion || '',
       telefonos: backend.telefonos ? backend.telefonos.map(t => ({ ...t })) : [],
     };
@@ -208,6 +213,7 @@ export class AreasPage implements OnInit {
       direccion: this.newArea.direccion || undefined,
       email: this.newArea.email || undefined,
       redes: this.newArea.redes || undefined,
+      sitioWeb: this.newArea.sitioWeb || undefined,
       horarioAtencion: this.newArea.horarioAtencion || undefined,
       telefonos: telefonosValidos.length > 0 ? telefonosValidos : undefined,
     };
@@ -277,5 +283,9 @@ export class AreasPage implements OnInit {
 
   soloNumeros(value: string): string {
     return value.replace(/\D/g, '');
+  }
+
+  encodeURIComponent(value: string): string {
+    return encodeURIComponent(value);
   }
 }
