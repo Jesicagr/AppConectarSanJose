@@ -8,6 +8,7 @@ package com.conectarsj.backend.service;
 
 import com.conectarsj.backend.model.Actividad;
 import com.conectarsj.backend.repository.ActividadRepository;
+import com.conectarsj.backend.exceptions.FechaInvalidaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,9 @@ public class ActividadService {
     }
 
     public Actividad guardar(Actividad actividad) {
+        if (actividad.getFechaInicio() != null && actividad.getFechaInicio().isBefore(LocalDate.now())) {
+            throw new FechaInvalidaException("No se puede registrar una actividad con una fecha de inicio anterior a hoy.");
+        }
         if (actividad.getHorarios() != null) {
             actividad.getHorarios().forEach(horario -> horario.setActividad(actividad));
         }
