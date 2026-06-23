@@ -725,6 +725,16 @@ textarea.form-input {
 }
 
 /* ───── Sede coords display ───── */
+.sede-phone-link {
+  text-decoration: none;
+  color: var(--text-muted);
+}
+
+.sede-phone-link:hover {
+  text-decoration: underline;
+  color: var(--primary);
+}
+
 .sede-coords {
   align-items: center;
   color: var(--text-muted);
