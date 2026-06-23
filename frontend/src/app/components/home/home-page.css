@@ -353,9 +353,28 @@ nav a {
   padding: 40px 16px;
   background: linear-gradient(135deg, #6ee7df, #b9d7ff, #ffe5db);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  scroll-margin-top: 0;
+  scroll-margin-top: 80px;
+}
+
+.titulo-seccion {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.titulo-seccion h1 {
+  font-size: clamp(24px, 6vw, 40px);
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 4px;
+}
+
+.titulo-seccion p {
+  color: #475569;
+  font-size: clamp(13px, 2.5vw, 16px);
+  margin: 0;
 }
 
 .grid-categorias {
