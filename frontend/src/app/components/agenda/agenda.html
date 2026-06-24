@@ -3,17 +3,44 @@
   <header class="agenda-header">
     <div class="header-left">
       <h1>Agenda de Actividades</h1>
-      <p class="dia-actual-label">Actividades para el: <strong>{{ diaSeleccionado.labelDiaCompleto }} {{ diaSeleccionado.numero }}</strong></p>
+      <p class="dia-actual-label">Actividades para el: <strong>{{ diaSeleccionado.labelDiaCompleto }} {{ diaSeleccionado.numero }} de {{ nombresMeses[diaSeleccionado.fechaCompleta.getMonth()] }}</strong></p>
     </div>
     <div class="calendario-wrapper">
-      <label for="input-cal">Seleccionar fecha:</label>
       <input 
         type="date" 
         id="input-cal" 
         [(ngModel)]="fechaCalendario" 
         (change)="alCambiarCalendario($event)"
-        class="input-fecha"
+        class="input-fecha-oculto"
+        tabindex="-1"
       />
+      <span class="cal-label">Elige una fecha</span>
+      <button class="btn-calendario" (click)="abrirCalendario()" type="button">
+        <span class="cal-icono">📅</span>
+        <span class="cal-texto">{{ diaSeleccionado.labelDiaCompleto }} {{ diaSeleccionado.numero }} de {{ nombresMeses[diaSeleccionado.fechaCompleta.getMonth()] }}</span>
+        <span class="cal-flecha-abajo">▼</span>
+      </button>
+      <div *ngIf="calendarAbierto" class="cal-backdrop" (click)="cerrarCalendario()"></div>
+      <div *ngIf="calendarAbierto" class="calendario-popup" (click)="$event.stopPropagation()">
+        <div class="cal-header">
+          <button class="cal-nav" (click)="navegarMes(-1)" type="button" aria-label="Mes anterior">◀</button>
+          <span class="cal-mes-anio">{{ nombresMeses[mesCalendario] }} {{ anioCalendario }}</span>
+          <button class="cal-nav" (click)="navegarMes(1)" type="button" aria-label="Mes siguiente">▶</button>
+        </div>
+        <div class="cal-dias-semana">
+          <span *ngFor="let d of nombresCortosDias" class="cal-dia-label">{{ d }}</span>
+        </div>
+        <div class="cal-grilla">
+          <button *ngFor="let d of diasCalendario()" type="button"
+                  class="cal-dia"
+                  [class.vacio]="d === null"
+                  [class.seleccionado]="d !== null && esDiaSeleccionado(d)"
+                  [disabled]="d === null"
+                  (click)="d !== null && seleccionarDiaCalendario(d)">
+            {{ d !== null ? d : '' }}
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 

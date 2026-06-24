@@ -33,6 +33,13 @@ export class AgendaComponent implements OnInit {
   actividadSeleccionada: Actividad | null = null;
   modalAbierto = false;
 
+  calendarAbierto = false;
+  mesCalendario: number;
+  anioCalendario: number;
+  nombresMeses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  nombresCortosDias = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁ'];
+  nombresCompletosDias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+
   abrirDetalle(act: Actividad): void {
     this.actividadSeleccionada = act;
     this.modalAbierto = true;
@@ -59,7 +66,11 @@ export class AgendaComponent implements OnInit {
   constructor(
     private actividadService: ActividadService,
     private visitaService: VisitaService
-  ) {}
+  ) {
+    const hoy = new Date();
+    this.mesCalendario = hoy.getMonth();
+    this.anioCalendario = hoy.getFullYear();
+  }
 
   ngOnInit(): void {
     this.generarDiasSemana();
@@ -138,6 +149,51 @@ export class AgendaComponent implements OnInit {
       labelDiaCompleto: nombresCompletos[fechaElegida.getDay()]
     };
 
+    this.filtrarActividades();
+  }
+
+  abrirCalendario(): void {
+    this.mesCalendario = this.diaSeleccionado.fechaCompleta.getMonth();
+    this.anioCalendario = this.diaSeleccionado.fechaCompleta.getFullYear();
+    this.calendarAbierto = !this.calendarAbierto;
+  }
+
+  cerrarCalendario(): void {
+    this.calendarAbierto = false;
+  }
+
+  navegarMes(dir: number): void {
+    this.mesCalendario += dir;
+    if (this.mesCalendario < 0) { this.mesCalendario = 11; this.anioCalendario--; }
+    if (this.mesCalendario > 11) { this.mesCalendario = 0; this.anioCalendario++; }
+  }
+
+  diasCalendario(): (number | null)[] {
+    const dias: (number | null)[] = [];
+    const primerDia = new Date(this.anioCalendario, this.mesCalendario, 1).getDay();
+    const diasEnMes = new Date(this.anioCalendario, this.mesCalendario + 1, 0).getDate();
+    for (let i = 0; i < primerDia; i++) dias.push(null);
+    for (let d = 1; d <= diasEnMes; d++) dias.push(d);
+    return dias;
+  }
+
+  esDiaSeleccionado(dia: number): boolean {
+    const sel = this.diaSeleccionado;
+    return dia === sel.numero
+      && this.mesCalendario === sel.fechaCompleta.getMonth()
+      && this.anioCalendario === sel.fechaCompleta.getFullYear();
+  }
+
+  seleccionarDiaCalendario(dia: number): void {
+    const fecha = new Date(this.anioCalendario, this.mesCalendario, dia);
+    this.diaSeleccionado = {
+      nombreCorto: this.nombresCortosDias[fecha.getDay()],
+      numero: fecha.getDate(),
+      fechaCompleta: fecha,
+      labelDiaCompleto: this.nombresCompletosDias[fecha.getDay()]
+    };
+    this.fechaCalendario = this.formatearFechaAInput(fecha);
+    this.calendarAbierto = false;
     this.filtrarActividades();
   }
 
