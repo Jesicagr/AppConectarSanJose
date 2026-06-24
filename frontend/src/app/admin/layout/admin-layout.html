@@ -1,0 +1,73 @@
+<div class="admin-shell">
+  <button
+    type="button"
+    class="mobile-scrim"
+    [class.visible]="sidebarOpen"
+    aria-label="Cerrar menú"
+    (click)="closeSidebar()"
+  ></button>
+
+  <nav class="sidebar" [class.open]="sidebarOpen" aria-label="Navegación lateral">
+    <div class="sidebar-brand">
+      <a [routerLink]="['/admin/dashboard']" (click)="closeSidebar()">
+        <img src="assets/logo.webp" alt="Conectar San José" class="sidebar-logo" />
+      </a>
+      <button type="button" class="mobile-icon-button" aria-label="Cerrar menú" (click)="closeSidebar()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="nav-list">
+      @for (item of navItemsAll; track item.label) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link"
+          (click)="closeSidebar()"
+        >
+          <span class="material-symbols-outlined">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="profile-card">
+        <div class="avatar" aria-hidden="true">SJ</div>
+        <div>
+          <strong>{{ userEmail }}</strong>
+          <span>{{ userRol }}</span>
+        </div>
+      </div>
+      <a (click)="auth.clear()" class="nav-link danger">
+        <span class="material-symbols-outlined">logout</span>
+        <span>Cerrar Sesión</span>
+      </a>
+    </div>
+  </nav>
+
+  <main class="main-panel">
+    <button type="button" class="floating-menu mobile-icon-button" aria-label="Abrir menú" (click)="openSidebar()">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+    <router-outlet />
+  </main>
+
+  @if (toast$ | async; as toast) {
+    @if (toast.visible) {
+      <div class="toast-overlay" (click)="hideToast()"></div>
+      <div class="toast" [class]="'toast-' + toast.type" role="alert">
+        <span class="toast-icon material-symbols-outlined">
+          @if (toast.type === 'success') { check_circle }
+          @else if (toast.type === 'error') { error }
+          @else { info }
+        </span>
+        <span class="toast-message">{{ toast.message }}</span>
+        <button type="button" class="toast-close" (click)="hideToast()" aria-label="Cerrar">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,182 @@
+@if (loading()) {
+  <div class="loading-screen">
+    <span class="spinner"></span>
+    <p>Cargando panel...</p>
+  </div>
+}
+
+<section class="dashboard-page">
+  <header class="page-header">
+    <div>
+      <h1>Panel de Actividades</h1>
+      <p>
+        <span>Resumen general de iniciativas comunitarias</span>
+        <span class="dot" aria-hidden="true"></span>
+        <strong>San José, Entre Ríos</strong>
+      </p>
+    </div>
+  </header>
+
+  <section class="metrics-grid" aria-label="Métricas de rendimiento">
+    @for (metric of metrics(); track metric.label) {
+      <article class="metric-card" [class]="'metric-card tone-' + metric.tone">
+        <div class="metric-head">
+          <p>{{ metric.label }}</p>
+          <span class="metric-icon material-symbols-outlined">{{ metric.icon }}</span>
+        </div>
+        <div class="metric-value">
+          <strong>{{ metric.value }}</strong>
+          @if (metric.change) {
+            <span class="change"><span class="material-symbols-outlined">trending_up</span>{{ metric.change }}</span>
+          }
+          @if (metric.badge) {
+            <span class="metric-badge">{{ metric.badge }}</span>
+          }
+        </div>
+        <span class="metric-detail">{{ metric.detail }}</span>
+      </article>
+    }
+  </section>
+
+  @if (visitasActividad().length > 0) {
+    <section class="visitas-section" aria-label="Actividades más visitadas">
+      <div class="section-heading">
+        <div class="section-heading-left">
+          <span class="material-symbols-outlined section-icon">leaderboard</span>
+          <h2>Más Visitadas</h2>
+        </div>
+        <span class="visitas-subtitle">{{ visitasActividad().length }} actividades · {{ visitasActividad()[0].visits }} visitas máx</span>
+      </div>
+      <div class="visitas-card">
+        @for (v of visitasActividad(); track v.id; let i = $index) {
+          <div class="visita-row" (click)="onVisitaClick(v)">
+            @if (i < 3) {
+              <span class="visita-medal">{{ medals[i] }}</span>
+            } @else {
+              <span class="visita-rank">{{ i + 1 }}</span>
+            }
+            <div class="visita-bar-wrap">
+              <div class="visita-bar-track">
+                <div class="visita-bar-fill" [style.width.%]="barWidth(v.visits)"></div>
+              </div>
+              <span class="visita-title">{{ v.title }}</span>
+            </div>
+            <span class="visita-count">
+              <span class="material-symbols-outlined">visibility</span>
+              <strong>{{ v.visits }}</strong>
+            </span>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <section class="filters" aria-label="Filtros">
+    <div class="section-heading">
+      <h2>Filtros por Categoría</h2>
+      <button type="button" (click)="clearFilters()">Limpiar filtros</button>
+    </div>
+    <div class="category-grid">
+      @for (category of categories(); track category.label) {
+        <button
+          type="button"
+          class="category-card"
+          [class.active]="selectedCategory() === category.label"
+          [class]="'category-card tone-' + category.tone"
+          (click)="selectCategory(category.label)"
+        >
+          <span class="category-icon">
+            <img [src]="category.icon" [alt]="category.label">
+          </span>
+          <span>{{ category.label }}</span>
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="activities-section" aria-label="Listado">
+    <div class="section-header">
+      <div>
+        <h2>Listado de Actividades</h2>
+        <p>
+          Filtrando por:
+          <strong>{{ selectedCategory() || 'Todas las categorías' }}</strong>
+          <span class="result-count">({{ filteredActivities().length }})</span>
+        </p>
+      </div>
+      <label class="search-field">
+        <span class="material-symbols-outlined">search</span>
+        <input
+          type="search"
+          placeholder="Buscar actividad o recinto..."
+          aria-label="Buscar actividad o recinto"
+          [ngModel]="searchTerm()"
+          (ngModelChange)="searchTerm.set($event)"
+        >
+      </label>
+    </div>
+
+    <div class="activities-grid" (click)="closeMenu()">
+      @for (activity of filteredActivities(); track $index) {
+        <article class="activity-card" [class]="'activity-card border-tone-' + categoryTone(activity.categories[0])">
+          <div class="card-top">
+            <div class="category-pills">
+              @for (cat of activity.categories; track $index) {
+                <span class="category-pill" [class]="'category-pill tone-' + categoryTone(cat)">
+                  <span class="material-symbols-outlined">{{ activity.categoryIcons[$index] || 'help' }}</span>
+                  {{ cat }}
+                </span>
+              }
+            </div>
+            <div class="menu-container">
+              <button type="button" class="icon-btn" aria-label="Ver acciones" (click)="toggleMenu($index); $event.stopPropagation()">
+                <span class="material-symbols-outlined">more_horiz</span>
+              </button>
+              @if (menuOpenIndex() === $index) {
+                <div class="menu-dropdown" (click)="$event.stopPropagation()">
+                  <button type="button" class="menu-item" (click)="viewActivity(activity)">
+                    <span class="material-symbols-outlined">visibility</span>
+                    Ver detalle
+                  </button>
+                  <button type="button" class="menu-item" (click)="editActivity(activity)">
+                    <span class="material-symbols-outlined">edit</span>
+                    Editar
+                  </button>
+                  <button type="button" class="menu-item menu-item-danger" (click)="deleteActivity(activity)">
+                    <span class="material-symbols-outlined">delete</span>
+                    Eliminar
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+          <h3>{{ activity.title }}</h3>
+          <span class="place-line">
+            <span class="material-symbols-outlined">location_on</span>
+            {{ activity.place }}
+          </span>
+          <div class="card-bottom">
+            <span class="date-line">
+              <span class="material-symbols-outlined">calendar_month</span>
+              {{ activity.date | dateFormat }}
+            </span>
+            <span class="status-pill" [class]="'status-pill ' + activity.statusTone">
+              <span></span>
+              {{ activity.status }}
+            </span>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-state">No se encontraron actividades con esos filtros.</div>
+      }
+    </div>
+  </section>
+</section>
+
+<app-actividad-modal
+  [isOpen]="modalOpen()"
+  [data]="modalData()"
+  [viewMode]="modalViewMode()"
+  (isOpenChange)="onModalClosed()"
+  (saved)="onModalSaved()"
+/>

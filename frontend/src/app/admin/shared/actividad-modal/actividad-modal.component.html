@@ -1,0 +1,263 @@
+@if (isOpen()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-container glass-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="icon-box" [class.view-icon]="viewMode()">
+            <span class="material-symbols-outlined">{{ viewMode() ? 'visibility' : 'edit_calendar' }}</span>
+          </div>
+          <h2>{{ viewMode() ? 'Detalle de Actividad' : (editingId ? 'Editar Actividad / Taller' : 'Crear Nueva Actividad / Taller') }}</h2>
+        </div>
+        <button type="button" class="close-btn" (click)="closeModal()" aria-label="Cerrar modal">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      @if (viewMode()) {
+        <div class="view-body">
+          <div class="view-section">
+            <div class="view-section-header">
+              <span class="material-symbols-outlined">info</span>
+              <span>Datos Básicos</span>
+            </div>
+            <div class="view-grid">
+              <div class="view-field col-full">
+                <span class="view-label">Título</span>
+                <span class="view-value view-title">{{ data()?.title }}</span>
+              </div>
+              @if (data()?.description) {
+                <div class="view-field col-full">
+                  <span class="view-label">Descripción</span>
+                  <span class="view-value">{{ data()?.description }}</span>
+                </div>
+              }
+              <div class="view-field col-full">
+                <span class="view-label">Lugar / Sede</span>
+                <span class="view-value">
+                  <span class="material-symbols-outlined view-icon">apartment</span>
+                  {{ data()?.location }}
+                </span>
+              </div>
+              @if (data()?.encargado) {
+                <div class="view-field col-full">
+                  <span class="view-label">Encargado</span>
+                  <span class="view-value">
+                    <span class="material-symbols-outlined view-icon">person</span>
+                    {{ data()?.encargado }}
+                  </span>
+                </div>
+              }
+              <div class="view-field col-full">
+                <span class="view-label">Estado</span>
+                <span class="view-value">
+                  <span class="status-badge" [class]="'status-' + statusClass">
+                    <span class="status-dot" [class]="'dot-' + statusClass"></span>
+                    {{ statusLabel }}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="view-section view-section-highlight">
+            <div class="view-section-header">
+              <span class="material-symbols-outlined">calendar_month</span>
+              <span>Fecha y Horario</span>
+            </div>
+            <div class="view-grid">
+              <div class="view-field">
+                <span class="view-label">Fecha</span>
+                <span class="view-value">{{ data()?.date | dateFormat }}{{ data()?.endDate ? ' — ' + (data()?.endDate | dateFormat) : '' }}</span>
+              </div>
+              @if (data()?.time && data()?.time !== 'Sin horario') {
+                <div class="view-field">
+                  <span class="view-label">Horario</span>
+                  <span class="view-value">
+                    <span class="material-symbols-outlined view-icon">schedule</span>
+                    {{ data()?.time }}
+                  </span>
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="view-section">
+            <div class="view-section-header">
+              <span class="material-symbols-outlined">sell</span>
+              <span>Áreas</span>
+            </div>
+            <div class="view-chips">
+              @for (cat of data()?.categories; track $index) {
+                <span class="view-chip" [class]="'tone-' + categoryToneClass(cat)">
+                  @if (data()?.categoryIcons?.[$index] && !data()?.categoryIcons?.[$index]?.startsWith('assets/')) {
+                    <span class="material-symbols-outlined">{{ data()?.categoryIcons?.[$index] }}</span>
+                  }
+                  {{ cat }}
+                </span>
+              }
+            </div>
+          </div>
+
+          @if (data()?.telefono) {
+            <div class="view-section">
+              <div class="view-section-header">
+                <span class="material-symbols-outlined">phone</span>
+                <span>Contacto</span>
+              </div>
+              <a class="view-phone" [href]="'https://wa.me/' + data()?.telefono" target="_blank">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
+                {{ data()?.telefono }}
+              </a>
+            </div>
+          }
+
+          <div class="modal-actions">
+            <button type="button" class="primary-button save-button" (click)="closeModal()">
+              <span class="material-symbols-outlined">close</span> CERRAR
+            </button>
+          </div>
+        </div>
+      } @else {
+        <form class="modal-body">
+          <section class="form-section">
+            <div class="section-label text-primary">
+              <span class="material-symbols-outlined">info</span>
+              <h3>Datos Básicos</h3>
+            </div>
+            <div class="form-grid">
+              <div class="form-group col-full">
+                <label>Título de la Actividad</label>
+                <input type="text" placeholder="Ej: Atletismo Municipal" class="form-input" [(ngModel)]="form.title" name="title" />
+              </div>
+              <div class="form-group col-full">
+                <label>Descripción</label>
+                <textarea placeholder="Describí la actividad..." class="form-input" [(ngModel)]="form.descripcion" name="descripcion" rows="3"></textarea>
+              </div>
+              <div class="form-group col-full">
+                <label>Lugar / Sede</label>
+                <div class="input-with-icon">
+                  <span class="material-symbols-outlined icon">apartment</span>
+                  <select class="form-input" [(ngModel)]="form.sedeId" name="sedeId">
+                    <option [ngValue]="null" disabled>Seleccionar sede...</option>
+                    @for (sede of sedesBackend; track sede.id) {
+                      <option [value]="sede.id">{{ sede.nombre }}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-full">
+                <label>Encargado / Responsable</label>
+                <input type="text" placeholder="Ej: Prof. Juan Pérez, Dra. María Gómez" class="form-input" [(ngModel)]="form.encargado" name="encargado" />
+              </div>
+              <div class="form-group col-full">
+                <label>Estado</label>
+                <select class="form-input" [(ngModel)]="form.status" name="status">
+                  <option value="Confirmado">Confirmado</option>
+                  <option value="En Revisión">En Revisión</option>
+                  <option value="Cancelado">Cancelado</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section highlight-section">
+            <div class="section-label text-secondary">
+              <span class="material-symbols-outlined">update</span>
+              <h3>Recurrencia y Vigencia</h3>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Fecha de Inicio</label>
+                <input type="date" class="form-input" [(ngModel)]="form.startDate" name="startDate" />
+              </div>
+              <div class="form-group">
+                <label>Hasta (Opcional)</label>
+                <input type="date" class="form-input" [(ngModel)]="form.endDate" name="endDate" />
+              </div>
+            </div>
+            <label class="checkbox-label">
+              <input type="checkbox" class="form-checkbox" [(ngModel)]="form.repeatYearly" name="repeatYearly" />
+              <span>Repetir todo el año</span>
+            </label>
+          </section>
+
+          <section class="form-section">
+            <div class="section-header-split">
+              <div class="section-label text-primary">
+                <span class="material-symbols-outlined">schedule</span>
+                <h3>Días y Horarios</h3>
+              </div>
+              <button type="button" class="text-action-button" (click)="addSchedule()">
+                <span class="material-symbols-outlined">add_circle</span> Agregar Horario
+              </button>
+            </div>
+            
+            <div class="schedule-list">
+              @for (schedule of form.schedules; track $index) {
+                <div class="schedule-row">
+                  <select class="form-input" [(ngModel)]="schedule.day" [name]="'day_' + $index">
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miercoles">Miércoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sabado">Sábado</option>
+                    <option value="Domingo">Domingo</option>
+                  </select>
+                  <div class="time-range">
+                    <input type="time" class="form-input" [(ngModel)]="schedule.startTime" [name]="'startTime_' + $index" />
+                    <span>a</span>
+                    <input type="time" class="form-input" [(ngModel)]="schedule.endTime" [name]="'endTime_' + $index" />
+                  </div>
+                  <button type="button" class="remove-btn" (click)="removeSchedule($index)"><span class="material-symbols-outlined">close</span></button>
+                </div>
+              }
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-label text-tertiary">
+              <span class="material-symbols-outlined">sell</span>
+              <h3>Áreas</h3>
+            </div>
+            <div class="category-selectable-list">
+              @for (cat of categories; track cat.label) {
+                <button type="button" class="selectable-chip" [class]="'tone-' + categoryToneClass(cat.label)"
+                  [class.active]="form.selectedCategories.includes(cat.label)"
+                  (click)="pickCategory(cat.label)">
+                  @if (cat.icon && !cat.icon.startsWith('assets/')) {
+                    <span class="material-symbols-outlined chip-icon">{{ cat.icon }}</span>
+                  }
+                  <span>{{ cat.label }}</span>
+                </button>
+              }
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="form-group">
+              <label>WhatsApp de Contacto</label>
+              <div class="input-with-icon max-w-sm">
+                <svg class="icon text-secondary" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
+                <input type="text" inputmode="numeric" placeholder="Número de teléfono" class="form-input"
+                  [(ngModel)]="form.whatsapp" name="whatsapp"
+                  (input)="onTelefonoInput($event)" maxlength="20" />
+              </div>
+            </div>
+          </section>
+
+          <div class="modal-actions">
+            <button type="button" class="text-muted-btn" (click)="closeModal()">Cancelar</button>
+            <button type="button" class="primary-button save-button" [disabled]="saving" (click)="saveActivity()">
+              @if (saving) {
+                <span class="spinner"></span> Guardando…
+              } @else {
+                <span class="material-symbols-outlined">save</span> {{ editingId ? 'GUARDAR CAMBIOS' : '¡GUARDAR CAMBIOS!' }}
+              }
+            </button>
+          </div>
+        </form>
+      }
+    </div>
+  </div>
+}

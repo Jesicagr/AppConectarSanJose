@@ -1,0 +1,142 @@
+@if (loading) {
+  <div class="loading-screen">
+    <span class="spinner"></span>
+    <p>Cargando actividades...</p>
+  </div>
+}
+
+<section class="activities-page">
+  <header class="page-header">
+    <div>
+      <h1>Gestión de Actividades</h1>
+      <p>Administra, edita y supervisa todas las iniciativas comunitarias.</p>
+    </div>
+    <button type="button" class="primary-button" (click)="openModal()">
+      <span class="material-symbols-outlined">add_circle</span>
+      <span>Nueva Actividad</span>
+    </button>
+  </header>
+
+  <div class="page-content">
+    <div class="page-toolbar">
+      <label class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="search" placeholder="Buscar actividades..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      </label>
+      <div class="category-select" [attr.aria-expanded]="dropdownOpen" (click)="toggleDropdown()" tabindex="0">
+      <div class="category-select-trigger">
+        @if (selectedCategory) {
+          @if (selectedCategoryData?.icon && !selectedCategoryData?.icon?.startsWith('assets/')) {
+            <span class="material-symbols-outlined trigger-icon" [style.color]="selectedCategoryData?.toneColor">{{ selectedCategoryData?.icon }}</span>
+          }
+          <span class="trigger-label" [style.color]="selectedCategoryData?.toneColor">{{ selectedCategory }}</span>
+        } @else {
+          <span class="trigger-placeholder">Todas las áreas</span>
+        }
+        <span class="material-symbols-outlined trigger-arrow">expand_more</span>
+      </div>
+      @if (dropdownOpen) {
+        <div class="category-select-dropdown">
+          <button type="button" class="dropdown-item" [class.active]="!selectedCategory" (click)="clearFilters(); closeDropdown()">
+            <span>Todas las áreas</span>
+          </button>
+          @for (cat of categories; track cat.label) {
+            <button type="button" class="dropdown-item" [class.active]="selectedCategory === cat.label"
+              (click)="selectCategory(cat.label); closeDropdown()">
+              @if (cat.icon && !cat.icon.startsWith('assets/')) {
+                <span class="material-symbols-outlined dropdown-icon" [style.color]="cat.toneColor">{{ cat.icon }}</span>
+              }
+              <span [style.color]="selectedCategory === cat.label ? cat.toneColor : undefined">{{ cat.label }}</span>
+            </button>
+          }
+        </div>
+      }
+    </div>
+    </div>
+
+    <section class="activities-grid">
+      @for (activity of filteredActivities; track activity.id) {
+        <article class="activity-card" [class]="'activity-card border-tone-' + categoryToneClass(activity.categories[0])" (click)="openViewModal(activity)">
+          <div class="card-header">
+            <div class="card-info">
+              <div class="category-pills">
+                @for (cat of activity.categories; track $index) {
+                  <span class="category-pill" [class]="'category-pill tone-' + categoryToneClass(cat)">
+                    @if (activity.categoryIcons[$index] && !activity.categoryIcons[$index].startsWith('assets/')) {
+                      <span class="material-symbols-outlined pill-icon">{{ activity.categoryIcons[$index] }}</span>
+                    }
+                    {{ cat }}
+                  </span>
+                }
+              </div>
+              <h3>{{ activity.title }}</h3>
+              <p class="card-desc">{{ activity.description }}</p>
+              @if (activity.encargado) {
+                <p class="card-encargado">
+                  <span class="material-symbols-outlined">person</span>
+                  {{ activity.encargado }}
+                </p>
+              }
+            </div>
+            <div class="card-actions-top">
+              <button type="button" (click)="$event.stopPropagation(); openEditModal(activity)" aria-label="Editar">
+                <span class="material-symbols-outlined">edit</span>
+              </button>
+              <button type="button" class="delete-icon" (click)="$event.stopPropagation(); deleteActivity(activity)" aria-label="Eliminar">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span class="meta-item">
+                <span class="material-symbols-outlined meta-icon-primary">calendar_month</span>
+                <span>{{ activity.date | dateFormat }}</span>
+              </span>
+              @if (activity.time && activity.time !== 'Sin horario') {
+                <span class="meta-item">
+                  <span class="material-symbols-outlined meta-icon-secondary">schedule</span>
+                  <span>{{ activity.time }}</span>
+                </span>
+              }
+              <span class="meta-item">
+                <span class="material-symbols-outlined meta-icon-secondary">location_on</span>
+                <span>{{ activity.location }}</span>
+              </span>
+            </div>
+            <div class="card-meta-bottom">
+              <span class="status-pill" [class]="'status-pill ' + statusPillClass(activity.status)">
+                <span class="status-dot" [class]="'dot-' + statusPillClass(activity.status)"></span>
+                {{ activity.status }}
+              </span>
+              @if (activity.visitas != null) {
+                <span class="visita-count">
+                  <span class="material-symbols-outlined">visibility</span>
+                  {{ activity.visitas }}
+                </span>
+              }
+            </div>
+          </div>
+        </article>
+      }
+      @if (renderCount < displayedActivities.length) {
+        <div #sentinel class="scroll-sentinel" [class.loading]="loadingMore">
+          @if (loadingMore) {
+            <span class="spinner"></span>
+          }
+        </div>
+      }
+      @if (displayedActivities.length === 0 && !loading) {
+        <div class="empty-state">No se encontraron actividades con esos filtros.</div>
+      }
+    </section>
+  </div>
+</section>
+
+<app-actividad-modal
+  [isOpen]="modalOpen"
+  [data]="modalData"
+  [viewMode]="modalViewMode"
+  (isOpenChange)="onModalClosed()"
+  (saved)="onModalSaved()"
+/>

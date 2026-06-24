@@ -1,0 +1,130 @@
+<div class="agenda-container">
+  
+  <header class="agenda-header">
+    <div class="header-left">
+      <h1>Agenda de Actividades</h1>
+      <p class="dia-actual-label">Actividades para el: <strong>{{ diaSeleccionado.labelDiaCompleto }} {{ diaSeleccionado.numero }}</strong></p>
+    </div>
+    <div class="calendario-wrapper">
+      <label for="input-cal">Seleccionar fecha:</label>
+      <input 
+        type="date" 
+        id="input-cal" 
+        [(ngModel)]="fechaCalendario" 
+        (change)="alCambiarCalendario($event)"
+        class="input-fecha"
+      />
+    </div>
+  </header>
+
+  <div class="selector-semana">
+    <button class="btn-flecha" (click)="navegarDias(-1)" aria-label="Días anteriores">◀</button>
+    <button 
+      *ngFor="let dia of diasSemana" 
+      class="btn-dia" 
+      [class.activo]="dia.numero === diaSeleccionado.numero"
+      (click)="seleccionarDia(dia)"
+    >
+      <span class="nombre-dia">{{ dia.nombreCorto }}</span>
+      <span class="nro-dia">{{ dia.numero }}</span>
+    </button>
+    <button class="btn-flecha" (click)="navegarDias(1)" aria-label="Días siguientes">▶</button>
+  </div>
+
+  <main class="lista-tarjetas">
+    
+    <div *ngIf="actividadesFiltradas.length === 0" class="sin-actividades">
+      <p>No hay actividades programadas para este día.</p>
+    </div>
+
+    <div *ngFor="let act of actividadesFiltradas" class="tarjeta-actividad" (click)="abrirDetalle(act)">
+      <div class="tarjeta-header">
+        <h3 class="titulo-actividad">{{ act.titulo }}</h3>
+        <span class="badge-sede" *ngIf="act.sede">{{ act.sede.nombre }}</span>
+      </div>
+
+      <div class="tarjeta-body">
+        <p class="descripcion" *ngIf="act.descripcion_corta">{{ act.descripcion_corta }}</p>
+        <p class="descripcion" *ngIf="!act.descripcion_corta && act.descripcion">{{ act.descripcion }}</p>
+        
+        <div class="info-items">
+          <div class="item-info" *ngIf="act.encargado">
+            <span class="icono">👤</span>
+            <span><strong>Encargado:</strong> {{ act.encargado }}</span>
+          </div>
+
+          <div class="item-info" *ngIf="act.telefono">
+            <span class="icono">{{ act.sede.esWhatsapp ? '💬' : '📞' }}</span>
+            <a [href]="phoneLink(act.telefono, act.sede.esWhatsapp)" target="_blank" rel="noopener" class="link-item">              <strong>Contacto:</strong> {{ act.telefono }}
+            </a>
+          </div>
+
+          <div class="item-info" *ngIf="act.sede.direccion">
+            <span class="icono">📍</span>
+            <a [href]="addressLink(act.sede.direccion)" target="_blank" rel="noopener" class="link-item">
+              <strong>Dirección:</strong> {{ act.sede.direccion }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarjeta-footer" *ngIf="act.horarios && act.horarios.length > 0">
+        <span class="icono">⏰</span>
+        <div class="horarios-list">
+          <span *ngFor="let h of act.horarios" class="tag-horario">
+            {{ h.diaSemana }}: {{ h.horaInicio.substring(0, 5) || '' }} a {{ h.horaFin.substring(0, 5) || '' }}hs
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+@if (modalAbierto && actividadSeleccionada) {
+  <div class="modal-overlay" (click)="cerrarDetalle()">
+    <div class="modal-contenido" (click)="$event.stopPropagation()">
+      <button class="modal-cerrar" (click)="cerrarDetalle()" aria-label="Cerrar">&times;</button>
+
+      <div class="modal-header">
+        <h2>{{ actividadSeleccionada.titulo }}</h2>
+        <span class="badge-sede" *ngIf="actividadSeleccionada.sede">{{ actividadSeleccionada.sede.nombre }}</span>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-descripcion" *ngIf="actividadSeleccionada.descripcion_corta">{{ actividadSeleccionada.descripcion_corta }}</p>
+        <p class="modal-descripcion" *ngIf="!actividadSeleccionada.descripcion_corta && actividadSeleccionada.descripcion">{{ actividadSeleccionada.descripcion }}</p>
+
+        <div class="modal-grid">
+          <div class="modal-field" *ngIf="actividadSeleccionada.encargado">
+            <span class="modal-label">Encargado</span>
+            <span class="modal-value">👤 {{ actividadSeleccionada.encargado }}</span>
+          </div>
+
+          <div class="modal-field" *ngIf="actividadSeleccionada.telefono">
+            <span class="modal-label">Contacto</span>
+            <a [href]="phoneLink(actividadSeleccionada.telefono, actividadSeleccionada.sede.esWhatsapp)" target="_blank" rel="noopener" class="link-value">
+              <span class="modal-value">{{ actividadSeleccionada.sede.esWhatsapp ? '💬' : '📞' }} {{ actividadSeleccionada.telefono }}</span>
+            </a>
+          </div>
+
+          <div class="modal-field" *ngIf="actividadSeleccionada.sede.direccion">
+            <span class="modal-label">Dirección</span>
+            <a [href]="addressLink(actividadSeleccionada.sede.direccion)" target="_blank" rel="noopener" class="link-value">
+              <span class="modal-value">📍 {{ actividadSeleccionada.sede.direccion }}</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="modal-horarios" *ngIf="actividadSeleccionada.horarios && actividadSeleccionada.horarios.length > 0">
+          <span class="modal-label">Horarios</span>
+          <div class="horarios-list">
+            <span *ngFor="let h of actividadSeleccionada.horarios" class="tag-horario">
+              {{ h.diaSemana }}: {{ h.horaInicio.substring(0, 5) }} a {{ h.horaFin.substring(0, 5) }}hs
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

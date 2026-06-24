@@ -1,0 +1,283 @@
+@if (loading) {
+  <div class="loading-screen">
+    <span class="spinner"></span>
+    <p>Cargando áreas...</p>
+  </div>
+}
+
+<section class="areas-page">
+  <header class="page-header">
+    <div>
+      <h1>Gestión de Áreas</h1>
+      <p>Crea y organiza las categorías para las actividades de la comunidad.</p>
+    </div>
+    <button type="button" class="primary-button" (click)="openModal()">
+      <span class="material-symbols-outlined">add</span>
+      <span>Nueva Área</span>
+    </button>
+  </header>
+
+  <section class="content-shell">
+    <div class="content-head">
+      <div>
+        <h2>Listado de Áreas</h2>
+        <span class="counter">{{ filteredAreas.length }} áreas visibles</span>
+      </div>
+      <label class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input
+          type="search"
+          placeholder="Buscar área..."
+          aria-label="Buscar área"
+          [(ngModel)]="searchTerm"
+        >
+      </label>
+    </div>
+
+    <div class="areas-grid">
+      @for (area of filteredAreas; track $index) {
+        <article class="area-card" [class]="'area-card tone-' + area.tone">
+          <div class="area-top">
+            <div class="area-icon">
+              <span class="material-symbols-outlined">{{ area.icon }}</span>
+            </div>
+            <span class="status-pill" [class]="'status-pill ' + area.statusTone">
+              <span aria-hidden="true"></span>
+              {{ area.status }}
+            </span>
+          </div>
+
+          <div class="area-body">
+            <h3>{{ area.name }}</h3>
+            <p>{{ area.description }}</p>
+
+            @if (area.referente) {
+              <div class="area-detail">
+                <span class="material-symbols-outlined">person</span>
+                <span>{{ area.referente }}</span>
+              </div>
+            }
+
+            @if (area.direccion) {
+              <div class="area-detail">
+                <span class="material-symbols-outlined">location_on</span>
+                <a [href]="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(area.direccion)" target="_blank" rel="noopener noreferrer" class="detail-link">{{ area.direccion }}</a>
+              </div>
+            }
+
+            @if (area.email) {
+              <div class="area-detail">
+                <span class="material-symbols-outlined">mail</span>
+                <a [href]="'mailto:' + area.email" class="detail-link">{{ area.email }}</a>
+              </div>
+            }
+
+            @if (area.redes) {
+              <div class="area-detail">
+                <span class="material-symbols-outlined">share</span>
+                <span>{{ area.redes }}</span>
+              </div>
+            }
+
+            @if (area.sitioWeb) {
+              <div class="area-detail">
+                <span class="material-symbols-outlined">language</span>
+                <a [href]="area.sitioWeb" target="_blank" rel="noopener noreferrer">{{ area.sitioWeb }}</a>
+              </div>
+            }
+
+            @if (area.horarioAtencion) {
+              <div class="area-detail area-detail-schedule">
+                <span class="material-symbols-outlined">schedule</span>
+                <span class="schedule-text">{{ area.horarioAtencion }}</span>
+              </div>
+            }
+
+            @if (area.phone) {
+              <div class="area-phone">
+                @if (area.esWhatsapp) {
+                  <svg class="wa-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
+                } @else {
+                  <span class="material-symbols-outlined">call</span>
+                }
+                @if (area.telefonoEtiqueta) {
+                  <span class="phone-tag">{{ area.telefonoEtiqueta }}</span>
+                }
+                <a [href]="area.esWhatsapp ? 'https://wa.me/' + area.phone : 'tel:' + area.phone" target="_blank" rel="noopener noreferrer" class="detail-link">{{ area.phone }}</a>
+              </div>
+            }
+
+            @if (area.telefonos && area.telefonos.length) {
+              <div class="area-phones">
+                @for (tel of area.telefonos; track $index) {
+                  <div class="area-phone">
+                    @if (tel.esWhatsapp) {
+                      <svg class="wa-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
+                    } @else {
+                      <span class="material-symbols-outlined">phone</span>
+                    }
+                    @if (tel.etiqueta) {
+                      <span class="phone-tag">{{ tel.etiqueta }}</span>
+                    }
+                    <a [href]="tel.esWhatsapp ? 'https://wa.me/' + tel.numero : 'tel:' + tel.numero" target="_blank" rel="noopener noreferrer" class="detail-link"><strong>{{ tel.numero }}</strong></a>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="area-actions">
+            <button type="button" class="edit-btn" title="Editar" (click)="editarArea($index)">
+              <span class="material-symbols-outlined">edit</span>
+              <span>Editar</span>
+            </button>
+            <button type="button" class="delete-btn" title="Eliminar" aria-label="Eliminar área" (click)="confirmarEliminarArea($index)">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-state">No se encontraron áreas con ese criterio.</div>
+      }
+    </div>
+
+    <div class="footer-bar">
+      <span>{{ filteredAreas.length }} de {{ areas.length }} áreas</span>
+      <div class="pager">
+        <button type="button" disabled>
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button type="button">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  @if (isModalOpen) {
+    <div class="modal-overlay" (mousedown)="onOverlayMouseDown($event)">
+      <div class="modal-container" (mousedown)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>{{ editId ? 'Editar Área' : 'Nueva Área' }}</h2>
+          <button type="button" class="modal-close" (click)="closeModal()">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <div class="modal-body two-col">
+          <div class="form-col">
+            <div class="form-group">
+              <label for="area-nombre">Área</label>
+              <input id="area-nombre" type="text" placeholder="Nombre del área" [(ngModel)]="newArea.nombre">
+            </div>
+            <div class="form-group">
+              <label for="area-referente">Referente</label>
+              <input id="area-referente" type="text" placeholder="Persona a cargo del área" [(ngModel)]="newArea.referente">
+            </div>
+            <div class="form-group">
+              <label for="area-direccion">Dirección</label>
+              <input id="area-direccion" type="text" placeholder="Dirección del área" [(ngModel)]="newArea.direccion">
+            </div>
+            <div class="form-group">
+              <label for="area-email">Email</label>
+              <input id="area-email" type="email" placeholder="Correo electrónico" [(ngModel)]="newArea.email">
+            </div>
+            <div class="form-group">
+              <label for="area-redes">Redes Sociales</label>
+              <input id="area-redes" type="text" placeholder="Instagram, Facebook, etc." [(ngModel)]="newArea.redes">
+            </div>
+            <div class="form-group">
+              <label for="area-sitio-web">Sitio Web</label>
+              <input id="area-sitio-web" type="url" placeholder="https://ejemplo.com" [(ngModel)]="newArea.sitioWeb">
+            </div>
+            <div class="form-group">
+              <label for="area-horario">Horario de Atención</label>
+              <textarea id="area-horario" placeholder="Ej: Lun a Vie de 8 a 16hs&#10;Sábados de 9 a 12hs" [(ngModel)]="newArea.horarioAtencion" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="area-telefono">Teléfono principal</label>
+              <div class="phone-row">
+                <input class="phone-label-input" type="text" placeholder="Etiqueta (ej: Guardia)" [(ngModel)]="newArea.telefonoEtiqueta">
+                <div class="input-row">
+                  <input id="area-telefono" type="tel" inputmode="numeric" placeholder="Teléfono de contacto"
+                    [ngModel]="newArea.telefono" (ngModelChange)="newArea.telefono = soloNumeros($event)">
+                  <button type="button" class="wa-toggle" [class.active]="newArea.esWhatsapp"
+                    (click)="newArea.esWhatsapp = !newArea.esWhatsapp" [title]="newArea.esWhatsapp ? 'Tiene WhatsApp' : 'No tiene WhatsApp'">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Teléfonos adicionales</label>
+              <div class="phone-list">
+                @for (tel of newArea.telefonos; track $index; let i = $index) {
+                  <div class="phone-row">
+                    <input class="phone-label-input" type="text" placeholder="Etiqueta (ej: Guardia)" [(ngModel)]="tel.etiqueta">
+                    <div class="input-row">
+                      <input type="tel" inputmode="numeric" placeholder="Número de teléfono" [ngModel]="tel.numero" (ngModelChange)="tel.numero = soloNumeros($event)">
+                      <button type="button" class="wa-toggle" [class.active]="tel.esWhatsapp" (click)="tel.esWhatsapp = !tel.esWhatsapp" [title]="tel.esWhatsapp ? 'Tiene WhatsApp' : 'No tiene WhatsApp'">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
+                      </button>
+                      @if (newArea.telefonos.length > 1) {
+                        <button type="button" class="remove-btn" (click)="eliminarTelefono(i)" title="Quitar teléfono">
+                          <span class="material-symbols-outlined">remove_circle</span>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+                <button type="button" class="add-row-btn" (click)="agregarTelefono()">
+                  <span class="material-symbols-outlined">add</span> Agregar teléfono
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="area-descripcion">Descripción</label>
+              <textarea id="area-descripcion" placeholder="Descripción del área" [(ngModel)]="newArea.descripcion" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="switch-label">
+                <span>Activo</span>
+                <label class="switch">
+                  <input type="checkbox" [(ngModel)]="newArea.activo">
+                  <span class="switch-slider"></span>
+                </label>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-col">
+            <label>Icono</label>
+            <div class="icon-grid">
+              @for (item of iconos; track item.icono) {
+                <button
+                  type="button"
+                  class="icon-option"
+                  [class.selected]="newArea.icono === item.icono"
+                  (click)="selectIcon(item.icono)"
+                  [title]="item.label"
+                >
+                  <span class="material-symbols-outlined">{{ item.icono }}</span>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="secondary-button" (click)="closeModal()">Cancelar</button>
+          <button type="button" class="primary-button" (click)="saveArea()" [disabled]="saving || !newArea.nombre.trim()">
+            @if (saving) {
+              <span class="spinner"></span>
+              <span>Guardando…</span>
+            } @else {
+              <span class="material-symbols-outlined">check</span>
+              <span>{{ editId ? 'Actualizar' : 'Guardar' }}</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</section>

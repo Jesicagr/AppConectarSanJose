@@ -1,0 +1,94 @@
+<div class="usuarios-page">
+  <div class="page-header">
+    <h1>Gestión de Usuarios</h1>
+    <p>Administra los usuarios del sistema</p>
+  </div>
+
+  <div class="toolbar-card">
+    <h2 class="section-title">
+      <span class="material-symbols-outlined">person_add</span>
+      Nuevo Usuario
+    </h2>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Correo electrónico</label>
+        <input type="email" class="form-input" [(ngModel)]="form.email" placeholder="correo@ejemplo.com" />
+      </div>
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" class="form-input" [(ngModel)]="form.password" placeholder="Mínimo 6 caracteres" />
+      </div>
+      <div class="form-group">
+        <label>Rol</label>
+        <select class="form-input" [(ngModel)]="form.rol">
+          <option value="ADMIN">Administrador</option>
+          <option value="SUPER_ADMIN">Superusuario</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="primary-button" (click)="crearUsuario()" [disabled]="submitting || !form.email || !form.password">
+      @if (submitting) {
+        <span class="spinner"></span> Creando…
+      } @else {
+        <span class="material-symbols-outlined">person_add</span> Crear Usuario
+      }
+    </button>
+
+    @if (mensaje) {
+      <div class="feedback-msg" [class.error]="mensaje.startsWith('Error')">
+        <span class="material-symbols-outlined">{{ mensaje.startsWith('Error') ? 'error' : 'check_circle' }}</span>
+        {{ mensaje }}
+      </div>
+    }
+  </div>
+
+  <div class="toolbar-card">
+    <h2 class="section-title">
+      <span class="material-symbols-outlined">group</span>
+      Usuarios Existentes
+    </h2>
+
+    @if (loading) {
+      <div class="table-status">
+        <span class="spinner"></span> Cargando usuarios…
+      </div>
+    } @else if (error) {
+      <div class="table-status error">
+        <span class="material-symbols-outlined">error</span>
+        {{ error }}
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Rol</th>
+              <th class="actions-col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of usuarios; track u.id) {
+              <tr>
+                <td class="email-cell">{{ u.email }}</td>
+                <td>
+                  <span class="rol-badge" [class.super]="u.rol === 'SUPER_ADMIN'">
+                    <span class="material-symbols-outlined">{{ u.rol === 'SUPER_ADMIN' ? 'admin_panel_settings' : 'shield' }}</span>
+                    {{ u.rol === 'SUPER_ADMIN' ? 'Superusuario' : 'Administrador' }}
+                  </span>
+                </td>
+                <td class="actions-col">
+                  <button class="btn-outline-danger" (click)="eliminarUsuario(u.id, u.email)">
+                    <span class="material-symbols-outlined">delete</span> Eliminar
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
