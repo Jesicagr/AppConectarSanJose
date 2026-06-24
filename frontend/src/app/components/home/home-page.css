@@ -218,7 +218,7 @@ nav a {
   font-weight: 700;
   color: #444;
   line-height: 1;
-  white-space: normal;
+  white-space: nowrap;
   margin-bottom: 16px;
   transform: none;
 }
@@ -1000,6 +1000,18 @@ nav a {
   .btn-volver {
     width: auto;
   }
+
+  .overlay-ayuda {
+    align-items: center;
+  }
+
+  .bottom-sheet {
+    width: auto;
+    max-width: 520px;
+    border-radius: 35px;
+    padding: 32px;
+    margin: 20px;
+  }
 }
 
 /* ========== TABLET LARGE / DESKTOP (768px+) ========== */
@@ -1064,6 +1076,13 @@ nav a {
     flex-direction: row;
     justify-content: center;
     gap: 0;
+    position: relative;
+  }
+
+  .texto-ayuda h1 {
+    position: relative;
+    z-index: 1;
+    margin-right: -20%;
   }
 
   .cards {
@@ -1198,7 +1217,11 @@ nav a {
   }
 
   .contenido {
-    gap: 20px;
+    gap: 0;
+  }
+
+  .texto-ayuda h1 {
+    margin-right: -30%;
   }
 
   .card-ayuda img {
