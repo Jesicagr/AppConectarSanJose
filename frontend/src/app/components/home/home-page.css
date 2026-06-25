@@ -712,6 +712,8 @@ nav a {
 .azul { background: #2563eb; }
 .rojo { background: #ff0033; }
 .violeta { background: #a020f0; }
+.emergencia.verde { background: #16a34a; }
+.emergencia.amarillo { background: #ca8a04; }
 
 .icono {
   width: 50px;

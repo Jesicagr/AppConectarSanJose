@@ -271,35 +271,13 @@
     <h2>No estás solo 💗</h2>
     <p>Llamanos gratis, estamos para escucharte.</p>
 
-    <a [href]="phoneLink('0800-777-2100')" target="_blank" rel="noopener" class="emergencia-link">
-      <div class="emergencia azul">
-        <div class="icono">🧠</div>
+    <a *ngFor="let c of contactosEmergencia" [href]="phoneLink(primerTelefono(c))" target="_blank" rel="noopener" class="emergencia-link">
+      <div class="emergencia" [class.azul]="contactoColor(c.icono) === 'azul'" [class.rojo]="contactoColor(c.icono) === 'rojo'" [class.violeta]="contactoColor(c.icono) === 'violeta'" [class.verde]="contactoColor(c.icono) === 'verde'" [class.amarillo]="contactoColor(c.icono) === 'amarillo'">
+        <div class="icono">{{ contactoEmoji(c.icono) }}</div>
         <div>
-          <small>URGENCIAS 24HS</small>
-          <h3>Salud Mental ER</h3>
-          <strong>0800-777-2100</strong>
-        </div>
-      </div>
-    </a>
-
-    <a [href]="phoneLink('3447-146499')" target="_blank" rel="noopener" class="emergencia-link">
-      <div class="emergencia rojo">
-        <div class="icono">♡</div>
-        <div>
-          <small>GUARDIA 24HS</small>
-          <h3>Niñez y Familia</h3>
-          <strong>3447-146499</strong>
-        </div>
-      </div>
-    </a>
-
-    <a [href]="phoneLink('3447-438343')" target="_blank" rel="noopener" class="emergencia-link">
-      <div class="emergencia violeta">
-        <div class="icono">♀</div>
-        <div>
-          <small>GÉNERO / DIVERSIDAD</small>
-          <h3>Mujeres San José</h3>
-          <strong>3447-438343</strong>
+          <small>{{ c.categoria }}</small>
+          <h3>{{ c.nombreInstitucion }}</h3>
+          <strong>{{ primerTelefono(c) }}</strong>
         </div>
       </div>
     </a>
