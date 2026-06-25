@@ -65,6 +65,9 @@ public class ContactoEmergenciaService {
     }
 
     public void eliminar(Integer id) {
-        contactoEmergenciaRepository.deleteById(id);
+        contactoEmergenciaRepository.findById(id).ifPresent(c -> {
+            c.setActivo(false);
+            contactoEmergenciaRepository.save(c);
+        });
     }
 }

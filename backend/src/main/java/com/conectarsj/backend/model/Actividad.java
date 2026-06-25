@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.SQLRestriction;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Table(name = "actividades", indexes = {
     @Index(name = "idx_actividad_fecha_inicio", columnList = "fechaInicio")
 })
+@SQLRestriction("activo = true")
 @Getter
 @Setter
 @ToString(exclude = {"creadoPor", "areas", "horarios"})
@@ -67,6 +69,9 @@ public class Actividad {
 
     @Column(length = 30)
     private String status = "Confirmado";
+
+    @Column(nullable = false)
+    private Boolean activo = true;
 
     // --- RELACIÓN MUCHOS A MUCHOS CON AREAS ---
     @ManyToMany(fetch = FetchType.LAZY)
