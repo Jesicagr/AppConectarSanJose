@@ -19,6 +19,7 @@ export class AreaComponent implements OnInit {
   mostrarModal: boolean = false;
   areaSeleccionada: Area | null = null;
   actividadesPorArea: Actividad[] = [];
+  private modalRequestId = 0;
 
   constructor(
     private areaService: AreaService,
@@ -49,16 +50,25 @@ export class AreaComponent implements OnInit {
   abrirModal(areaId: number | undefined): void {
     if (areaId === undefined) return;
   
+    const requestId = ++this.modalRequestId;
+    const areaBasica = this.listaAreas.find(a => a.id === areaId);
+    
+    if (areaBasica) {
+      this.areaSeleccionada = areaBasica;
+      this.mostrarModal = true;
+    }
+
     this.areaService.obtenerPorId(areaId).subscribe({
       next: (areaCompleta) => {
+        if (requestId !== this.modalRequestId) return;
         this.areaSeleccionada = areaCompleta;
-        this.mostrarModal = true;
       },
       error: (err) => console.error('[ConectarSanJose] ERROR Error al traer detalles del área:', err)
     });
 
     this.actividadService.obtenerActividadesPorArea(areaId).subscribe({
       next: (actividades) => {
+        if (requestId !== this.modalRequestId) return;
         this.actividadesPorArea = actividades;
       },
       error: (err) => console.error('[ConectarSanJose] ERROR Error al cargar actividades del área:', err)
@@ -66,6 +76,7 @@ export class AreaComponent implements OnInit {
   }
 
   cerrarModal(): void {
+    this.modalRequestId++;
     this.mostrarModal = false;
     this.areaSeleccionada = null;
     this.actividadesPorArea = [];
