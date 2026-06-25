@@ -20,6 +20,8 @@ const ICON_MAP: Record<string, { emoji: string; color: string }> = {
   child_friendly: { emoji: '👶', color: 'rojo' },
   pets: { emoji: '🐾', color: 'verde' },
   gavel: { emoji: '⚖️', color: 'violeta' },
+  psychology: { emoji: '🧠', color: 'azul' },
+  female: { emoji: '♀️', color: 'violeta' },
 };
 
 @Component({
