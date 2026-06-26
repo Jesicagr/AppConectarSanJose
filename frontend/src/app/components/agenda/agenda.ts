@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActividadService } from '../../services/actividad.service';
@@ -65,7 +65,8 @@ export class AgendaComponent implements OnInit {
 
   constructor(
     private actividadService: ActividadService,
-    private visitaService: VisitaService
+    private visitaService: VisitaService,
+    private cdr: ChangeDetectorRef
   ) {
     const hoy = new Date();
     this.mesCalendario = hoy.getMonth();
@@ -101,10 +102,6 @@ export class AgendaComponent implements OnInit {
   cargarActividadesDesdeBackend(): void {
     this.actividadService.obtenerTodas().subscribe({
       next: (data) => {
-        console.info('[ConectarSanJose] INFO Actividades recibidas:', data.length);
-        data.forEach(a => {
-          console.log(`  - ${a.titulo} | horarios:`, JSON.stringify(a.horarios));
-        });
         this.listaActividades = data;
         this.filtrarActividades();
       },
@@ -208,6 +205,7 @@ export class AgendaComponent implements OnInit {
       if (!actividad.horarios || actividad.horarios.length === 0) return false;
       return actividad.horarios.some(h => h.diaSemana === enumDiaJava);
     });
+    this.cdr.detectChanges();
   }
 
   phoneLink(numero: string, wa?: boolean): string {
