@@ -35,10 +35,12 @@ export class HomePage implements OnInit {
   menuAbierto: boolean = false;
   mostrarModalAyuda: boolean = false;
   contactosEmergencia: Contacto[] = [];
+  whatsappFlotanteNumero: string = '';
 
   constructor(private contactoService: ContactoService) {}
 
   ngOnInit(): void {
+    this.whatsappFlotanteNumero = this.contactoService.getWhatsappFlotanteNumero();
     this.contactoService.obtenerTodos().subscribe({
       next: (contactos) => {
         this.contactosEmergencia = [...contactos].sort((a, b) => {

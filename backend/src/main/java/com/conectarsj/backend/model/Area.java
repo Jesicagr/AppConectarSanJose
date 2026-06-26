@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "areas")
-@SQLRestriction("activo = true")
+@SQLRestriction("coalesce(activo, true) = true")
 @Data
 public class Area {
 
@@ -53,7 +53,6 @@ public class Area {
     @Column(length = 200)
     private String horarioAtencion;
 
-    @Column(nullable = false)
     private Boolean activo = true;
 
     @ElementCollection

@@ -405,23 +405,24 @@
 
 @media (max-width: 480px) {
     .grid-categorias {
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
     }
 
     .boton-area {
-        width: 140px;
-        height: 135px;
-        border-radius: 40px;
+        width: 110px;
+        height: 105px;
+        border-radius: 28px;
     }
 
     .boton-area img {
-        width: 60px;
-        height: 60px;
+        width: 44px;
+        height: 44px;
     }
 
     .boton-area .nombre-area {
-        font-size: 14px;
+        font-size: 11px;
+        max-width: 90px;
     }
 
     .modal-content {
@@ -433,5 +434,27 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 0.3rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .grid-categorias {
+        gap: 8px;
+    }
+
+    .boton-area {
+        width: 88px;
+        height: 82px;
+        border-radius: 20px;
+    }
+
+    .boton-area img {
+        width: 34px;
+        height: 34px;
+    }
+
+    .boton-area .nombre-area {
+        font-size: 9px;
+        max-width: 70px;
     }
 }

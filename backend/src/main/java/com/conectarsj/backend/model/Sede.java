@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "sedes")
-@SQLRestriction("activo = true")
+@SQLRestriction("coalesce(activo, true) = true")
 public class Sede {
 
     @Id
@@ -39,7 +39,6 @@ public class Sede {
     @Column(name = "longitud")
     private Double longitud;
 
-    @Column(nullable = false)
     private Boolean activo = true;
 
     @OneToMany(mappedBy = "sede", cascade = CascadeType.ALL, orphanRemoval = true)

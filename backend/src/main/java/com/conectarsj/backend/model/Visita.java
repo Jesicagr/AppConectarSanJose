@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "visitas")
-@SQLRestriction("activo = true")
+@SQLRestriction("coalesce(activo, true) = true")
 @Data
 public class Visita {
 
@@ -24,6 +24,5 @@ public class Visita {
     @Column(name = "contador", nullable = false)
     private Integer contador = 1;
 
-    @Column(nullable = false)
     private Boolean activo = true;
 }

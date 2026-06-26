@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "contactos_emergencia")
-@SQLRestriction("activo = true")
+@SQLRestriction("coalesce(activo, true) = true")
 @Data
 public class ContactoEmergencia {
 
@@ -35,6 +35,5 @@ public class ContactoEmergencia {
     @Column(name = "orden_prioridad")
     private Integer ordenPrioridad;
 
-    @Column(nullable = false)
     private Boolean activo = true;
 }

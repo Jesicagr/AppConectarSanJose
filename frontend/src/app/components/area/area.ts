@@ -14,7 +14,7 @@ const ACCENT_COLORS: Record<string, string> = {
   'Niñez': '#d6c75d',
   'Personas Mayores': '#9acb92',
   'Desarrollo Comunitario': '#8fc6d9',
-  'Discapacidad': '#d6c75d',
+  'Inclusión': '#d6c75d',
   'Salud': '#9acb92',
   'Salud Social y Comunitaria': '#9acb92',
   'Trabajo y Producción': '#8fc6d9',

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "administrador")
-@SQLRestriction("activo = true")
+@SQLRestriction("coalesce(activo, true) = true")
 public class Administrador {
 
     @Id
@@ -29,7 +29,6 @@ public class Administrador {
     @Column(name = "token_expiracion")
     private LocalDateTime tokenExpiracion;
 
-    @Column(nullable = false)
     private Boolean activo = true;
 
 
