@@ -132,23 +132,22 @@ export class AgendaComponent implements OnInit {
   }
 
   alCambiarCalendario(event: any): void {
-    const fechaElegidaStr = event.target.value; // "YYYY-MM-DD"
+    const fechaElegidaStr = event.target.value;
     if (!fechaElegidaStr) return;
 
-    // Crear la fecha evitando problemas de zona horaria
     const [anio, mes, dia] = fechaElegidaStr.split('-').map(Number);
     const fechaElegida = new Date(anio, mes - 1, dia);
 
-    const nombresCompletos = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    const nombresCortos = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁ'];
+    this.offsetDias = this.offsetParaFecha(fechaElegida);
+    this.generarDiasSemana();
 
     this.diaSeleccionado = {
-      nombreCorto: nombresCortos[fechaElegida.getDay()],
+      nombreCorto: this.nombresCortosDias[fechaElegida.getDay()],
       numero: fechaElegida.getDate(),
       fechaCompleta: fechaElegida,
-      labelDiaCompleto: nombresCompletos[fechaElegida.getDay()]
+      labelDiaCompleto: this.nombresCompletosDias[fechaElegida.getDay()]
     };
-
+    this.fechaCalendario = this.formatearFechaAInput(fechaElegida);
     this.filtrarActividades();
   }
 
@@ -186,6 +185,10 @@ export class AgendaComponent implements OnInit {
 
   seleccionarDiaCalendario(dia: number): void {
     const fecha = new Date(this.anioCalendario, this.mesCalendario, dia);
+
+    this.offsetDias = this.offsetParaFecha(fecha);
+    this.generarDiasSemana();
+
     this.diaSeleccionado = {
       nombreCorto: this.nombresCortosDias[fecha.getDay()],
       numero: fecha.getDate(),
@@ -217,6 +220,14 @@ export class AgendaComponent implements OnInit {
 
   isUrl(str: string): boolean {
     return isUrl(str);
+  }
+
+  private offsetParaFecha(fecha: Date): number {
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    const f = new Date(fecha);
+    f.setHours(0, 0, 0, 0);
+    return Math.round((f.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24));
   }
 
   //transforma un objeto Date al formato del HTML "YYYY-MM-DD"
