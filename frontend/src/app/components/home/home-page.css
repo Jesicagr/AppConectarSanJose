@@ -723,6 +723,12 @@ nav a {
     margin-top: 40px;
   }
 
+  .cards-turismo {
+    flex: 1;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
   .decoracion-turismo img {
     margin-left: auto;
   }
