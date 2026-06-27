@@ -16,63 +16,6 @@
   </nav>
 </header>
 
-<script>
-  function scrollToSlide(slideIndex) {
-    const heroSections = document.querySelectorAll('.hero');
-    const targetSlide = heroSections[slideIndex];
-    if (!targetSlide) return;
-    
-    const header = document.querySelector('header');
-    const headerHeight = header ? header.offsetHeight : 0;
-    const targetPosition = targetSlide.offsetTop - headerHeight - 10; // Small offset for spacing
-    
-    window.scrollTo({
-      top: targetPosition,
-      behavior: 'smooth'
-    });
-  }
-
-  function updateCarouselDots() {
-    const heroSections = document.querySelectorAll('.hero');
-    const dots = document.querySelectorAll('.hero.redes-carousel .dot');
-    
-    if (!heroSections.length || !dots.length) return;
-
-    const header = document.querySelector('header');
-    const headerHeight = header ? header.offsetHeight : 0;
-    const scrollPosition = window.pageYOffset + headerHeight + 150;
-
-    heroSections.forEach((slide, index) => {
-      const slideTop = slide.offsetTop;
-      if (slideTop <= scrollPosition) {
-        // Update dots based on active slide
-        dots.forEach((dot, dotIndex) => {
-          if (dotIndex === index) {
-            dot.classList.add('active');
-          } else {
-            dot.classList.remove('active');
-          }
-        });
-      }
-    });
-
-    // Always ensure at least one dot is active for first slide when at top
-    const firstDot = document.querySelector('.hero.redes-carousel .dot');
-    if (window.pageYOffset < 200 && firstDot) {
-      firstDot.classList.add('active');
-      if (dots.length > 1) {
-        dots[1].classList.remove('active');
-      }
-    }
-  }
-
-  // Add scroll event listener
-  window.addEventListener('scroll', updateCarouselDots);
-
-  // Initialize on page load
-  window.addEventListener('load', updateCarouselDots);
-</script>
-
 <section id="inicio" class="hero">
   <div class="contenedor-texto">
     <img src="gotas.png" class="decoracion">
@@ -93,9 +36,25 @@
   </a>
 </section>
 
-<section id="redes" class="hero redes-carousel">
+<script>
+  function scrollToSection(sectionId) {
+    const header = document.querySelector('header');
+    const headerHeight = header ? header.offsetHeight : 0;
+    const targetSection = document.getElementById(sectionId);
+    
+    if (targetSection) {
+      const targetPosition = targetSection.offsetTop - headerHeight - 10;
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+  }
+</script>
+
+<section id="redes" class="redes-section">
   <div class="contenedor-texto">
-    <img src="gotas.png" class="decoracion">
+    <img src="gotas.png" class="decoracion redes-decoracion">
 
     <div class="texto">
       <h1>SÍGANOS EN</h1>
@@ -120,19 +79,9 @@
       </div>
     </div>
   </div>
-
-  <!-- Navegación del carrusel -->
-  <button class="carousel-nav prev" onclick="scrollToSlide(0)" title="Anterior">
-    <span class="material-symbols-outlined">chevron_left</span>
-  </button>
-  <button class="carousel-nav next" onclick="scrollToSlide(1)" title="Siguiente">
-    <span class="material-symbols-outlined">chevron_right</span>
-  </button>
-  <div class="carousel-dots">
-    <span class="dot active" onclick="scrollToSlide(0)"></span>
-    <span class="dot" onclick="scrollToSlide(1)"></span>
-  </div>
 </section>
+
+<a class="redes-link" onclick="scrollToSection('redes')" title="Scroll to SÍGANOS EN REDES SOCIALES">Scroll to Redes Section</a>
 
 <section id="ayuda" class="ayuda">
   <div class="contenido">
