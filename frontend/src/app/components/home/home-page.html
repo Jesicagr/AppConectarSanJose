@@ -16,72 +16,153 @@
   </nav>
 </header>
 
-<section id="inicio" class="hero">
-  <div class="contenedor-texto">
-    <img src="gotas.png" class="decoracion">
+<section id="inicio" class="hero redes-carousel">
+  <div class="carousel-slide active">
+    <div class="contenedor-texto">
+      <img src="gotas.png" class="decoracion">
 
-    <div class="texto">
-      <h1>DESCUBRÍ</h1>
+      <div class="texto">
+        <h1>DESCUBRÍ</h1>
 
-      <p class="subtitulo">lo que</p>
+        <p class="subtitulo">lo que</p>
 
-      <h2>SAN JOSÉ</h2>
+        <h2>SAN JOSÉ</h2>
 
-      <p class="subtitulo2">tiene para vos</p>
+        <p class="subtitulo2">tiene para vos</p>
+      </div>
     </div>
+
+    <a href="https://sanjose.gob.ar/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAb21jcASsrExleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAafN7N24P9le6JWtW98VgKLC0MalQcS-UG3aIBRjyzmwKtifYw8WYHK8-zkxaQ_aem_rvSckFOYVaMXOXU06cF1Fg" target="_blank" rel="noopener" class="hero-imagen-link">
+      <img src="monumento.jpg" class="imagen">
+    </a>
   </div>
 
-  <a href="https://sanjose.gob.ar/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAb21jcASsrExleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAafN7N24P9le6JWtW98VgKLC0MalQcS-UG3aIBRjyzmwKtifYw8WYHK8-zkxaQ_aem_rvSckFOYVaMXOXU06cF1Fg" target="_blank" rel="noopener" class="hero-imagen-link">
-    <img src="monumento.jpg" class="imagen">
-  </a>
-</section>
+  <div class="carousel-slide">
+    <div class="redes-carousel-container">
+      <div class="redes-carousel-content">
+        <div class="contenedor-texto redes-texto">
+          <img src="gotas.png" class="decoracion redes-decoracion">
 
-<script>
-  function scrollToSection(sectionId) {
-    const header = document.querySelector('header');
-    const headerHeight = header ? header.offsetHeight : 0;
-    const targetSection = document.getElementById(sectionId);
-    
-    if (targetSection) {
-      const targetPosition = targetSection.offsetTop - headerHeight - 10;
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-    }
-  }
-</script>
+          <div class="texto">
+            <h1>SÍGANOS EN</h1>
 
-<section id="redes" class="redes-section">
-  <div class="contenedor-texto">
-    <img src="gotas.png" class="decoracion redes-decoracion">
+            <p class="subtitulo">nuestras redes</p>
 
-    <div class="texto">
-      <h1>SÍGANOS EN</h1>
+            <h2>SOCIALES</h2>
 
-      <p class="subtitulo">nuestras redes</p>
+            <p class="subtitulo2">municipalidadsj</p>
+          </div>
+        </div>
 
-      <h2>SOCIALES</h2>
-
-      <p class="subtitulo2">municipalidadsj</p>
-    </div>
-  </div>
-
-  <div class="redes-container">
-    <div class="red-card">
-      <h3>Instagram</h3>
-      <iframe src="https://www.instagram.com/sanjosesi/widgets/podcast/" title="Instagram Widget" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
-    </div>
-    <div class="red-card">
-      <h3>Facebook</h3>
-      <div class="facebook-embed">
-        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fsanjosesi&tabs=timeline&width=340&height=500&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false" title="Facebook Page Embed" frameborder="0" scrolling="no" allowfullscreen="true" allow="autoplay; encrypted-media; picture-in-picture" width="340" height="500"></iframe>
+        <div class="redes-container">
+          <div class="red-card">
+            <h3>Instagram</h3>
+            <iframe src="https://www.instagram.com/sanjosesi/widgets/podcast/" title="Instagram Widget" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+          </div>
+          <div class="red-card">
+            <h3>Facebook</h3>
+            <div class="facebook-embed">
+              <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fsanjosesi&tabs=timeline&width=340&height=500&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false" title="Facebook Page Embed" frameborder="0" scrolling="no" allowfullscreen="true" allow="autoplay; encrypted-media; picture-in-picture" width="340" height="500"></iframe>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</section>
 
-<a class="redes-link" onclick="scrollToSection('redes')" title="Scroll to SÍGANOS EN REDES SOCIALES">Scroll to Redes Section</a>
+  <div class="carousel-dots">
+    <span class="dot active" data-slide="0"></span>
+    <span class="dot" data-slide="1"></span>
+  </div>
+
+  <div class="carousel-nav prev">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M15 18l-6-6 6-6"/>
+    </svg>
+  </div>
+
+  <div class="carousel-nav next">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M9 18l6-6-6-6"/>
+    </svg>
+  </div>
+
+  <div class="carousel-progress-bar">
+    <div class="carousel-progress-fill"></div>
+  </div>
+
+  <script>
+    function scrollToSection(sectionId) {
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      const targetSection = document.getElementById(sectionId);
+      
+      if (targetSection) {
+        const targetPosition = targetSection.offsetTop - headerHeight - 10;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    function initCarousel() {
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('.carousel-slide');
+      const dots = document.querySelectorAll('.dot');
+      const prevBtn = document.querySelector('.carousel-nav.prev');
+      const nextBtn = document.querySelector('.carousel-nav.next');
+      
+      function showSlide(index) {
+        slides.forEach((slide, i) => {
+          if (i === index) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+        
+        dots.forEach((dot, i) => {
+          if (i === index) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+        
+        currentSlide = index;
+      }
+      
+      function nextSlide() {
+        let next = currentSlide + 1;
+        if (next >= slides.length) next = 0;
+        showSlide(next);
+      }
+      
+      function prevSlide() {
+        let prev = currentSlide - 1;
+        if (prev < 0) prev = slides.length - 1;
+        showSlide(prev);
+      }
+      
+      if (prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+      }
+      
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          showSlide(index);
+        });
+      });
+      
+      window.carouselTimeout = setInterval(nextSlide, 6000);
+    }
+    
+    window.addEventListener('load', initCarousel);
+  </script>
+
+</section>
 
 <section id="ayuda" class="ayuda">
   <div class="contenido">
