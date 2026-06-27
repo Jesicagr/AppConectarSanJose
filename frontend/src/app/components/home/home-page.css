@@ -600,6 +600,7 @@ nav a {
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   width: 100%;
+  align-items: start;
 }
 
 .card-turismo {
@@ -609,15 +610,17 @@ nav a {
   border-radius: 16px;
   text-decoration: none;
   color: inherit;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .card-turismo img {
   width: 100%;
-  height: 200px;
+  height: 180px;
   object-fit: cover;
   display: block;
-  border-radius: 16px 16px 0 0;
+  flex-shrink: 0;
 }
 
 .info {
@@ -629,6 +632,7 @@ nav a {
   font-weight: 700;
   color: #4d4d4d;
   margin-bottom: 6px;
+  overflow-wrap: break-word;
 }
 
 .info p {
@@ -636,6 +640,7 @@ nav a {
   color: #666;
   line-height: 1.5;
   font-size: 14px;
+  overflow-wrap: break-word;
 }
 
 .card-turismo:hover {
@@ -732,11 +737,6 @@ nav a {
   .decoracion-turismo img {
     margin-left: auto;
   }
-
-  .cards-turismo {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
 }
 
 /* Desktop+ */
@@ -747,6 +747,10 @@ nav a {
 
   .texto-turismo {
     margin-top: 80px;
+  }
+
+  .card-turismo img {
+    height: 110px;
   }
 
   .cards-turismo {
