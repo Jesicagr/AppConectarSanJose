@@ -113,7 +113,7 @@ nav a {
   display: block;
 }
 
-/* ========== HERO ========== */
+/* ========== HERO ======= */
 .hero {
   width: 100%;
   height: calc(100vh - 60px);
@@ -137,6 +137,88 @@ nav a {
   box-sizing: border-box;
 }
 
+.hero.redes-carousel {
+  padding: 60px 16px;
+  min-height: 500px;
+}
+
+.contenedor-texto {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: none;
+  max-width: 100%;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.hero.redes-carousel .contenedor-texto {
+  transform: translateX(-60px);
+}
+
+@media (max-width: 767px) {
+  .hero.redes-carousel .contenedor-texto {
+    transform: none;
+    margin-left: 40px;
+  }
+}
+
+.redes-container {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.red-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  width: 340px;
+  min-height: 500px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+}
+
+.red-card h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0057d8;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.red-card iframe {
+  width: 100% !important;
+  height: 500px !important;
+  flex: 1;
+  border-radius: 15px;
+  border: none;
+}
+
+.hero-imagen-link {
+  text-decoration: none;
+  display: block;
+}
+
+.hero-imagen-link:hover .imagen {
+  transform: scale(1.02);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero > * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 @media (max-width: 400px) {
   .hero {
     min-height: 460px;
@@ -149,11 +231,40 @@ nav a {
 }
 
 @media (max-width: 360px) {
-.hero {
-  max-width: 100%;
-  overflow-x: hidden;
-  padding-left: 12px;
-  padding-right: 12px;
+  .hero {
+    min-height: 400px;
+    padding: 40px 10px 20px;
+  }
+
+  .contenedor-texto {
+    transform: scale(0.78);
+  }
+
+  .hero-imagen-link {
+    position: relative;
+  }
+
+  .hero-imagen-link::before {
+    content: attr(data-title);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.18);
+    z-index: 10;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .hero-imagen-link .imagen {
+    position: relative;
+    width: min(85vw, 280px);
+    border-radius: 24px;
+  }
 }
 
   .contenedor-texto {
