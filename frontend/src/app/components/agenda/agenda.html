@@ -59,11 +59,11 @@
 
   <main class="lista-tarjetas">
     
-    <div *ngIf="actividadesFiltradas.length === 0" class="sin-actividades">
+    <div *ngIf="actividades.length === 0" class="sin-actividades">
       <p>No hay actividades programadas para este día.</p>
     </div>
 
-    <div *ngFor="let act of actividadesFiltradas" class="tarjeta-actividad" (click)="abrirDetalle(act)">
+    <div *ngFor="let act of actividadesMostradas" class="tarjeta-actividad" (click)="abrirDetalle(act)">
       <div class="tarjeta-header">
         <h3 class="titulo-actividad">{{ act.titulo }}</h3>
         <span class="badge-sede" *ngIf="act.sede">{{ act.sede.nombre }}</span>
@@ -85,6 +85,12 @@
           <a [href]="addressLink(act.sede.direccion)" target="_blank" rel="noopener" class="link-item" (click)="$event.stopPropagation()">{{ act.sede.direccion }}</a>
         </div>
       </div>
+    </div>
+
+    <div class="ver-mas-wrapper" *ngIf="hayMasActividades">
+      <button class="btn-ver-mas" (click)="cargarMas()" type="button">
+        Ver más actividades
+      </button>
     </div>
 
   </main>

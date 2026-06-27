@@ -533,16 +533,36 @@ nav a {
   font-weight: 800;
 }
 
+.titulo-turismo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: normal;
+}
+
+.linea2 {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.san-jose-texto {
+  white-space: nowrap;
+}
+
 .texto-turismo span {
   color: #9acb92;
 }
 
-.decoracion-turismo img {
-  width: clamp(80px, 20vw, 200px);
-  display: block;
-  margin: 10px auto;
-  position: static;
-  top: auto;
+.corazon-inline {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+  margin-top: -90px;
+}
+
+.texto-turismo .linea1 {
+  color: #444;
 }
 
 .texto-turismo p {
@@ -733,10 +753,6 @@ nav a {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
-
-  .decoracion-turismo img {
-    margin-left: auto;
-  }
 }
 
 /* Desktop+ */
@@ -756,6 +772,7 @@ nav a {
   .cards-turismo {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    margin-top: 180px;
   }
 }
 /* ========== CONTACTO ========== */
