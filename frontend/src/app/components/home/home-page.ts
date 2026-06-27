@@ -36,11 +36,13 @@ export class HomePage implements OnInit {
   mostrarModalAyuda: boolean = false;
   contactosEmergencia: Contacto[] = [];
   whatsappFlotanteNumero: string = '';
+  whatsappFlotanteLabel: string = '';
 
   constructor(private contactoService: ContactoService) {}
 
   ngOnInit(): void {
     this.whatsappFlotanteNumero = this.contactoService.getWhatsappFlotanteNumero();
+    this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
     this.contactoService.obtenerTodos().subscribe({
       next: (contactos) => {
         setTimeout(() => {

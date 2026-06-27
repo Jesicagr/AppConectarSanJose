@@ -37,6 +37,7 @@ export class ContactsPage implements OnInit {
   editId: number | null = null;
   saving = false;
   whatsappFlotanteNumero = '';
+  whatsappFlotanteLabel = '';
 
   iconos = [
     { icono: 'local_police', label: 'Policía' },
@@ -68,6 +69,7 @@ export class ContactsPage implements OnInit {
 
   ngOnInit(): void {
     this.whatsappFlotanteNumero = this.contactoService.getWhatsappFlotanteNumero();
+    this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
     this.contactoService.obtenerTodos().subscribe({
       next: (data) => {
         this.contactsBackend = data;
@@ -230,6 +232,10 @@ export class ContactsPage implements OnInit {
 
   onWhatsappFlotanteChange(): void {
     this.contactoService.setWhatsappFlotanteNumero(this.whatsappFlotanteNumero);
+  }
+
+  onWhatsappFlotanteLabelChange(): void {
+    this.contactoService.setWhatsappFlotanteLabel(this.whatsappFlotanteLabel);
   }
 
   get whatsappHabilitado(): boolean {
