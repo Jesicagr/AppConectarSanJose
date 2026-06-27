@@ -649,6 +649,15 @@ nav a {
   align-items: center;
   gap: 12px;
   margin: 30px auto 0;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.frase-final:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
 }
 
 @media (max-width: 400px) {
