@@ -140,6 +140,441 @@ nav a {
 .hero.redes-carousel {
   padding: 60px 16px;
   min-height: 500px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contenedor-texto {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: none;
+  max-width: 100%;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.hero.redes-carousel .contenedor-texto {
+  transform: translateX(-60px);
+}
+
+@media (max-width: 767px) {
+  .hero.redes-carousel .contenedor-texto {
+    transform: none;
+    margin-left: 40px;
+  }
+}
+
+.redes-container {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.red-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  width: 340px;
+  min-height: 500px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+}
+
+.red-card h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0057d8;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.red-card iframe {
+  width: 100% !important;
+  height: 500px !important;
+  flex: 1;
+  border-radius: 15px;
+  border: none;
+}
+
+.hero-imagen-link {
+  text-decoration: none;
+  display: block;
+}
+
+.hero-imagen-link:hover .imagen {
+  transform: scale(1.02);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Carousel Navigation Styles */
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 50%;
+  border: 2px solid #0057d8;
+  color: #0057d8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.carousel-nav:hover {
+  background: #0057d8;
+  color: white;
+}
+
+.carousel-nav.prev {
+  left: 20px;
+}
+
+.carousel-nav.next {
+  right: 20px;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d0d0d0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #0057d8;
+  width: 24px;
+  border-radius: 12px;
+}
+
+.dot:hover {
+  background: #71e0dd;
+}
+
+/* Mobile responsive carousel navigation */
+@media (max-width: 767px) {
+  .carousel-nav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .carousel-nav.prev {
+    left: 10px;
+  }
+
+  .carousel-nav.next {
+    right: 10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .dot.active {
+    width: 20px;
+  }
+}
+
+/* Ensure carousel content doesn't overflow */
+.hero.redes-carousel .redes-container {
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 50px;
+  padding: 0 60px;
+  scrollbar-width: none;
+  margin: 0 auto;
+}
+
+.hero.redes-carousel .red-card {
+  scroll-snap-align: center;
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+  .hero.redes-carousel .contenedor-texto {
+    margin-left: 0;
+    transform: scale(0.8);
+  }
+
+  .redes-container {
+    padding: 10px;
+  }
+
+  .red-card {
+    width: 100%;
+    min-height: 400px;
+  }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .hero.redes-carousel .contenedor-texto {
+    transform: translateX(-60px);
+  }
+}
+
+/* ========== AYUDA ========= */
+.ayuda {
+  width: 100%;
+  padding: 40px 16px;
+  background: #f8f8f8;
+}
+
+.contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.texto-ayuda {
+  width: 100%;
+  max-width: 520px;
+}
+
+.hero > * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.hero.redes-carousel {
+  padding: 60px 16px;
+  min-height: 500px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contenedor-texto {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: none;
+  max-width: 100%;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.hero.redes-carousel .contenedor-texto {
+  transform: translateX(-60px);
+}
+
+@media (max-width: 767px) {
+  .hero.redes-carousel .contenedor-texto {
+    transform: none;
+    margin-left: 40px;
+  }
+}
+
+.redes-container {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.red-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  width: 340px;
+  min-height: 500px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+}
+
+.red-card h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0057d8;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.red-card iframe {
+  width: 100% !important;
+  height: 500px !important;
+  flex: 1;
+  border-radius: 15px;
+  border: none;
+}
+
+.hero-imagen-link {
+  text-decoration: none;
+  display: block;
+}
+
+.hero-imagen-link:hover .imagen {
+  transform: scale(1.02);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Carousel Navigation Styles */
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 50%;
+  border: 2px solid #0057d8;
+  color: #0057d8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.carousel-nav:hover {
+  background: #0057d8;
+  color: white;
+}
+
+.carousel-nav.prev {
+  left: 20px;
+}
+
+.carousel-nav.next {
+  right: 20px;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d0d0d0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #0057d8;
+  width: 24px;
+  border-radius: 12px;
+}
+
+.dot:hover {
+  background: #71e0dd;
+}
+
+/* Mobile responsive carousel navigation */
+@media (max-width: 767px) {
+  .carousel-nav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .carousel-nav.prev {
+    left: 10px;
+  }
+
+  .carousel-nav.next {
+    right: 10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .dot.active {
+    width: 20px;
+  }
+}
+
+/* Ensure carousel content doesn't overflow */
+.hero.redes-carousel .redes-container {
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 50px;
+  padding: 0 60px;
+  scrollbar-width: none;
+  margin: 0 auto;
+}
+
+.hero.redes-carousel .red-card {
+  scroll-snap-align: center;
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+  .hero.redes-carousel .contenedor-texto {
+    margin-left: 0;
+    transform: scale(0.8);
+  }
+
+  .redes-container {
+    padding: 10px;
+  }
+
+  .red-card {
+    width: 100%;
+    min-height: 400px;
+  }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .hero.redes-carousel .contenedor-texto {
+    transform: translateX(-60px);
+  }
+}
+
+.hero > * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.hero.redes-carousel {
+  padding: 60px 16px;
+  min-height: 500px;
 }
 
 .contenedor-texto {
@@ -337,9 +772,161 @@ nav a {
 
 @media (max-width: 360px) {
   .hero {
-    min-height: 400px;
-    padding: 40px 10px 20px;
+    height: auto;
+    min-height: auto;
+    padding: 80px 12px 40px;
+    flex-direction: column;
+    min-height: 550px;
+    height: calc(100vh - 80px);
   }
+
+  .contenedor-texto {
+    transform: scale(1);
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .hero.redes-carousel .contenedor-texto {
+    transform: none;
+    margin-left: 40px;
+  }
+
+  .redes-container {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    flex-wrap: wrap;
+  }
+
+  .red-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 340px;
+    min-height: 500px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .red-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0057d8;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .red-card iframe {
+    width: 100% !important;
+    height: 500px !important;
+    flex: 1;
+    border-radius: 15px;
+    border: none;
+  }
+
+  .carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    border: 2px solid #0057d8;
+    color: #0057d8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .carousel-nav:hover {
+    background: #0057d8;
+    color: white;
+  }
+
+  .carousel-nav.prev {
+    left: 20px;
+  }
+
+  .carousel-nav.next {
+    right: 20px;
+  }
+
+  .carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #d0d0d0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .dot.active {
+    background: #0057d8;
+    width: 24px;
+    border-radius: 12px;
+  }
+
+  .dot:hover {
+    background: #71e0dd;
+  }
+
+  @media (max-width: 767px) {
+    .carousel-nav {
+      width: 40px;
+      height: 40px;
+    }
+
+    .carousel-nav.prev {
+      left: 10px;
+    }
+
+    .carousel-nav.next {
+      right: 10px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+    }
+
+    .dot.active {
+      width: 20px;
+    }
+  }
+
+  .hero.redes-carousel .redes-container {
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 50px;
+    padding: 0 60px;
+    scrollbar-width: none;
+    margin: 0 auto;
+  }
+
+  .hero.redes-carousel .red-card {
+    scroll-snap-align: center;
+  }
+}
 
   .contenedor-texto {
     transform: scale(0.78);
