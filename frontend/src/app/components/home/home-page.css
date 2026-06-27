@@ -608,6 +608,9 @@ nav a {
   border: 2px solid #eee3d7;
   overflow: hidden;
   border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .card-turismo img {
