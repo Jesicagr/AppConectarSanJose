@@ -1314,11 +1314,52 @@ nav a {
 }
 
 /* ========== WHATSAPP FLOATING BUTTON ========== */
-.whatsapp-float {
+.whatsapp-wrapper {
   position: fixed;
   bottom: 20px;
   right: 16px;
   z-index: 9998;
+  display: flex;
+  align-items: center;
+}
+
+.whatsapp-chip {
+  background: rgba(0,0,0,0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  padding: 7px 14px;
+  margin-right: 6px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  pointer-events: none;
+}
+
+@media (max-width: 575px) {
+  .whatsapp-chip {
+    animation: hide-pill 14s ease forwards;
+    overflow: hidden;
+  }
+}
+
+@keyframes hide-pill {
+  0%, 70% { opacity: 1; max-width: 200px; padding: 7px 14px; margin-right: 6px; border-width: 1px; }
+  85% { opacity: 0; max-width: 200px; padding: 7px 14px; margin-right: 6px; border-width: 1px; }
+  100% { opacity: 0; max-width: 0; padding: 0; margin-right: 0; border-width: 0; }
+}
+
+.whatsapp-chip span {
+  color: rgba(255,255,255,0.85);
+  font-size: 11px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.whatsapp-float {
   width: 56px;
   height: 56px;
   border-radius: 50%;
@@ -1331,6 +1372,7 @@ nav a {
   transition: transform 0.2s, box-shadow 0.2s;
   animation: pulse-wa 2s infinite;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .whatsapp-float:hover {
@@ -1354,9 +1396,18 @@ nav a {
 }
 
 @media (min-width: 576px) {
-  .whatsapp-float {
+  .whatsapp-wrapper {
     bottom: 28px;
     right: 24px;
+  }
+  .whatsapp-chip {
+    padding: 8px 16px;
+    margin-right: 8px;
+  }
+  .whatsapp-chip span {
+    font-size: 12px;
+  }
+  .whatsapp-float {
     width: 60px;
     height: 60px;
   }
