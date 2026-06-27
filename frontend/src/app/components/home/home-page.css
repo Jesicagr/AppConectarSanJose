@@ -214,6 +214,111 @@ nav a {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Carousel Navigation Styles */
+.hero.redes-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 50%;
+  border: 2px solid #0057d8;
+  color: #0057d8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.carousel-nav:hover {
+  background: #0057d8;
+  color: white;
+}
+
+.carousel-nav.prev {
+  left: 20px;
+}
+
+.carousel-nav.next {
+  right: 20px;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d0d0d0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #0057d8;
+  width: 24px;
+  border-radius: 12px;
+}
+
+.dot:hover {
+  background: #71e0dd;
+}
+
+/* Mobile responsive carousel navigation */
+@media (max-width: 767px) {
+  .carousel-nav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .carousel-nav.prev {
+    left: 10px;
+  }
+
+  .carousel-nav.next {
+    right: 10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .dot.active {
+    width: 20px;
+  }
+}
+
+/* Ensure carousel content doesn't overflow */
+.hero.redes-carousel .redes-container {
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 50px;
+  padding: 0 60px;
+  scrollbar-width: none;
+  margin: 0 auto;
+}
+
+.hero.redes-carousel .red-card {
+  scroll-snap-align: center;
+}
+
 .hero > * {
   max-width: 100%;
   box-sizing: border-box;
