@@ -746,14 +746,7 @@ nav a {
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
   }
-
-  .card-turismo {
-    height: 310px;
-  }
 }
-
-
-
 /* ========== CONTACTO ========== */
 .contacto {
   background: linear-gradient(135deg, #b8efe7 0%, #dce8f6 100%);
