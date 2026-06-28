@@ -151,7 +151,6 @@ nav a {
   align-items: center;
   transform: none;
   max-width: 100%;
-  overflow: hidden;
   margin-top: 20px;
 }
 
@@ -378,7 +377,6 @@ nav a {
   align-items: center;
   transform: none;
   max-width: 100%;
-  overflow: hidden;
   margin-top: 20px;
 }
 
@@ -584,7 +582,6 @@ nav a {
   align-items: center;
   transform: none;
   max-width: 100%;
-  overflow: hidden;
   margin-top: 20px;
 }
 
@@ -935,7 +932,6 @@ nav a {
   align-items: center;
   transform: none;
   max-width: 100%;
-  overflow: hidden;
 }
 
 .gotas-left,
@@ -2254,7 +2250,11 @@ nav a {
 /* Instagram post from scraper */
 .instagram-post-wrapper {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   animation: fadeIn 0.5s ease;
+  min-height: 500px;
 }
 
 .instagram-post-link {
@@ -2306,6 +2306,29 @@ nav a {
   color: #71e0dd;
   font-weight: 600;
   margin-top: 4px;
+}
+
+/* Facebook card clean-up */
+.red-card:has(.facebook-embed) {
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+
+
+.red-card:has(.facebook-embed) h3 {
+  display: none;
+}
+
+.facebook-embed iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 500px;
+  border-radius: 20px;
+  display: block;
 }
 
 /* ========== WHATSAPP FLOATING BUTTON ========== */
