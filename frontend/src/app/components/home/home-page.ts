@@ -143,14 +143,24 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   nextSlide(): void {
     this.currentSlide = this.currentSlide >= 1 ? 0 : this.currentSlide + 1;
+    this.resetCarouselTimer();
   }
 
   prevSlide(): void {
     this.currentSlide = this.currentSlide <= 0 ? 1 : this.currentSlide - 1;
+    this.resetCarouselTimer();
   }
 
   goToSlide(index: number): void {
     this.currentSlide = index;
+    this.resetCarouselTimer();
+  }
+
+  private resetCarouselTimer(): void {
+    if (this.carouselTimer) {
+      clearInterval(this.carouselTimer);
+    }
+    this.carouselTimer = setInterval(() => this.nextSlide(), 6000);
   }
 
   toggleMenu(): void {

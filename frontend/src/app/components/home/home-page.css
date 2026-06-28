@@ -220,32 +220,48 @@ nav a {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  background: white;
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
-  border: 2px solid #0057d8;
   color: #0057d8;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 87, 216, 0.15);
+  user-select: none;
 }
 
 .carousel-nav:hover {
-  background: #0057d8;
-  color: white;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 30px rgba(0, 87, 216, 0.25);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.carousel-nav:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.carousel-nav svg {
+  transition: transform 0.2s ease;
+}
+
+.carousel-nav:hover svg {
+  transform: scale(1.1);
 }
 
 .carousel-nav.prev {
-  left: 20px;
+  left: 24px;
 }
 
 .carousel-nav.next {
-  right: 20px;
+  right: 24px;
 }
 
 .carousel-dots {
@@ -280,16 +296,16 @@ nav a {
 /* Mobile responsive carousel navigation */
 @media (max-width: 767px) {
   .carousel-nav {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
 
   .carousel-nav.prev {
-    left: 10px;
+    left: 12px;
   }
 
   .carousel-nav.next {
-    right: 10px;
+    right: 12px;
   }
 
   .dot {
@@ -446,32 +462,48 @@ nav a {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  background: white;
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
-  border: 2px solid #0057d8;
   color: #0057d8;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 87, 216, 0.15);
+  user-select: none;
 }
 
 .carousel-nav:hover {
-  background: #0057d8;
-  color: white;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 30px rgba(0, 87, 216, 0.25);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.carousel-nav:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.carousel-nav svg {
+  transition: transform 0.2s ease;
+}
+
+.carousel-nav:hover svg {
+  transform: scale(1.1);
 }
 
 .carousel-nav.prev {
-  left: 20px;
+  left: 24px;
 }
 
 .carousel-nav.next {
-  right: 20px;
+  right: 24px;
 }
 
 .carousel-dots {
@@ -506,16 +538,16 @@ nav a {
 /* Mobile responsive carousel navigation */
 @media (max-width: 767px) {
   .carousel-nav {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
 
   .carousel-nav.prev {
-    left: 10px;
+    left: 12px;
   }
 
   .carousel-nav.next {
-    right: 10px;
+    right: 12px;
   }
 
   .dot {
@@ -656,32 +688,48 @@ nav a {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  background: white;
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
-  border: 2px solid #0057d8;
   color: #0057d8;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 87, 216, 0.15);
+  user-select: none;
 }
 
 .carousel-nav:hover {
-  background: #0057d8;
-  color: white;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 30px rgba(0, 87, 216, 0.25);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.carousel-nav:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.carousel-nav svg {
+  transition: transform 0.2s ease;
+}
+
+.carousel-nav:hover svg {
+  transform: scale(1.1);
 }
 
 .carousel-nav.prev {
-  left: 20px;
+  left: 24px;
 }
 
 .carousel-nav.next {
-  right: 20px;
+  right: 24px;
 }
 
 .carousel-dots {
@@ -716,16 +764,16 @@ nav a {
 /* Mobile responsive carousel navigation */
 @media (max-width: 767px) {
   .carousel-nav {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
 
   .carousel-nav.prev {
-    left: 10px;
+    left: 12px;
   }
 
   .carousel-nav.next {
-    right: 10px;
+    right: 12px;
   }
 
   .dot {
@@ -2103,8 +2151,8 @@ nav a {
 
 /* Carousel slides */
 .carousel-slide {
-  display: none;
   width: 100%;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -2113,6 +2161,18 @@ nav a {
 
 .carousel-slide.active {
   display: flex;
+  animation: slideFadeIn 0.45s ease both;
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .carousel-slide + .carousel-slide .contenedor-texto {
@@ -2203,7 +2263,6 @@ nav a {
   flex: 1;
   padding: 30px 20px;
   transition: transform 0.3s ease;
-  animation: fadeIn 0.5s ease;
 }
 
 .instagram-link:hover {
@@ -2253,8 +2312,14 @@ nav a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  animation: fadeIn 0.5s ease;
   min-height: 500px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  border-radius: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.instagram-post-wrapper:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
 }
 
 .instagram-post-link {
@@ -2263,6 +2328,8 @@ nav a {
   text-decoration: none;
   color: inherit;
   position: relative;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .instagram-post-image {
@@ -2270,6 +2337,11 @@ nav a {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
+  transition: transform 0.4s ease;
+}
+
+.instagram-post-link:hover .instagram-post-image {
+  transform: scale(1.03);
 }
 
 .instagram-post-overlay {
@@ -2277,18 +2349,33 @@ nav a {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent 10%, rgba(0,0,0,0.75));
-  padding: 40px 16px 16px;
+  background: linear-gradient(transparent 10%, rgba(0,0,0,0.7));
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 40px 20px 18px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .post-account-name {
   font-family: 'Montserrat', sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.post-account-name::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e4405f;
+  flex-shrink: 0;
 }
 
 .post-caption {
@@ -2298,14 +2385,20 @@ nav a {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 .post-open-link {
   font-size: 12px;
   color: #71e0dd;
   font-weight: 600;
-  margin-top: 4px;
+  margin-top: 2px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.post-open-link:hover {
+  opacity: 1;
 }
 
 /* Facebook card clean-up */
@@ -2313,21 +2406,30 @@ nav a {
   padding: 0;
   border: none;
   background: none;
-  box-shadow: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  border-radius: 20px;
   overflow: hidden;
+  transition: box-shadow 0.3s ease;
 }
 
-
+.red-card:has(.facebook-embed):hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+}
 
 .red-card:has(.facebook-embed) h3 {
   display: none;
+}
+
+.facebook-embed {
+  display: flex;
+  height: 100%;
+  min-height: 500px;
 }
 
 .facebook-embed iframe {
   width: 100% !important;
   height: 100% !important;
   min-height: 500px;
-  border-radius: 20px;
   display: block;
 }
 
