@@ -17,10 +17,11 @@
 </header>
 
 <section id="inicio" class="hero redes-carousel">
-  <div class="carousel-slide active">
-    <div class="contenedor-texto">
-      <img src="gotas.png" class="decoracion">
+  <img src="gotas.png" class="gotas-left">
+  <img src="gotas.png" class="gotas-right">
 
+  <div class="carousel-slide" [class.active]="currentSlide === 0">
+    <div class="contenedor-texto">
       <div class="texto">
         <h1>DESCUBRÍ</h1>
 
@@ -37,51 +38,65 @@
     </a>
   </div>
 
-  <div class="carousel-slide">
-    <div class="redes-carousel-container">
-      <div class="redes-carousel-content">
-        <div class="contenedor-texto redes-texto">
-          <img src="gotas.png" class="decoracion redes-decoracion">
+  <div class="carousel-slide" [class.active]="currentSlide === 1">
+    <div class="contenedor-texto">
+      <div class="texto">
+        <h1>SEGUINOS EN</h1>
 
-          <div class="texto">
-            <h1>SÍGANOS EN</h1>
+        <p class="subtitulo">nuestras redes</p>
 
-            <p class="subtitulo">nuestras redes</p>
+        <h2>SOCIALES</h2>
+      </div>
+    </div>
 
-            <h2>SOCIALES</h2>
-
-            <p class="subtitulo2">municipalidadsj</p>
-          </div>
-        </div>
-
-        <div class="redes-container">
-          <div class="red-card">
+    <div class="redes-container">
+          <div class="red-card redes-ig">
             <h3>Instagram</h3>
-            <iframe src="https://www.instagram.com/sanjosesi/widgets/podcast/" title="Instagram Widget" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
-          </div>
-          <div class="red-card">
-            <h3>Facebook</h3>
-            <div class="facebook-embed">
-              <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fsanjosesi&tabs=timeline&width=340&height=500&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false" title="Facebook Page Embed" frameborder="0" scrolling="no" allowfullscreen="true" allow="autoplay; encrypted-media; picture-in-picture" width="340" height="500"></iframe>
+            <ng-template #igCard>
+              <a [href]="currentAccount.url" target="_blank" rel="noopener" class="instagram-link">
+                <div class="instagram-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                  </svg>
+                </div>
+                <div class="instagram-info">
+                  <span class="instagram-label">{{ currentAccount.label }}</span>
+                  <span class="instagram-handle">@{{ currentAccount.username }}</span>
+                </div>
+              </a>
+            </ng-template>
+            <div *ngIf="currentPost; else igCard" class="instagram-post-wrapper">
+              <a [href]="currentPost.postUrl" target="_blank" rel="noopener" class="instagram-post-link">
+                <img [src]="currentPost.imageUrl" [alt]="currentPost.caption" class="instagram-post-image" referrerpolicy="no-referrer">
+                <div class="instagram-post-overlay">
+                  <span class="post-account-name">{{ currentAccount.label }}</span>
+                  <span class="post-caption">{{ currentPost.caption }}</span>
+                  <span class="post-open-link">Abrir en Instagram</span>
+                </div>
+              </a>
             </div>
           </div>
+      <div class="red-card">
+        <h3>Facebook</h3>
+        <div class="facebook-embed">
+          <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fmunisanjoseer&tabs=timeline&width=340&height=500&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false" title="Facebook Page Embed" frameborder="0" scrolling="no" allowfullscreen="true" allow="autoplay; encrypted-media; picture-in-picture" width="340" height="500"></iframe>
         </div>
       </div>
     </div>
   </div>
 
   <div class="carousel-dots">
-    <span class="dot active" data-slide="0"></span>
-    <span class="dot" data-slide="1"></span>
+    <span class="dot" [class.active]="currentSlide === 0" (click)="goToSlide(0)"></span>
+    <span class="dot" [class.active]="currentSlide === 1" (click)="goToSlide(1)"></span>
   </div>
 
-  <div class="carousel-nav prev">
+  <div class="carousel-nav prev" (click)="prevSlide()">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M15 18l-6-6 6-6"/>
     </svg>
   </div>
 
-  <div class="carousel-nav next">
+  <div class="carousel-nav next" (click)="nextSlide()">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M9 18l6-6-6-6"/>
     </svg>
@@ -91,76 +106,7 @@
     <div class="carousel-progress-fill"></div>
   </div>
 
-  <script>
-    function scrollToSection(sectionId) {
-      const header = document.querySelector('header');
-      const headerHeight = header ? header.offsetHeight : 0;
-      const targetSection = document.getElementById(sectionId);
-      
-      if (targetSection) {
-        const targetPosition = targetSection.offsetTop - headerHeight - 10;
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        });
-      }
-    }
-
-    function initCarousel() {
-      let currentSlide = 0;
-      const slides = document.querySelectorAll('.carousel-slide');
-      const dots = document.querySelectorAll('.dot');
-      const prevBtn = document.querySelector('.carousel-nav.prev');
-      const nextBtn = document.querySelector('.carousel-nav.next');
-      
-      function showSlide(index) {
-        slides.forEach((slide, i) => {
-          if (i === index) {
-            slide.classList.add('active');
-          } else {
-            slide.classList.remove('active');
-          }
-        });
-        
-        dots.forEach((dot, i) => {
-          if (i === index) {
-            dot.classList.add('active');
-          } else {
-            dot.classList.remove('active');
-          }
-        });
-        
-        currentSlide = index;
-      }
-      
-      function nextSlide() {
-        let next = currentSlide + 1;
-        if (next >= slides.length) next = 0;
-        showSlide(next);
-      }
-      
-      function prevSlide() {
-        let prev = currentSlide - 1;
-        if (prev < 0) prev = slides.length - 1;
-        showSlide(prev);
-      }
-      
-      if (prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', prevSlide);
-        nextBtn.addEventListener('click', nextSlide);
-      }
-      
-      dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-          showSlide(index);
-        });
-      });
-      
-      window.carouselTimeout = setInterval(nextSlide, 6000);
-    }
-    
-    window.addEventListener('load', initCarousel);
-  </script>
+  
 
 </section>
 

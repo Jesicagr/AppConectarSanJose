@@ -928,47 +928,6 @@ nav a {
   }
 }
 
-  .contenedor-texto {
-    transform: scale(0.78);
-  }
-
-  .hero-imagen-link {
-    position: relative;
-  }
-
-  .hero-imagen-link::before {
-    content: attr(data-title);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    font-weight: 700;
-    text-shadow: 2px 2px 0 rgba(0,0,0,0.18);
-    z-index: 10;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .hero-imagen-link .imagen {
-    position: relative;
-    width: min(85vw, 280px);
-    border-radius: 24px;
-  }
-}
-
-  .contenedor-texto {
-    transform: scale(0.78);
-  }
-
-  .imagen {
-    width: min(85vw, 280px);
-    border-radius: 24px;
-  }
-}
-
 .contenedor-texto {
   position: relative;
   display: flex;
@@ -979,48 +938,37 @@ nav a {
   overflow: hidden;
 }
 
-.decoracion {
+.gotas-left,
+.gotas-right {
   position: absolute;
-  z-index: 1;
+  top: 10%;
+  height: 80%;
+  width: 70px;
+  z-index: 5;
   pointer-events: none;
-  width: min(200vw, 1000px);
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 1;
+  object-fit: cover;
+  object-position: center;
+}
+
+.gotas-left {
+  left: 0;
+}
+
+.gotas-right {
+  right: 0;
+}
+
+@media (min-width: 576px) {
+  .gotas-left,
+  .gotas-right {
+    width: 120px;
+  }
 }
 
 @media (max-width: 575px) {
-  .decoracion {
-    display: none;
-  }
-
   .contenedor-texto {
     transform: scale(0.85);
     transform-origin: center;
-  }
-
-  .hero::before,
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: 10%;
-    height: 80%;
-    width: 70px;
-    z-index: 5;
-    pointer-events: none;
-    background: url('/gotas.png') no-repeat center center / cover;
-    opacity: 1;
-  }
-
-  .hero::before {
-    left: 0;
-    background-position: right center;
-  }
-
-  .hero::after {
-    right: 0;
-    background-position: left center;
   }
 }
 
@@ -2155,6 +2103,209 @@ nav a {
   .corazon-inline {
     margin-top: -12px;
   }
+}
+
+/* Carousel slides */
+.carousel-slide {
+  display: none;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+}
+
+.carousel-slide.active {
+  display: flex;
+}
+
+.carousel-slide + .carousel-slide .contenedor-texto {
+  padding-left: 50px;
+}
+
+@media (min-width: 576px) {
+  .carousel-slide {
+    padding: 30px 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .carousel-slide.active {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 40px;
+  }
+
+  .carousel-slide.active .contenedor-texto {
+    flex: 0 1 auto;
+    text-align: center;
+    transform: none;
+    margin: 0;
+    max-width: 40%;
+  }
+
+  .carousel-slide.active .hero-imagen-link,
+  .carousel-slide.active .redes-container {
+    flex: 0 1 auto;
+    max-width: 50%;
+  }
+
+  .carousel-slide.active .redes-container {
+    flex-wrap: nowrap;
+    gap: 20px;
+    padding: 0;
+  }
+
+  .carousel-slide + .carousel-slide .contenedor-texto {
+    padding-left: 60px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .carousel-slide.active {
+    gap: 60px;
+    padding: 40px 80px;
+  }
+
+  .carousel-slide.active .contenedor-texto {
+    max-width: 35%;
+  }
+
+  .carousel-slide + .carousel-slide .contenedor-texto {
+    padding-left: 80px;
+  }
+}
+
+/* Instagram rotating card */
+.redes-ig {
+  flex: 1;
+  min-height: 200px;
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fff1f2 100%);
+  overflow: hidden;
+}
+
+.redes-ig:has(.instagram-post-wrapper) {
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.redes-ig:has(.instagram-post-wrapper) h3 {
+  display: none;
+}
+
+.instagram-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+  padding: 30px 20px;
+  transition: transform 0.3s ease;
+  animation: fadeIn 0.5s ease;
+}
+
+.instagram-link:hover {
+  transform: scale(1.03);
+}
+
+.instagram-icon {
+  color: #e4405f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(228, 64, 95, 0.1);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
+.instagram-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.instagram-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+}
+
+.instagram-handle {
+  font-size: 15px;
+  color: #0057d8;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.4; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Instagram post from scraper */
+.instagram-post-wrapper {
+  flex: 1;
+  animation: fadeIn 0.5s ease;
+}
+
+.instagram-post-link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+
+.instagram-post-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.instagram-post-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent 10%, rgba(0,0,0,0.75));
+  padding: 40px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.post-account-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.post-caption {
+  font-size: 13px;
+  color: rgba(255,255,255,0.9);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+.post-open-link {
+  font-size: 12px;
+  color: #71e0dd;
+  font-weight: 600;
+  margin-top: 4px;
 }
 
 /* ========== WHATSAPP FLOATING BUTTON ========== */
