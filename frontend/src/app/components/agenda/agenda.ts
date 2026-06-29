@@ -23,6 +23,7 @@ interface DiaAgenda {
 export class AgendaComponent implements OnInit {
   
   actividades: Actividad[] = [];
+  cargandoActividades = false;
   renderCount = 5;
   readonly PAGE_SIZE = 5;
 
@@ -72,16 +73,19 @@ export class AgendaComponent implements OnInit {
   };
 
   cargarActividadesDelDia(): void {
+    this.cargandoActividades = true;
     const diaStr = this.mapJsDiaAString[this.diaSeleccionado.fechaCompleta.getDay()];
     this.actividadService.obtenerPorDiaSemana(diaStr).subscribe({
       next: (data) => {
         this.actividades = data;
         this.renderCount = this.PAGE_SIZE;
+        this.cargandoActividades = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('[ConectarSanJose] ERROR Error al cargar actividades del día:', err);
         this.actividades = [];
+        this.cargandoActividades = false;
         this.cdr.detectChanges();
       }
     });

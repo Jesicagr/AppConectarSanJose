@@ -17,11 +17,10 @@
 </header>
 
 <section id="inicio" class="hero redes-carousel">
-  <img src="gotas.png" class="gotas-left">
-  <img src="gotas.png" class="gotas-right">
 
   <div class="carousel-slide" [class.active]="currentSlide === 0">
     <div class="contenedor-texto">
+      <img src="gotas.png" class="decoracion">
       <div class="texto">
         <h1>DESCUBRÍ</h1>
 
@@ -49,39 +48,21 @@
       </div>
     </div>
 
-    <div class="redes-container">
-          <div class="red-card redes-ig">
-            <h3>Instagram</h3>
-            <ng-template #igCard>
-              <a [href]="currentAccount.url" target="_blank" rel="noopener" class="instagram-link">
-                <div class="instagram-icon">
-                  <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                  </svg>
-                </div>
-                <div class="instagram-info">
-                  <span class="instagram-label">{{ currentAccount.label }}</span>
-                  <span class="instagram-handle">@{{ currentAccount.username }}</span>
-                </div>
-              </a>
-            </ng-template>
-            <div *ngIf="currentPost; else igCard" class="instagram-post-wrapper">
-              <a [href]="currentPost.postUrl" target="_blank" rel="noopener" class="instagram-post-link">
-                <img [src]="currentPost.imageUrl" [alt]="currentPost.caption" class="instagram-post-image" referrerpolicy="no-referrer">
-                <div class="instagram-post-overlay">
-                  <span class="post-account-name">{{ currentAccount.label }}</span>
-                  <span class="post-caption">{{ currentPost.caption }}</span>
-                  <span class="post-open-link">Abrir en Instagram</span>
-                </div>
-              </a>
-            </div>
+    <div class="hero-insta-grid">
+      <a *ngFor="let acc of instagramAccounts"
+         class="hero-insta-card"
+         [href]="acc.url"
+         target="_blank"
+         rel="noopener">
+        <div class="hero-insta-thumb">
+          <img *ngIf="acc.post?.imageUrl" [src]="acc.post?.imageUrl" [alt]="acc.label" loading="lazy">
+          <div class="hero-insta-fallback" *ngIf="!acc.post?.imageUrl">
+            <span>📷</span>
           </div>
-      <div class="red-card">
-        <h3>Facebook</h3>
-        <div class="facebook-embed">
-          <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fmunisanjoseer&tabs=timeline&width=340&height=500&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false" title="Facebook Page Embed" frameborder="0" scrolling="no" allowfullscreen="true" allow="autoplay; encrypted-media; picture-in-picture" width="340" height="500"></iframe>
+          <div class="hero-insta-overlay"></div>
+          <span class="hero-insta-label">{{ acc.label }}</span>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 

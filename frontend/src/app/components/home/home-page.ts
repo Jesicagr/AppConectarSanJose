@@ -46,12 +46,11 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   whatsappFlotanteNumero: string = '';
   whatsappFlotanteLabel: string = '';
   currentSlide: number = 0;
-  currentInstagram: number = 0;
   instagramPostsLoaded: boolean = false;
   private carouselTimer: any;
-  private instagramTimer: any;
 
   instagramAccounts: InstaAccount[] = [
+    { label: 'Municipalidad', username: 'munisanjoseer', url: 'https://www.instagram.com/munisanjoseer' },
     { label: 'Mujeres, Género y Diversidad', username: 'sjmujeresgenerodiversidad', url: 'https://www.instagram.com/sjmujeresgenerodiversidad' },
     { label: 'Salud y Bienestar Social', username: 'sjsaludybienestarsocial', url: 'https://www.instagram.com/sjsaludybienestarsocial' },
     { label: 'Área de Inclusión', username: 'sjareadeinclusion', url: 'https://www.instagram.com/sjareadeinclusion' },
@@ -62,14 +61,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     { label: 'Educación', username: 'sjeducacion', url: 'https://www.instagram.com/sjeducacion' },
     { label: 'Área de Juventudes', username: 'sjareadejuventudes', url: 'https://www.instagram.com/sjareadejuventudes' },
   ];
-
-  get currentAccount(): InstaAccount {
-    return this.instagramAccounts[this.currentInstagram];
-  }
-
-  get currentPost(): InstagramPost | undefined {
-    return this.currentAccount?.post;
-  }
 
   constructor(
     private contactoService: ContactoService,
@@ -127,17 +118,11 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.carouselTimer = setInterval(() => this.nextSlide(), 6000);
-    this.instagramTimer = setInterval(() => {
-      this.currentInstagram = (this.currentInstagram + 1) % this.instagramAccounts.length;
-    }, 10000);
   }
 
   ngOnDestroy(): void {
     if (this.carouselTimer) {
       clearInterval(this.carouselTimer);
-    }
-    if (this.instagramTimer) {
-      clearInterval(this.instagramTimer);
     }
   }
 
