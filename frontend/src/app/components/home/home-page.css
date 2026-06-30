@@ -1027,65 +1027,72 @@ nav a {
 /* ========== CONTACTO ========== */
 .contacto {
   background: linear-gradient(135deg, #b8efe7 0%, #dce8f6 100%);
-  padding: 40px 16px;
+  padding: 48px 20px;
 }
 .contenido-contacto {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-.titulo-contacto {
-  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .titulo-contacto h1 {
-  font-size: clamp(28px, 6vw, 55px);
-  font-weight: 300;
-  color: #222;
+  font-size: clamp(24px, 5vw, 42px);
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 32px;
+  text-align: center;
 }
 .info-contacto {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.columna {
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 24px 20px;
+  border: 1px solid rgba(255,255,255,.4);
 }
 .columna h3 {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
-  margin-bottom: 12px;
-  color: #222;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #555;
+  margin: 0 0 16px;
 }
 .columna p {
-  font-size: 16px;
-  line-height: 1.8;
-  color: #333;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #222;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+  margin: 0 0 10px;
+}
+.columna p:last-child {
+  margin-bottom: 0;
 }
 .contact-link {
-  color: #333;
+  color: #222;
   text-decoration: none;
+  word-break: break-all;
 }
 .contact-link:hover {
-  text-decoration: underline;
+  color: #2563eb;
 }
 .contact-icon {
-  font-size: 18px;
-  color: #555;
+  font-size: 20px;
+  color: #2563eb;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
 }
 .contact-social {
-  width: 18px;
-  height: 18px;
-  color: #555;
-}
-.email {
-  width: 100%;
-  margin-top: 10px;
-}
-.email p {
-  font-size: 18px;
-  font-weight: 700;
-  color: #222;
+  width: 20px;
+  height: 20px;
+  color: #2563eb;
+  flex-shrink: 0;
 }
 /* ========== HELP BOTTOM SHEET ========== */
 .overlay-ayuda {
@@ -1106,59 +1113,91 @@ nav a {
 }
 .bottom-sheet {
   width: 100%;
-  max-height: 90vh;
+  max-height: 85vh;
   overflow-y: auto;
   background: #fff;
-  border-radius: 35px 35px 0 0;
-  padding: 24px 20px 30px;
+  border-radius: 28px 28px 0 0;
+  padding: 20px 16px 24px;
   transform: translateY(100%);
-  transition: .3s;
+  transition: .35s cubic-bezier(.32,.72,0,1);
 }
 .overlay-ayuda.active .bottom-sheet {
   transform: translateY(0);
 }
 .barra {
-  width: 50px;
-  height: 5px;
+  width: 40px;
+  height: 4px;
   background: #d1d5db;
-  border-radius: 10px;
-  margin: 0 auto 16px;
+  border-radius: 4px;
+  margin: 0 auto 14px;
+}
+.bottom-sheet h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 4px;
+}
+.bottom-sheet > p {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 8px;
 }
 .emergencia {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   color: #fff;
-  border-radius: 20px;
-  padding: 16px;
-  margin-top: 12px;
+  border-radius: 16px;
+  padding: 14px;
+  margin-top: 10px;
 }
 .azul { background: #2563eb; }
-.rojo { background: #ff0033; }
-.violeta { background: #a020f0; }
+.rojo { background: #dc2626; }
+.violeta { background: #9333ea; }
 .emergencia.verde { background: #16a34a; }
 .emergencia.amarillo { background: #ca8a04; }
 .icono {
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   background: rgba(255,255,255,.2);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 22px;
   flex-shrink: 0;
+}
+.emergencia small {
+  display: block;
+  font-size: 11px;
+  opacity: .8;
+  margin-bottom: 2px;
+}
+.emergencia h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 2px;
+}
+.emergencia strong {
+  font-size: 13px;
+  opacity: .9;
+  font-weight: 500;
 }
 .cerrar-modal {
   width: 100%;
   border: none;
-  background: #e5e7eb;
-  padding: 16px;
-  border-radius: 25px;
-  margin-top: 16px;
-  font-weight: bold;
+  background: #f3f4f6;
+  padding: 14px;
+  border-radius: 16px;
+  margin-top: 14px;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
+  color: #444;
+  transition: background .2s;
+}
+.cerrar-modal:hover {
+  background: #e5e7eb;
 }
 .emergencia-link {
   text-decoration: none;
@@ -1166,7 +1205,7 @@ nav a {
   display: block;
 }
 .emergencia-link:hover {
-  opacity: 0.9;
+  opacity: .9;
 }
 /* ========== TABLET (576px+) ========== */
 @media (min-width: 576px) {
@@ -1204,7 +1243,10 @@ nav a {
     padding: 50px 24px;
   }
   .contacto {
-    padding: 50px 24px;
+    padding: 60px 32px;
+  }
+  .info-contacto {
+    grid-template-columns: 1fr 1fr;
   }
   .overlay-ayuda {
     align-items: center;
@@ -1304,19 +1346,13 @@ nav a {
     padding: 60px 30px;
   }
   .contacto {
-    padding: 50px 30px;
+    padding: 70px 40px;
   }
-  .contenido-contacto {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .titulo-contacto {
-    width: 40%;
+  .titulo-contacto h1 {
+    text-align: left;
   }
   .info-contacto {
-    width: 50%;
-    gap: 40px;
+    gap: 32px;
   }
 }
 /* ========== DESKTOP (1024px+) ========== */
@@ -1418,16 +1454,21 @@ nav a {
     padding: 12px;
   }
   .contacto {
-    padding: 30px 12px;
+    padding: 32px 12px;
+  }
+  .columna {
+    padding: 20px 16px;
+    border-radius: 16px;
   }
   .columna h3 {
-    font-size: 14px;
+    font-size: 12px;
   }
   .columna p {
     font-size: 14px;
   }
   .titulo-contacto h1 {
-    font-size: 26px;
+    font-size: 22px;
+    margin-bottom: 24px;
   }
   .item p {
     font-size: 10px;
