@@ -1743,32 +1743,29 @@ nav a {
   opacity: 0.5;
   background: linear-gradient(135deg, #dfeceb 0%, #f5f5f5 100%);
 }
-.hero-insta-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 55%;
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
-  pointer-events: none;
-}
 .hero-insta-label {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 6px 4px 5px;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 10px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 8px;
-  font-weight: 600;
-  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  color: #1a1a1a;
   text-align: center;
-  line-height: 1.15;
+  line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   pointer-events: none;
   z-index: 1;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 100px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  max-width: calc(100% - 12px);
 }
 @media (min-width: 768px) {
   .hero-insta-grid {
@@ -1777,7 +1774,10 @@ nav a {
   }
   .hero-insta-label {
     font-size: 12px;
-    padding: 10px 7px 8px;
+    padding: 6px 14px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.4);
   }
   .hero-insta-thumb {
     border-radius: 12px;
@@ -1793,10 +1793,10 @@ nav a {
   }
   .hero-insta-label {
     font-size: 13px;
-    padding: 11px 9px 9px;
-  }
-  .hero-insta-overlay {
-    height: 50%;
+    padding: 7px 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.4);
   }
 }
 
