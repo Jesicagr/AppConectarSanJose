@@ -5,11 +5,9 @@ import com.conectarsj.backend.model.PublicacionInstagram;
 import com.conectarsj.backend.repository.InstagramRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,14 +45,7 @@ public class InstagramScraperService {
         this.repository = repository;
     }
 
-    @PostConstruct
-    @Async
-    public void init() {
-        log.info("Iniciando scraper de Instagram al arrancar...");
-        refrescarTodas();
-    }
-
-    @Scheduled(fixedRate = 3_600_000, initialDelay = 0)
+    @Scheduled(fixedRate = 3_600_000, initialDelay = 120_000)
     @Transactional
     public void refrescarTodas() {
         log.info("Refresco de Instagram para {} cuentas", CUENTAS.size());
