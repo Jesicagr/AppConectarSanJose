@@ -2,6 +2,7 @@ package com.conectarsj.backend.config;
 
 import com.conectarsj.backend.dto.ErrorResponse;
 import com.conectarsj.backend.exceptions.FechaInvalidaException;
+import com.conectarsj.backend.exceptions.HoraInvalidaException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(FechaInvalidaException.class)
     public ResponseEntity<ErrorResponse> handleFechaInvalida(FechaInvalidaException ex) {
         log.warn("Fecha inválida: {}", ex.getMessage());
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(HoraInvalidaException.class)
+    public ResponseEntity<ErrorResponse> handleHoraInvalida(HoraInvalidaException ex) {
+        log.warn("Hora inválida: {}", ex.getMessage());
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage()

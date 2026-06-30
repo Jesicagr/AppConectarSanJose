@@ -7,6 +7,7 @@
 package com.conectarsj.backend.service;
 
 import com.conectarsj.backend.dto.ActividadResumenDTO;
+import com.conectarsj.backend.exceptions.HoraInvalidaException;
 import com.conectarsj.backend.model.Actividad;
 import com.conectarsj.backend.repository.ActividadRepository;
 import com.conectarsj.backend.exceptions.FechaInvalidaException;
@@ -125,15 +126,27 @@ public class ActividadService {
         return actividadRepository.findByAreaId(areaId);
     }
 
+    @Transactional
     public Actividad guardar(Actividad actividad) {
         if (actividad.getFechaInicio() != null && actividad.getFechaInicio().isBefore(LocalDate.now())) {
             throw new FechaInvalidaException("No se puede registrar una actividad con una fecha de inicio anterior a hoy.");
         }
-        if (actividad.getHorarios() != null) {
-            actividad.getHorarios().forEach(horario -> horario.setActividad(actividad));
+        if (actividad.getFechaInicio() != null && actividad.getFechaFin() != null
+                && actividad.getFechaFin().isBefore(actividad.getFechaInicio())) {
+            throw new FechaInvalidaException("La fecha de fin no puede ser anterior a la fecha de inicio.");
         }
-        return actividadRepository.save(actividad);
-    }
+        if (actividad.getHorarios() != null) {
+            actividad.getHorarios().forEach(horario -> {
+                if (horario.getHoraInicio() != null && horario.getHoraFin() != null
+                        && !horario.getHoraFin().isAfter(horario.getHoraInicio())) {
+                    throw new HoraInvalidaException("La hora de fin debe ser posterior a la hora de inicio.");
+                }
+                horario.setActividad(actividad);
+            });
+        }
+            return actividadRepository.save(actividad);
+        }
+
 
     @Transactional
     public Actividad actualizar(Long id, Actividad actividad) {
