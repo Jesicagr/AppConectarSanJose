@@ -12,6 +12,9 @@ body {
 }
 :host {
   display: block;
+}
+.page-wrapper {
+  width: 100%;
   overflow-x: hidden;
 }
 /* ========== HEADER (mobile first) ========== */
@@ -576,7 +579,8 @@ nav a {
 }
 @media (max-width: 767px) {
   .texto-ayuda {
-    margin-left: 40px;
+    margin-left: 0;
+    padding-left: 40px;
   }
 }
 
@@ -1055,8 +1059,6 @@ nav a {
 }
 .columna {
   background: rgba(255,255,255,.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-radius: 20px;
   padding: 24px 20px;
   border: 1px solid rgba(255,255,255,.4);
@@ -1082,6 +1084,7 @@ nav a {
   margin: 0 0 10px;
   width: 100%;
   overflow: hidden;
+  min-width: 0;
 }
 .columna p:last-child {
   margin-bottom: 0;
@@ -1093,6 +1096,7 @@ nav a {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 0;
 }
 .contact-link:hover {
   color: #2563eb;
@@ -1659,8 +1663,6 @@ nav a {
 }
 .whatsapp-chip {
   background: rgba(0,0,0,0.15);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 999px;
   padding: 7px 14px;
@@ -1669,6 +1671,8 @@ nav a {
   z-index: 2;
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   pointer-events: none;
+  max-width: 160px;
+  min-width: 0;
 }
 @media (max-width: 575px) {
   .whatsapp-chip {
@@ -1688,6 +1692,9 @@ nav a {
   font-weight: 500;
   letter-spacing: 0.2px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 .whatsapp-float {
   width: 56px;
