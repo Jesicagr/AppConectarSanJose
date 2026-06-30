@@ -12,6 +12,7 @@ body {
 }
 :host {
   display: block;
+  overflow-x: hidden;
 }
 /* ========== HEADER (mobile first) ========== */
 header {
@@ -1028,10 +1029,15 @@ nav a {
 .contacto {
   background: linear-gradient(135deg, #b8efe7 0%, #dce8f6 100%);
   padding: 48px 20px;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 .contenido-contacto {
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 .titulo-contacto h1 {
   font-size: clamp(24px, 5vw, 42px);
@@ -1044,6 +1050,8 @@ nav a {
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .columna {
   background: rgba(255,255,255,.65);
@@ -1052,6 +1060,9 @@ nav a {
   border-radius: 20px;
   padding: 24px 20px;
   border: 1px solid rgba(255,255,255,.4);
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .columna h3 {
   font-size: 13px;
@@ -1069,6 +1080,8 @@ nav a {
   align-items: center;
   gap: 10px;
   margin: 0 0 10px;
+  width: 100%;
+  overflow: hidden;
 }
 .columna p:last-child {
   margin-bottom: 0;
@@ -1077,6 +1090,9 @@ nav a {
   color: #222;
   text-decoration: none;
   word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .contact-link:hover {
   color: #2563eb;
@@ -1086,11 +1102,13 @@ nav a {
   color: #2563eb;
   flex-shrink: 0;
   width: 20px;
+  min-width: 20px;
   text-align: center;
 }
 .contact-social {
   width: 20px;
   height: 20px;
+  min-width: 20px;
   color: #2563eb;
   flex-shrink: 0;
 }
