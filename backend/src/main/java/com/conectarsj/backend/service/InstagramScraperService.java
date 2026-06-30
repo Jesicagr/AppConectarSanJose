@@ -1,7 +1,9 @@
 package com.conectarsj.backend.service;
 
 import com.conectarsj.backend.dto.InstagramPostDTO;
+import com.conectarsj.backend.model.CuentaInstagram;
 import com.conectarsj.backend.model.PublicacionInstagram;
+import com.conectarsj.backend.repository.CuentaInstagramRepository;
 import com.conectarsj.backend.repository.InstagramRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,49 +24,83 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class InstagramScraperService {
 
     private static final Logger log = LoggerFactory.getLogger(InstagramScraperService.class);
-    private static final List<String> CUENTAS = List.of(
-        "sjmujeresgenerodiversidad", "sjsaludybienestarsocial", "sjareadeinclusion",
-        "caps.sjciudad", "sjdeportes", "turismosanjose",
-        "sjcultura_", "sjeducacion", "sjareadejuventudes"
-    );
     private static final String IG_APP_ID = "936619743392459";
 
     private final InstagramRepository repository;
+    private final CuentaInstagramRepository cuentaRepository;
     private final ObjectMapper mapper = new ObjectMapper();
     private final RestTemplate restTemplate = new RestTemplate();
     private final HttpClient httpClient = HttpClient.newBuilder()
             .followRedirects(HttpClient.Redirect.NORMAL)
             .build();
 
-    public InstagramScraperService(InstagramRepository repository) {
+    public InstagramScraperService(InstagramRepository repository, CuentaInstagramRepository cuentaRepository) {
         this.repository = repository;
+        this.cuentaRepository = cuentaRepository;
     }
 
-    @Scheduled(fixedRate = 3_600_000, initialDelay = 120_000)
+    @PostConstruct
+    public void seedCuentas() {
+        if (cuentaRepository.count() > 0) return;
+        String[] defaults = {
+            "munisanjoseer", "sjmujeresgenerodiversidad", "sjsaludybienestarsocial",
+            "sjareadeinclusion", "caps.sjciudad", "sjdeportes",
+            "turismosanjose", "sjcultura_", "sjeducacion", "sjareadejuventudes"
+        };
+        for (int i = 0; i < defaults.length; i++) {
+            cuentaRepository.save(new CuentaInstagram(defaults[i], i));
+        }
+        log.info("Seed de {} cuentas de Instagram", defaults.length);
+    }
+
+    @Scheduled(fixedRate = 3_600_000, initialDelay = 10_000)
     @Transactional
-    public void refrescarTodas() {
-        log.info("Refresco de Instagram para {} cuentas", CUENTAS.size());
-        for (String username : CUENTAS) {
+    public synchronized void refrescarTodas() {
+        List<CuentaInstagram> cuentas = cuentaRepository.findByActivoTrueOrderByOrdenAsc();
+        log.info("Refresco de Instagram para {} cuentas", cuentas.size());
+        for (CuentaInstagram cuenta : cuentas) {
+            String username = cuenta.getUsername();
             try {
                 List<PublicacionInstagram> posts = scrapeProfile(username);
-                if (!posts.isEmpty()) {
-                    repository.deleteByUsername(username);
-                    repository.saveAll(posts);
-                }
-                log.info("{}: {} posts guardados", username, posts.size());
+                guardarNuevos(username, posts);
             } catch (Exception e) {
                 log.error("Error al scrapear {}: {}", username, e.getMessage());
             }
         }
     }
 
+    private void guardarNuevos(String username, List<PublicacionInstagram> posts) {
+        if (posts.isEmpty()) return;
+        List<PublicacionInstagram> existentes = repository.findByUsernameOrderByPostTimestampDesc(username);
+        Set<String> shortcodesExistentes = existentes.stream()
+            .map(PublicacionInstagram::getShortcode)
+            .filter(s -> s != null && !s.isEmpty())
+            .collect(Collectors.toSet());
+        List<PublicacionInstagram> nuevos = posts.stream()
+            .filter(p -> !shortcodesExistentes.contains(p.getShortcode()))
+            .toList();
+        if (!nuevos.isEmpty()) {
+            repository.saveAll(nuevos);
+        }
+        log.info("{}: {} nuevos, {} existentes", username, nuevos.size(), existentes.size());
+    }
+
     public List<InstagramPostDTO> obtenerPosts() {
-        return repository.findAllByOrderByPostTimestampDesc()
+        List<String> activeUsernames = cuentaRepository.findByActivoTrueOrderByOrdenAsc()
+                .stream()
+                .map(CuentaInstagram::getUsername)
+                .toList();
+        if (activeUsernames.isEmpty()) return List.of();
+        return repository.findByUsernameInOrderByPostTimestampDesc(activeUsernames)
                 .stream()
                 .map(InstagramPostDTO::fromEntity)
                 .toList();
@@ -284,11 +320,7 @@ public class InstagramScraperService {
     public void refrescarCuenta(String username) {
         try {
             List<PublicacionInstagram> posts = scrapeProfile(username);
-            if (!posts.isEmpty()) {
-                repository.deleteByUsername(username);
-                repository.saveAll(posts);
-            }
-            log.info("{}: {} posts guardados", username, posts.size());
+            guardarNuevos(username, posts);
         } catch (Exception e) {
             log.error("Error al refrescar {}: {}", username, e.getMessage());
         }

@@ -72,19 +72,17 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
     this.contactoService.obtenerTodos().subscribe({
       next: (contactos) => {
-        setTimeout(() => {
-          this.contactosEmergencia = [...contactos].sort((a, b) => {
-            const aHas135 = a.telefonos?.some(t => t.numero === '135');
-            const bHas135 = b.telefonos?.some(t => t.numero === '135');
-            if (aHas135) return -1;
-            if (bHas135) return 1;
-            const pa = (a as any).ordenPrioridad;
-            const pb = (b as any).ordenPrioridad;
-            if (pa != null && pb != null) return pa - pb;
-            if (pa != null) return -1;
-            if (pb != null) return 1;
-            return 0;
-          });
+        this.contactosEmergencia = [...contactos].sort((a, b) => {
+          const aHas135 = a.telefonos?.some(t => t.numero === '135');
+          const bHas135 = b.telefonos?.some(t => t.numero === '135');
+          if (aHas135) return -1;
+          if (bHas135) return 1;
+          const pa = (a as any).ordenPrioridad;
+          const pb = (b as any).ordenPrioridad;
+          if (pa != null && pb != null) return pa - pb;
+          if (pa != null) return -1;
+          if (pb != null) return 1;
+          return 0;
         });
       },
       error: () => this.contactosEmergencia = [],
@@ -93,6 +91,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private cargarPosts(): void {
+    this._loadingPosts();
+  }
+
+  private _loadingPosts(): void {
     this.instagramService.obtenerPosts().subscribe({
       next: (posts) => {
         const latestPerAccount = new Map<string, InstagramPost>();
@@ -102,16 +104,18 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
             latestPerAccount.set(post.username, post);
           }
         }
+        if (latestPerAccount.size === 0) {
+          setTimeout(() => this._loadingPosts(), 5000);
+          return;
+        }
         for (const account of this.instagramAccounts) {
           const post = latestPerAccount.get(account.username);
-          if (post) {
-            account.post = post;
-          }
+          if (post) account.post = post;
         }
-        this.instagramPostsLoaded = latestPerAccount.size > 0;
+        this.instagramPostsLoaded = true;
       },
       error: () => {
-        this.instagramPostsLoaded = false;
+        setTimeout(() => this._loadingPosts(), 5000);
       },
     });
   }

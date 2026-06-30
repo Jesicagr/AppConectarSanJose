@@ -22,7 +22,7 @@ public interface ActividadRepository extends JpaRepository<Actividad, Long> {
     @Query("SELECT a FROM Actividad a JOIN FETCH a.horarios ORDER BY a.fechaInicio DESC")
     List<Actividad> findAllOrdenadoPorAgenda();
 
-    @Query("SELECT DISTINCT a FROM Actividad a JOIN FETCH a.horarios h LEFT JOIN FETCH a.areas WHERE h.diaSemana = :dia ORDER BY a.fechaInicio DESC")
+    @Query("SELECT DISTINCT a FROM Actividad a JOIN FETCH a.horarios h WHERE h.diaSemana = :dia ORDER BY a.fechaInicio DESC")
     List<Actividad> findByDiaSemana(@Param("dia") DiaSemana dia);
 
     @Query("SELECT a FROM Actividad a JOIN a.areas ar WHERE ar.id = :areaId ORDER BY a.fechaInicio DESC")

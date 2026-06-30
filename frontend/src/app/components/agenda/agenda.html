@@ -71,7 +71,7 @@
           <p>No hay actividades programadas para este día.</p>
         </div>
 
-        <div *ngFor="let act of actividadesMostradas" class="tarjeta-actividad" (click)="abrirDetalle(act)">
+        <div *ngFor="let act of actividadesMostradas" class="tarjeta-actividad" [style.borderLeft]="'5px solid ' + getAreaColor(act)" (click)="abrirDetalle(act)">
           <div class="tarjeta-header">
             <h3 class="titulo-actividad">{{ act.titulo }}</h3>
             <span class="badge-sede" *ngIf="act.sede">{{ act.sede.nombre }}</span>

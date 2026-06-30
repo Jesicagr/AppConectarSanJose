@@ -5,6 +5,7 @@ import { ActividadService } from '../../services/actividad.service';
 import { VisitaService } from '../../services/visita.service';
 import { Actividad } from '../../models/actividad.model';
 import { getPhoneLink, getAddressLink, isUrl } from '../../shared/link-utils';
+import { getAreaTone, TONE_HEX } from '../../shared/area-tones';
 
 interface DiaAgenda {
   nombreCorto: string; // "LUN", "MAR"
@@ -219,6 +220,13 @@ export class AgendaComponent implements OnInit {
 
   isUrl(str: string): boolean {
     return isUrl(str);
+  }
+
+  getAreaColor(act: Actividad): string {
+    const area = act.areas?.[0];
+    if (!area) return '#dfeceb';
+    const tone = getAreaTone(area.nombre, area.id ?? 0);
+    return TONE_HEX[tone] || '#dfeceb';
   }
 
   private offsetParaFecha(fecha: Date): number {
