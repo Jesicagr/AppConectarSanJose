@@ -48,29 +48,24 @@ export class HomePage implements OnInit {
   }
 
   abrirModalArea(nombreClave: string): void {
-    const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
-    const claveNorm = normalize(nombreClave);
-    const aliasNorm = (this.AREA_ALIASES[nombreClave] || []).map(a => normalize(a));
-    const area = this.listaAreas.find(a => {
-      const aNorm = normalize(a.nombre);
-      if (aNorm.includes(claveNorm) || claveNorm.includes(aNorm)) return true;
-      return aliasNorm.some(alias => aNorm.includes(alias));
-    });
-    if (!area || area.id === undefined) return;
+    if (this.listaAreas.length === 0) {
+      this.cargarAreas();
+      return;
+    }
 
-    this.areaService.obtenerPorId(area.id).subscribe({
-      next: (areaCompleta) => {
-        this.areaSeleccionada = areaCompleta;
-        this.mostrarModalArea = true;
-      },
-      error: (err) => console.error('[ConectarSanJose] Error al traer detalles del área:', err)
-    });
+    const nombresBuscados = this.CARD_MAP[nombreClave];
+    if (!nombresBuscados) return;
+
+    const area = this.listaAreas.find(a => nombresBuscados.includes(a.nombre));
+    if (!area) return;
+
+    this.areaSeleccionada = area;
+    this.mostrarModalArea = true;
+    this.actividadesPorArea = [];
 
     this.actividadService.obtenerActividadesPorArea(area.id).subscribe({
-      next: (actividades) => {
-        this.actividadesPorArea = actividades;
-      },
-      error: (err) => console.error('[ConectarSanJose] Error al cargar actividades del área:', err)
+      next: (actividades) => { this.actividadesPorArea = actividades; },
+      error: () => {}
     });
   }
 
@@ -87,9 +82,18 @@ export class HomePage implements OnInit {
     return WEBP_MAP[key || ''] || 'assets/comunidad.webp';
   }
 
-  private AREA_ALIASES: Record<string, string[]> = {
+  private readonly CARD_MAP: Record<string, string[]> = {
+    'mujer': ['Mujer', 'Mujeres Género y Diversidad'],
+    'ninez': ['Niñez', 'Niñez, Adolescencia y Familia'],
+    'mayores': ['Personas Mayores'],
+    'comunidad': ['Desarrollo Comunitario'],
     'discapacidad': ['Inclusión'],
-    'comunidad': ['Desarrollo Comunitario', 'Comunitario'],
+    'salud': ['Salud', 'Salud Social y Comunitaria'],
+    'trabajo': ['Trabajo', 'Trabajo y Producción'],
+    'deportes': ['Deportes', 'Deportes y Recreación'],
+    'turismo': ['Turismo'],
+    'cultura': ['Cultura'],
+    'educacion': ['Educación'],
   };
 
   private ACCENT_COLORS: Record<string, string> = {
