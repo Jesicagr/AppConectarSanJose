@@ -27,59 +27,61 @@ header {
   gap: 8px;
 }
 
-/* ========== WHATSAPP FLOTANTE BUTTON ========== */
+/* ========== WHATSAPP FLOTANTE BUTTON - MODERN PILL DESIGN ========== */
 .whatsapp-boton-flotante {
   position: fixed;
   bottom: 80px;
   right: 16px;
-  background: linear-gradient(135deg, #25D366 0%, #1da851 100%);
+  background: rgba(37, 211, 102, 0.95);
+  backdrop-filter: blur(10px);
   color: white;
-  padding: 12px 16px;
+  padding: 8px 12px;
   border-radius: 50px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  gap: 6px;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
   text-decoration: none;
   z-index: 999;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  max-width: 200px;
-  animation: floatAnimation 3s ease-in-out infinite;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-width: 140px;
+  animation: subtleFloat 2.5s ease-in-out infinite;
 }
 
-@keyframes floatAnimation {
+@keyframes subtleFloat {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
+  50% { transform: translateY(-3px); }
 }
 
 .whatsapp-boton-flotante:hover {
-  background: linear-gradient(135deg, #1da851 0%, #25D366 100%);
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+  background: rgba(37, 211, 102, 1);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
   animation: none;
 }
 
 .wa-icon-container {
   background: white;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease;
 }
 
 .whatsapp-boton-flotante:hover .wa-icon-container {
-  transform: rotate(360deg) scale(1.1);
+  transform: scale(1.1);
 }
 
 .wa-icon-container svg {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   fill: #25D366;
+  transition: fill 0.3s ease;
 }
 
 .whatsapp-boton-flotante:hover .wa-icon-container svg {
@@ -90,28 +92,14 @@ header {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: 600;
-  font-size: 14px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.3px;
-}
-
-.whatsapp-boton-flotante::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 50px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
-  opacity: 0;
+  font-weight: 500;
+  font-size: 11px;
+  opacity: 0.9;
+  letter-spacing: 0.2px;
   transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: -1;
 }
 
-.whatsapp-boton-flotante:hover::before {
+.whatsapp-boton-flotante:hover span {
   opacity: 1;
 }
 
@@ -120,33 +108,33 @@ header {
   .whatsapp-boton-flotante {
     bottom: 30px;
     right: 30px;
-    padding: 14px 20px;
+    padding: 10px 14px;
+    max-width: 160px;
   }
   
   .wa-icon-container {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
   }
   
   .wa-icon-container svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
   
   .whatsapp-boton-flotante span {
-    font-size: 16px;
+    font-size: 12px;
   }
 }
 
-/* Pulse effect on initial load */
-@keyframes pulseAnimation {
-  0% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
-  50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7); }
-  100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
+/* Subtle glow effect */
+@keyframes subtleGlow {
+  0%, 100% { box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+  50% { box-shadow: 0 4px 25px rgba(37, 211, 102, 0.5); }
 }
 
 .whatsapp-boton-flotante {
-  animation: floatAnimation 3s ease-in-out infinite, pulseAnimation 3s ease-in-out infinite;
+  animation: subtleFloat 2.5s ease-in-out infinite, subtleGlow 4s ease-in-out infinite;
 }
 
 .logo {
