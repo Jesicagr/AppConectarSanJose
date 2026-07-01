@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AreaService, Area } from '../../services/area.service';
 import { ActividadService } from '../../services/actividad.service';
 import { Actividad } from '../../models/actividad.model';
+import { ContactoService, Contacto } from '../../services/contacto.service';
 import { WEBP_MAP, AREA_ORDER } from '../../shared/area-tones';
 import { AgendaComponent } from '../agenda/agenda';
 import { getPhoneLink, getAddressLink, getEmailLink, getWebLink, isUrl } from '../../shared/link-utils';
@@ -19,16 +20,28 @@ export class HomePage implements OnInit {
   mostrarModalAyuda: boolean = false;
   mostrarModalArea: boolean = false;
   listaAreas: Area[] = [];
+  listaContactos: Contacto[] = [];
   areaSeleccionada: Area | null = null;
   actividadesPorArea: Actividad[] = [];
+
+  readonly COLORES_CONTACTO = ['azul', 'rojo', 'violeta', 'verde', 'naranja', 'rosa'];
 
   constructor(
     private areaService: AreaService,
     private actividadService: ActividadService,
+    private contactoService: ContactoService,
   ) {}
 
   ngOnInit(): void {
     this.cargarAreas();
+    this.cargarContactos();
+  }
+
+  cargarContactos(): void {
+    this.contactoService.obtenerTodos().subscribe({
+      next: (data) => { this.listaContactos = data; },
+      error: () => {}
+    });
   }
 
   cargarAreas(): void {
