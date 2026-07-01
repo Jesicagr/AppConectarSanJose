@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -73,10 +74,14 @@ public class UserController {
         admin.setPasswordHash(encoder.encode(req.getPassword()));
         admin.setRol(rol);
 
-        Administrador guardado = repo.save(admin);
-        guardado.setPasswordHash(null);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
+        try {
+            Administrador guardado = repo.save(admin);
+            guardado.setPasswordHash(null);
+            return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse(409, "Ya existe un usuario con ese email"));
+        }
     }
 
     @Operation(summary = "Eliminar administrador", description = "Elimina un administrador por su ID")
@@ -86,10 +91,10 @@ public class UserController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        if (repo.existsById(id)) {
-            repo.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        return repo.findById(id).map(admin -> {
+            admin.setActivo(false);
+            repo.save(admin);
+            return ResponseEntity.noContent().<Void>build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 }

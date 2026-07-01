@@ -37,8 +37,8 @@
     </button>
 
     @if (mensaje) {
-      <div class="feedback-msg" [class.error]="mensaje.startsWith('Error')">
-        <span class="material-symbols-outlined">{{ mensaje.startsWith('Error') ? 'error' : 'check_circle' }}</span>
+      <div class="feedback-msg" [class.error]="mensajeError">
+        <span class="material-symbols-outlined">{{ mensajeError ? 'error' : 'check_circle' }}</span>
         {{ mensaje }}
       </div>
     }

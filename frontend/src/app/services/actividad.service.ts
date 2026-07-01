@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable, shareReplay, catchError, of } from 'rxjs';
 
 export interface ActividadPayload {
   titulo: string;
@@ -45,7 +45,10 @@ export class ActividadService {
 
   obtenerActividadesPorArea(areaId: number): Observable<any[]> {
     if (!this.areaActivitiesCache.has(areaId)) {
-      this.areaActivitiesCache.set(areaId, this.http.get<any[]>(`${this.apiUrl}/area/${areaId}`).pipe(shareReplay(1)));
+      this.areaActivitiesCache.set(areaId, this.http.get<any[]>(`${this.apiUrl}/area/${areaId}`).pipe(
+        catchError(() => of([])),
+        shareReplay(1)
+      ));
     }
     return this.areaActivitiesCache.get(areaId)!;
   }
