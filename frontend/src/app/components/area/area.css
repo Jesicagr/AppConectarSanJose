@@ -136,13 +136,14 @@
 .area-avatar {
     width: 70px;
     height: 70px;
-    background: #fff;
+    background: #e8e8e8;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 12px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border: 2px solid #ddd;
 }
 
 .area-avatar img {
