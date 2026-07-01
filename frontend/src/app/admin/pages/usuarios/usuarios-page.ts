@@ -20,6 +20,7 @@ export class UsuariosPage implements OnInit {
   auth = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
   private static datosCache: Usuario[] | null = null;
+  private static readonly LS_KEY = 'usuarios_cache';
 
   usuarios: Usuario[] = [];
   loading = true;
@@ -37,26 +38,38 @@ export class UsuariosPage implements OnInit {
   private cargarUsuarios(): void {
     if (UsuariosPage.datosCache) {
       this.usuarios = UsuariosPage.datosCache;
+      this.loading = false;
       return;
     }
-    this.loading = true;
+    const ls = localStorage.getItem(UsuariosPage.LS_KEY);
+    if (ls) {
+      try {
+        this.usuarios = JSON.parse(ls);
+        this.loading = false;
+        this.cdr.detectChanges();
+      } catch {}
+    }
     this.http.get<Usuario[]>('/api/usuarios').subscribe({
       next: (data) => {
         this.usuarios = data.map(u => ({ ...u }));
         UsuariosPage.datosCache = this.usuarios;
+        localStorage.setItem(UsuariosPage.LS_KEY, JSON.stringify(this.usuarios));
         this.loading = false;
         this.cdr.detectChanges();
       },
       error: () => {
-        this.error = 'Error al cargar usuarios';
-        this.loading = false;
-        this.cdr.detectChanges();
+        if (!ls) {
+          this.error = 'Error al cargar usuarios';
+          this.loading = false;
+          this.cdr.detectChanges();
+        }
       }
     });
   }
 
   private static invalidarCache(): void {
     UsuariosPage.datosCache = null;
+    localStorage.removeItem(UsuariosPage.LS_KEY);
   }
 
   crearUsuario(): void {
