@@ -32,24 +32,31 @@ header {
   position: fixed;
   bottom: 80px;
   right: 16px;
-  background: #25D366;
+  background: linear-gradient(135deg, #25D366 0%, #1da851 100%);
   color: white;
   padding: 12px 16px;
   border-radius: 50px;
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
   text-decoration: none;
   z-index: 999;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   max-width: 200px;
+  animation: floatAnimation 3s ease-in-out infinite;
+}
+
+@keyframes floatAnimation {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
 }
 
 .whatsapp-boton-flotante:hover {
-  background: #1da851;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+  background: linear-gradient(135deg, #1da851 0%, #25D366 100%);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+  animation: none;
 }
 
 .wa-icon-container {
@@ -61,19 +68,51 @@ header {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-boton-flotante:hover .wa-icon-container {
+  transform: rotate(360deg) scale(1.1);
 }
 
 .wa-icon-container svg {
   width: 22px;
   height: 22px;
+  fill: #25D366;
+}
+
+.whatsapp-boton-flotante:hover .wa-icon-container svg {
+  fill: #1da851;
 }
 
 .whatsapp-boton-flotante span {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.3px;
+}
+
+.whatsapp-boton-flotante::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.whatsapp-boton-flotante:hover::before {
+  opacity: 1;
 }
 
 /* ========== RESPONSIVE ADJUSTMENTS ========== */
@@ -97,6 +136,17 @@ header {
   .whatsapp-boton-flotante span {
     font-size: 16px;
   }
+}
+
+/* Pulse effect on initial load */
+@keyframes pulseAnimation {
+  0% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
+  50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7); }
+  100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
+}
+
+.whatsapp-boton-flotante {
+  animation: floatAnimation 3s ease-in-out infinite, pulseAnimation 3s ease-in-out infinite;
 }
 
 .logo {
