@@ -278,6 +278,30 @@
   transition: border-color 180ms;
 }
 
+.wa-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  text-transform: lowercase;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.wa-pill .pill-top {
+  font-size: 12px;
+  font-weight: 600;
+  color: #0047AB;
+  margin-bottom: -2px;
+}
+
+.wa-pill .pill-bottom {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
 .wa-input-group:focus-within {
   border-color: #25D366;
   box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
