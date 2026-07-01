@@ -50,9 +50,11 @@ export class HomePage implements OnInit {
   abrirModalArea(nombreClave: string): void {
     const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     const claveNorm = normalize(nombreClave);
+    const aliasNorm = (this.AREA_ALIASES[nombreClave] || []).map(a => normalize(a));
     const area = this.listaAreas.find(a => {
       const aNorm = normalize(a.nombre);
-      return aNorm.includes(claveNorm) || claveNorm.includes(aNorm);
+      if (aNorm.includes(claveNorm) || claveNorm.includes(aNorm)) return true;
+      return aliasNorm.some(alias => aNorm.includes(alias));
     });
     if (!area || area.id === undefined) return;
 
@@ -85,6 +87,11 @@ export class HomePage implements OnInit {
     return WEBP_MAP[key || ''] || 'assets/comunidad.webp';
   }
 
+  private AREA_ALIASES: Record<string, string[]> = {
+    'discapacidad': ['Inclusión'],
+    'comunidad': ['Desarrollo Comunitario', 'Comunitario'],
+  };
+
   private ACCENT_COLORS: Record<string, string> = {
     'Mujeres Género y Diversidad': '#9acb92',
     'Mujer': '#9acb92',
@@ -92,7 +99,7 @@ export class HomePage implements OnInit {
     'Niñez': '#d6c75d',
     'Personas Mayores': '#9acb92',
     'Desarrollo Comunitario': '#8fc6d9',
-    'Discapacidad': '#d6c75d',
+    'Inclusión': '#d6c75d',
     'Salud': '#9acb92',
     'Salud Social y Comunitaria': '#9acb92',
     'Trabajo y Producción': '#8fc6d9',
