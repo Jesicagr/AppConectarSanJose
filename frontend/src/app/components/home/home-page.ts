@@ -26,6 +26,9 @@ export class HomePage implements OnInit {
 
   readonly COLORES_CONTACTO = ['azul', 'rojo', 'violeta', 'verde-card', 'naranja', 'rosa'];
 
+  whatsappFlotanteNumero = '';
+  whatsappFlotanteLabel = 'Mesa de Entrada';
+
   constructor(
     private areaService: AreaService,
     private actividadService: ActividadService,
@@ -34,6 +37,8 @@ export class HomePage implements OnInit {
 
 
   ngOnInit(): void {
+    this.whatsappFlotanteNumero = this.contactoService.getWhatsappFlotanteNumero();
+    this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
     this.cargarAreas();
     this.cargarContactos();
   }
