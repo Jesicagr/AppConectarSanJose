@@ -1,7 +1,6 @@
 // src/app/components/area/area.ts
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { forkJoin } from 'rxjs';
 import { AreaService, Area } from '../../services/area.service';
 import { ActividadService } from '../../services/actividad.service';
 import { Actividad } from '../../models/actividad.model';
@@ -89,18 +88,25 @@ export class AreaComponent implements OnInit {
       this.mostrarModal = true;
     }
 
-    forkJoin({
-      area: this.areaService.obtenerPorId(areaId),
-      actividades: this.actividadService.obtenerActividadesPorArea(areaId)
-    }).subscribe({
-      next: ({ area, actividades }) => {
+    this.actividadService.obtenerActividadesPorArea(areaId).subscribe({
+      next: (actividades) => {
         if (requestId !== this.modalRequestId) return;
-        this.areaSeleccionada = area;
         this.actividadesPorArea = actividades;
       },
       error: (err) => {
         if (requestId !== this.modalRequestId) return;
-        console.error('[ConectarSanJose] ERROR Error al cargar datos del área:', err);
+        console.error('[ConectarSanJose] ERROR al cargar actividades:', err);
+      }
+    });
+
+    this.areaService.obtenerPorId(areaId).subscribe({
+      next: (area) => {
+        if (requestId !== this.modalRequestId) return;
+        this.areaSeleccionada = area;
+      },
+      error: (err) => {
+        if (requestId !== this.modalRequestId) return;
+        console.error('[ConectarSanJose] ERROR al cargar datos del área:', err);
       }
     });
   }
@@ -145,6 +151,14 @@ export class AreaComponent implements OnInit {
 
   webLink(sitio: string): string {
     return getWebLink(sitio);
+  }
+
+  getRedesItems(redes: string): string[] {
+    return redes.split(/[\s,;]+/).filter(s => s.trim().length > 0);
+  }
+
+  instagramLink(username: string): string {
+    return `https://instagram.com/${username}`;
   }
 
   onImgError(event: Event): void {
