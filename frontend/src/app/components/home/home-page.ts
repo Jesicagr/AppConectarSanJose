@@ -55,9 +55,18 @@ export class HomePage implements OnInit {
           const bi = AREA_ORDER.findIndex(name => normalize(name) === bNorm);
           return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
         });
+        this.precargarActividades();
       },
       error: (err) => console.error('[ConectarSanJose] Error al cargar áreas:', err)
     });
+  }
+
+  private precargarActividades(): void {
+    for (const area of this.listaAreas) {
+      if (area.id !== undefined) {
+        this.actividadService.obtenerActividadesPorArea(area.id).subscribe();
+      }
+    }
   }
 
   abrirModalArea(nombreClave: string): void {
