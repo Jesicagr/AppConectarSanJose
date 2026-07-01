@@ -6,12 +6,11 @@
 
 html {
     scroll-behavior: smooth;
-    width: 100%;
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
-    width: 100%;
+    overflow-x: hidden;
     background: #f8f8f8;
     color: #333;
 }
@@ -129,10 +128,10 @@ body {
 }
 
 .hero-img {
-    width: 400px;
-    height: 480px;
+    width: 30px;
+    height: 3px;
     object-fit: cover;
-    border-radius: 70px;
+    border-radius: 50px;
     display: block;
     box-shadow: none;
 }

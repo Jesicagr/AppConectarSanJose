@@ -1,4 +1,4 @@
-<div class="page-wrapper"><header>
+<header>
   <img src="logo.png" class="logo" (click)="irInicio()" style="cursor:pointer">
 
   <button class="hamburger" [class.open]="menuAbierto" (click)="toggleMenu()" aria-label="Menú">
@@ -16,78 +16,22 @@
   </nav>
 </header>
 
-<section id="inicio" class="hero redes-carousel">
+<section id="inicio" class="hero">
+  <div class="contenedor-texto">
+    <img src="gotas.png" class="decoracion">
 
-  <div class="carousel-slide" [class.active]="currentSlide === 0">
-    <div class="contenedor-texto">
-      <img src="gotas.png" class="decoracion">
-      <div class="texto">
-        <h1>DESCUBRÍ</h1>
+    <div class="texto">
+      <h1>DESCUBRÍ</h1>
 
-        <p class="subtitulo">lo que</p>
+      <p class="subtitulo">lo que</p>
 
-        <h2>SAN JOSÉ</h2>
+      <h2>SAN JOSÉ</h2>
 
-        <p class="subtitulo2">tiene para vos</p>
-      </div>
-    </div>
-
-    <a href="https://sanjose.gob.ar/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAb21jcASsrExleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAafN7N24P9le6JWtW98VgKLC0MalQcS-UG3aIBRjyzmwKtifYw8WYHK8-zkxaQ_aem_rvSckFOYVaMXOXU06cF1Fg" target="_blank" rel="noopener" class="hero-imagen-link">
-      <img src="monumento.jpg" class="imagen">
-    </a>
-  </div>
-
-  <div class="carousel-slide" [class.active]="currentSlide === 1">
-    <div class="contenedor-texto">
-      <div class="texto">
-        <h1>SEGUINOS EN</h1>
-
-        <p class="subtitulo">nuestras redes</p>
-
-        <h2>SOCIALES</h2>
-      </div>
-    </div>
-
-    <div class="hero-insta-grid">
-      <a *ngFor="let acc of instagramAccounts"
-         class="hero-insta-card"
-         [href]="acc.url"
-         target="_blank"
-         rel="noopener">
-        <div class="hero-insta-thumb">
-          <img *ngIf="acc.post?.imageUrl" [src]="acc.post?.imageUrl" [alt]="acc.label" loading="lazy">
-          <div class="hero-insta-fallback" *ngIf="!acc.post?.imageUrl">
-            <span>📷</span>
-          </div>
-          <span class="hero-insta-label">@{{ acc.username }}</span>
-        </div>
-      </a>
+      <p class="subtitulo2">tiene para vos</p>
     </div>
   </div>
 
-  <div class="carousel-dots">
-    <span class="dot" [class.active]="currentSlide === 0" (click)="goToSlide(0)"></span>
-    <span class="dot" [class.active]="currentSlide === 1" (click)="goToSlide(1)"></span>
-  </div>
-
-  <div class="carousel-nav prev" (click)="prevSlide()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M15 18l-6-6 6-6"/>
-    </svg>
-  </div>
-
-  <div class="carousel-nav next" (click)="nextSlide()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M9 18l6-6-6-6"/>
-    </svg>
-  </div>
-
-  <div class="carousel-progress-bar">
-    <div class="carousel-progress-fill"></div>
-  </div>
-
-  
-
+  <img src="monumento.jpg" class="imagen">
 </section>
 
 <section id="ayuda" class="ayuda">
@@ -166,7 +110,65 @@
     <h1>Áreas</h1>
     <p>Conocé las áreas municipales y sus servicios</p>
   </div>
-  <app-area />
+
+  <div class="fila-categorias">
+    <div class="card mujer" (click)="abrirModalArea('mujer')">
+      <img src="mujer.png">
+      <h4>Mujer</h4>
+    </div>
+
+    <div class="card amarillo" (click)="abrirModalArea('ninez')">
+      <img src="ninez.png">
+      <h4>Niñez</h4>
+    </div>
+
+    <div class="card gris" (click)="abrirModalArea('mayores')">
+      <img src="mayores.png">
+      <h4>Personas <br> Mayores</h4>
+    </div>
+
+    <div class="card celeste" (click)="abrirModalArea('comunidad')">
+      <img src="comunidad.png">
+      <h4>Desarrollo <br> Comunitario</h4>
+    </div>
+
+    <div class="card amarillo" (click)="abrirModalArea('discapacidad')">
+      <img src="discapacidad.png">
+      <h4>Discapacidad</h4>
+    </div>
+
+    <div class="card gris" (click)="abrirModalArea('salud')">
+      <img src="salud.png">
+      <h4>Salud</h4>
+    </div>
+  </div>
+
+  <div class="fila-categorias">
+    <div class="card celeste" (click)="abrirModalArea('trabajo')">
+      <img src="trabajo.png">
+      <h4>Trabajo</h4>
+    </div>
+
+    <div class="card amarillo" (click)="abrirModalArea('deportes')">
+      <img src="deportes.png">
+      <h4>Deportes</h4>
+    </div>
+
+    <div class="card gris" (click)="abrirModalArea('turismo')">
+      <img src="turismo.png">
+      <h4>Turismo</h4>
+    </div>
+
+    <div class="card celeste" (click)="abrirModalArea('cultura')">
+      <img src="cultura.png">
+      <h4>Cultura</h4>
+    </div>
+
+    <div class="card amarillo" (click)="abrirModalArea('educacion')">
+      <img src="educacion.png">
+      <h4>Educación</h4>
+    </div>
+  </div>
 </section>
 
 <section id="agenda" class="agenda">
@@ -176,13 +178,14 @@
 <section class="turismo">
   <div class="contenido-turismo">
     <div class="texto-turismo">
-      <h1 class="titulo-turismo">
-        <span class="linea1">Descubrí</span>
-        <span class="linea2">
-          <span class="san-jose-texto">San José</span>
-          <img src="corazon.png" class="corazon-inline">
-        </span>
+      <h1>
+        Descubrí
+        <span>San José</span>
       </h1>
+
+      <div class="decoracion-turismo">
+        <img src="corazon.png">
+      </div>
 
       <p>
         Conocé los lugares, paisajes y experiencias
@@ -213,63 +216,66 @@
     </div>
 
     <div class="cards-turismo">
-      <a class="card-turismo" href="https://www.instagram.com/granja_la_administracion_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener">
+      <div class="card-turismo">
         <img src="granja.png">
 
         <div class="info">
           <h3>Granja "La Administración"</h3>
           <p>Naturaleza, animales y paseos para disfrutar en familia o con amigos.</p>
         </div>
-      </a>
+      </div>
 
-      <a class="card-turismo" href="https://www.instagram.com/trukayak?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener">
+      <div class="card-turismo">
         <img src="kayak.png">
 
         <div class="info">
           <h3>Tru Kayak</h3>
           <p>Aventuras en kayak y atardeceres únicos sobre el río.</p>
         </div>
-      </a>
+      </div>
 
-      <a class="card-turismo" href="https://www.instagram.com/molinoaventuras?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener">
+      <div class="card-turismo">
         <img src="molino.png">
 
         <div class="info">
           <h3>Molino Aventuras</h3>
           <p>Circuitos al aire libre, naturaleza y experiencias llenas de adrenalina.</p>
         </div>
-      </a>
+      </div>
 
-      <a class="card-turismo" href="https://www.instagram.com/termas.sanjose?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener">
+      <div class="card-turismo">
         <img src="termas.png">
 
         <div class="info">
           <h3>Termas San José</h3>
           <p>Relax, piscinas termales y diversión.</p>
         </div>
-      </a>
+      </div>
 
-      <a class="card-turismo" href="https://www.instagram.com/balneariocampingsanjose?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener">
+      <div class="card-turismo">
         <img src="balneario.png">
 
         <div class="info">
           <h3>Balneario San José</h3>
           <p>Playa, río y atardeceres inolvidables.</p>
         </div>
-      </a>
+      </div>
 
-      <a class="card-turismo" href="https://www.instagram.com/molinoforclazoficial?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener">
+      <div class="card-turismo">
         <img src="molinoforclaz.png">
 
         <div class="info">
           <h3>Molino Forclaz</h3>
-          <p>Historia, naturaleza y tradición rural.</p>
+          <p>Historia, cultura y uno de los íconos más tradicionales de la región.</p>
         </div>
-      </a>
+      </div>
     </div>
   </div>
 
-  <a class="frase-final" href="https://sanjose.tur.ar/" target="_blank" rel="noopener">
+  <a href="https://sanjose.tur.ar/" target="_blank" class="btn-turismo">
+    Más información
+  </a>
+  <div class="frase-final">
     <div class="decoracion-frase">
       <img src="ubicacion.png" alt="Ubicación">
     </div>
@@ -278,7 +284,7 @@
       Cada rincón tiene una historia para contar.
       ¡Animate a <span>descubrirla</span>!
     </p>
-  </a>
+  </div>
 </section>
 
 <section class="contacto">
@@ -318,16 +324,6 @@
     </div>
   </div>
 </section>
-</div>
-
-<div class="whatsapp-wrapper">
-  <div class="whatsapp-chip">
-    <span>{{whatsappFlotanteLabel}}</span>
-  </div>
-  <a class="whatsapp-float" [href]="whatsappFlotanteNumero ? 'https://wa.me/' + whatsappFlotanteNumero : null" target="_blank" rel="noopener" aria-label="WhatsApp">
-    <svg viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.4-.56-.41-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/></svg>
-  </a>
-</div>
 
 <div class="overlay-ayuda" [class.active]="mostrarModalAyuda" (click)="cerrarAyuda()">
   <div class="bottom-sheet" (click)="$event.stopPropagation()">
@@ -336,17 +332,127 @@
     <h2>No estás solo 💗</h2>
     <p>Llamanos gratis, estamos para escucharte.</p>
 
-    <a *ngFor="let c of contactosEmergencia" [href]="phoneLink(primerTelefono(c))" target="_blank" rel="noopener" class="emergencia-link">
-      <div class="emergencia" [class.azul]="contactoColor(c.icono) === 'azul'" [class.rojo]="contactoColor(c.icono) === 'rojo'" [class.violeta]="contactoColor(c.icono) === 'violeta'" [class.verde]="contactoColor(c.icono) === 'verde'" [class.amarillo]="contactoColor(c.icono) === 'amarillo'">
-        <div class="icono">{{ contactoEmoji(c.icono) }}</div>
+    <a [href]="phoneLink('0800-777-2100')" target="_blank" rel="noopener" class="emergencia-link">
+      <div class="emergencia azul">
+        <div class="icono">🧠</div>
         <div>
-          <small>{{ c.categoria }}</small>
-          <h3>{{ c.nombreInstitucion }}</h3>
-          <strong>{{ primerTelefono(c) }}</strong>
+          <small>URGENCIAS 24HS</small>
+          <h3>Salud Mental ER</h3>
+          <strong>0800-777-2100</strong>
+        </div>
+      </div>
+    </a>
+
+    <a [href]="phoneLink('3447-146499')" target="_blank" rel="noopener" class="emergencia-link">
+      <div class="emergencia rojo">
+        <div class="icono">♡</div>
+        <div>
+          <small>GUARDIA 24HS</small>
+          <h3>Niñez y Familia</h3>
+          <strong>3447-146499</strong>
+        </div>
+      </div>
+    </a>
+
+    <a [href]="phoneLink('3447-438343')" target="_blank" rel="noopener" class="emergencia-link">
+      <div class="emergencia violeta">
+        <div class="icono">♀</div>
+        <div>
+          <small>GÉNERO / DIVERSIDAD</small>
+          <h3>Mujeres San José</h3>
+          <strong>3447-438343</strong>
         </div>
       </div>
     </a>
 
     <button class="cerrar-modal" (click)="cerrarAyuda()">CERRAR</button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModalArea" (click)="cerrarModalArea()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-volver" (click)="cerrarModalArea()">← Volver</button>
+
+    <main class="modal-body" *ngIf="areaSeleccionada">
+      <div class="titulo-area">
+        <div class="area-avatar">
+          <img [src]="getIconPath(areaSeleccionada)" alt="{{ areaSeleccionada.nombre }}" (error)="onImgError($event)">
+        </div>
+        <h1>{{ areaSeleccionada.nombre }}</h1>
+        <div class="accent-line" [style.background]="getAccentColor(areaSeleccionada)"></div>
+      </div>
+
+      <p class="intro-area" *ngIf="areaSeleccionada.descripcion">{{ areaSeleccionada.descripcion }}</p>
+
+      <div class="cards-grid">
+        <div class="card-info" *ngIf="areaSeleccionada.referente">
+          <h3 [style.color]="getAccentColor(areaSeleccionada)">Referente</h3>
+          <p>{{ areaSeleccionada.referente }}</p>
+        </div>
+        <div class="card-info" *ngIf="areaSeleccionada.direccion">
+          <h3 [style.color]="getAccentColor(areaSeleccionada)">Dirección</h3>
+          <a [href]="addressLink(areaSeleccionada.direccion)" target="_blank" rel="noopener" class="link-card">
+            <p>📍 {{ areaSeleccionada.direccion }}</p>
+          </a>
+        </div>
+        <div class="card-info" *ngIf="areaSeleccionada.telefono">
+          <h3 [style.color]="getAccentColor(areaSeleccionada)">Teléfono</h3>
+          <a [href]="phoneLink(areaSeleccionada.telefono, areaSeleccionada.esWhatsapp)" target="_blank" rel="noopener" class="link-card">
+            <p>{{ areaSeleccionada.esWhatsapp ? '💬' : '📞' }} {{ areaSeleccionada.telefono }}</p>
+          </a>
+        </div>
+        <div class="card-info" *ngIf="areaSeleccionada.email">
+          <h3 [style.color]="getAccentColor(areaSeleccionada)">Email</h3>
+          <a [href]="emailLink(areaSeleccionada.email)" target="_blank" rel="noopener" class="link-card">
+            <p>✉️ {{ areaSeleccionada.email }}</p>
+          </a>
+        </div>
+        <div class="card-info" *ngIf="areaSeleccionada.sitioWeb">
+          <h3 [style.color]="getAccentColor(areaSeleccionada)">Sitio Web</h3>
+          <a [href]="webLink(areaSeleccionada.sitioWeb)" target="_blank" rel="noopener" class="link-card">
+            <p>🌐 {{ areaSeleccionada.sitioWeb }}</p>
+          </a>
+        </div>
+        <div class="card-info" *ngIf="areaSeleccionada.horarioAtencion">
+          <h3 [style.color]="getAccentColor(areaSeleccionada)">Horario</h3>
+          <p>🕐 {{ areaSeleccionada.horarioAtencion }}</p>
+        </div>
+        <div class="card-info" *ngIf="areaSeleccionada.redes">
+          <h3 [style.color]="getAccentColor(areaSeleccionada)">Redes</h3>
+          <p>{{ areaSeleccionada.redes }}</p>
+        </div>
+        <div class="card-info" *ngIf="areaSeleccionada.telefonos && areaSeleccionada.telefonos.length > 0">
+          <h3 [style.color]="getAccentColor(areaSeleccionada)">Teléfonos adicionales</h3>
+          <p>
+            <a *ngFor="let t of areaSeleccionada.telefonos" [href]="phoneLink(t.numero, t.esWhatsapp)" target="_blank" rel="noopener" class="tag-telefono link-tag">
+              {{ t.etiqueta ? t.etiqueta + ': ' : '' }}{{ t.esWhatsapp ? '💬' : '📞' }} {{ t.numero }}
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <div class="actividades-seccion" *ngIf="actividadesPorArea.length > 0">
+        <h2 class="seccion-subtitle" [style.color]="getAccentColor(areaSeleccionada)">Actividades</h2>
+        <div class="cards-grid">
+          <div class="card-info actividad-card" *ngFor="let act of actividadesPorArea">
+            <h3 [style.color]="getAccentColor(areaSeleccionada)">{{ act.titulo }}</h3>
+            <p class="actividad-sede" *ngIf="act.sede">{{ act.sede.nombre }}</p>
+            <p class="actividad-desc" *ngIf="act.descripcion_corta">{{ act.descripcion_corta }}</p>
+            <div class="actividad-meta">
+              <span *ngIf="act.encargado">👤 {{ act.encargado }}</span>
+              <a *ngIf="act.telefono" [href]="phoneLink(act.telefono, act.sede.esWhatsapp)" target="_blank" rel="noopener" class="link-meta">{{ act.sede.esWhatsapp ? '💬' : '📞' }} {{ act.telefono }}</a>
+              <span *ngIf="act.horarios && act.horarios.length > 0">
+                ⏰ {{ act.horarios[0].horaInicio.substring(0, 5) || '' }} - {{ act.horarios[0].horaFin.substring(0, 5) || '' }}hs
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="sin-actividades" *ngIf="actividadesPorArea.length === 0">
+        No hay actividades disponibles para esta área.
+      </p>
+    </main>
+
   </div>
 </div>
