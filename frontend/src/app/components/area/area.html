@@ -29,53 +29,53 @@
 
         <div class="cards-grid">
           <div class="card-info" *ngIf="areaSeleccionada.referente">
-            <h3 [style.color]="getAccentColor(areaSeleccionada)">Referente</h3>
-            <p>{{ areaSeleccionada.referente }}</p>
+            <span class="card-label" [style.color]="getAccentColor(areaSeleccionada)">Referente</span>
+            <span class="card-value">{{ areaSeleccionada.referente }}</span>
           </div>
           <div class="card-info" *ngIf="areaSeleccionada.direccion">
-            <h3 [style.color]="getAccentColor(areaSeleccionada)">Dirección</h3>
-            <a [href]="addressLink(areaSeleccionada.direccion)" target="_blank" rel="noopener" class="link-card">
-              <p>📍 {{ areaSeleccionada.direccion }}</p>
+            <span class="card-label" [style.color]="getAccentColor(areaSeleccionada)">Dirección</span>
+            <a [href]="addressLink(areaSeleccionada.direccion)" target="_blank" rel="noopener" class="card-value">
+              📍 {{ areaSeleccionada.direccion }}
             </a>
           </div>
           <div class="card-info" *ngIf="areaSeleccionada.telefono">
-            <h3 [style.color]="getAccentColor(areaSeleccionada)">Teléfono</h3>
-            <a [href]="phoneLink(areaSeleccionada.telefono, areaSeleccionada.esWhatsapp)" target="_blank" rel="noopener" class="link-card">
-              <p>{{ areaSeleccionada.esWhatsapp ? '💬' : '📞' }} {{ areaSeleccionada.telefono }}</p>
+            <span class="card-label" [style.color]="getAccentColor(areaSeleccionada)">Teléfono</span>
+            <a [href]="phoneLink(areaSeleccionada.telefono, areaSeleccionada.esWhatsapp)" target="_blank" rel="noopener" class="card-value">
+              {{ areaSeleccionada.esWhatsapp ? '💬' : '📞' }} {{ areaSeleccionada.telefono }}
             </a>
           </div>
           <div class="card-info" *ngIf="areaSeleccionada.email">
-            <h3 [style.color]="getAccentColor(areaSeleccionada)">Email</h3>
-            <a [href]="emailLink(areaSeleccionada.email)" target="_blank" rel="noopener" class="link-card">
-              <p>✉️ {{ areaSeleccionada.email }}</p>
+            <span class="card-label" [style.color]="getAccentColor(areaSeleccionada)">Email</span>
+            <a [href]="emailLink(areaSeleccionada.email)" target="_blank" rel="noopener" class="card-value">
+              ✉️ {{ areaSeleccionada.email }}
             </a>
           </div>
           <div class="card-info" *ngIf="areaSeleccionada.sitioWeb">
-            <h3 [style.color]="getAccentColor(areaSeleccionada)">Sitio Web</h3>
-            <a [href]="webLink(areaSeleccionada.sitioWeb)" target="_blank" rel="noopener" class="link-card">
-              <p>🌐 {{ areaSeleccionada.sitioWeb }}</p>
+            <span class="card-label" [style.color]="getAccentColor(areaSeleccionada)">Sitio Web</span>
+            <a [href]="webLink(areaSeleccionada.sitioWeb)" target="_blank" rel="noopener" class="card-value">
+              🌐 {{ areaSeleccionada.sitioWeb }}
             </a>
           </div>
           <div class="card-info" *ngIf="areaSeleccionada.horarioAtencion">
-            <h3 [style.color]="getAccentColor(areaSeleccionada)">Horario</h3>
-            <p>🕐 {{ areaSeleccionada.horarioAtencion }}</p>
+            <span class="card-label" [style.color]="getAccentColor(areaSeleccionada)">Horario</span>
+            <span class="card-value">🕐 {{ formatHorario(areaSeleccionada.horarioAtencion) }}</span>
           </div>
           <div class="card-info" *ngIf="areaSeleccionada.redes">
-            <h3 [style.color]="getAccentColor(areaSeleccionada)">Redes</h3>
-            <p>
-              <a *ngFor="let user of getRedesItems(areaSeleccionada.redes)" [href]="instagramLink(user)" target="_blank" rel="noopener" class="link-card">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="vertical-align:middle;margin-right:4px"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
-                {{ user }}<br>
+            <span class="card-label" [style.color]="getAccentColor(areaSeleccionada)">Redes</span>
+            <span class="card-value">
+              <a *ngFor="let user of getRedesItems(areaSeleccionada.redes)" [href]="instagramLink(user)" target="_blank" rel="noopener" style="display:inline-block;margin-right:12px">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:2px"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+                {{ user }}
               </a>
-            </p>
+            </span>
           </div>
           <div class="card-info" *ngIf="areaSeleccionada.telefonos && areaSeleccionada.telefonos.length > 0">
-            <h3 [style.color]="getAccentColor(areaSeleccionada)">Teléfonos adicionales</h3>
-            <p>
+            <span class="card-label" [style.color]="getAccentColor(areaSeleccionada)">Teléfonos</span>
+            <span class="card-value">
               <a *ngFor="let t of areaSeleccionada.telefonos" [href]="phoneLink(t.numero, t.esWhatsapp)" target="_blank" rel="noopener" class="tag-telefono link-tag">
                 {{ t.etiqueta ? t.etiqueta + ': ' : '' }}{{ t.esWhatsapp ? '💬' : '📞' }} {{ t.numero }}
               </a>
-            </p>
+            </span>
           </div>
         </div>
 

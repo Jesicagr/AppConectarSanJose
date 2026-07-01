@@ -161,6 +161,10 @@ export class AreaComponent implements OnInit {
     return `https://instagram.com/${username}`;
   }
 
+  formatHorario(horario: string): string {
+    return horario.replace(/\b(Lunes|Martes|Mi[eé]rcoles|Jueves|Viernes|S[aá]bado|Domingo|GUARDIA)\b/g, '\n$1').trim();
+  }
+
   onImgError(event: Event): void {
     const img = event.target as HTMLImageElement;
     img.style.display = 'none';
