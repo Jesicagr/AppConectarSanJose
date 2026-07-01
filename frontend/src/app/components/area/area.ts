@@ -41,7 +41,6 @@ export class AreaComponent implements OnInit {
   areaSeleccionada: Area | null = null;
   actividadesPorArea: Actividad[] = [];
   private modalRequestId = 0;
-  cargandoActividades: boolean = false;
 
   constructor(
     private areaService: AreaService,
@@ -64,12 +63,20 @@ export class AreaComponent implements OnInit {
           const bi = AREA_ORDER.findIndex(name => normalize(name) === bNorm);
           return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
         });
+        this.precargarActividades();
         this.cdr.detectChanges();
       },
       error: (err) => console.error('[ConectarSanJose] ERROR Error al cargar áreas:', err)
     });
   }
 
+  private precargarActividades(): void {
+    for (const area of this.listaAreas) {
+      if (area.id !== undefined) {
+        this.actividadService.obtenerActividadesPorArea(area.id).subscribe();
+      }
+    }
+  }
 
   abrirModal(areaId: number | undefined): void {
     if (areaId === undefined) return;
@@ -82,8 +89,6 @@ export class AreaComponent implements OnInit {
       this.mostrarModal = true;
     }
 
-    this.cargandoActividades = true;
-
     forkJoin({
       area: this.areaService.obtenerPorId(areaId),
       actividades: this.actividadService.obtenerActividadesPorArea(areaId)
@@ -92,12 +97,10 @@ export class AreaComponent implements OnInit {
         if (requestId !== this.modalRequestId) return;
         this.areaSeleccionada = area;
         this.actividadesPorArea = actividades;
-        this.cargandoActividades = false;
       },
       error: (err) => {
         if (requestId !== this.modalRequestId) return;
         console.error('[ConectarSanJose] ERROR Error al cargar datos del área:', err);
-        this.cargandoActividades = false;
       }
     });
   }
@@ -107,7 +110,6 @@ export class AreaComponent implements OnInit {
     this.mostrarModal = false;
     this.areaSeleccionada = null;
     this.actividadesPorArea = [];
-    this.cargandoActividades = false;
   }
 
   getIconPath(area: Area): string {
