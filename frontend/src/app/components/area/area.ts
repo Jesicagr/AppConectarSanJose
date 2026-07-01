@@ -39,6 +39,7 @@ export class AreaComponent implements OnInit {
   mostrarModal: boolean = false;
   areaSeleccionada: Area | null = null;
   actividadesPorArea: Actividad[] = [];
+  actividadesPorAreaMap = new Map<number, Actividad[]>();
   private modalRequestId = 0;
 
   constructor(
@@ -70,11 +71,25 @@ export class AreaComponent implements OnInit {
   }
 
   private precargarActividades(): void {
+    const promises: Promise<void>[] = [];
+    
     for (const area of this.listaAreas) {
       if (area.id !== undefined) {
-        this.actividadService.obtenerActividadesPorArea(area.id).subscribe();
+        promises.push(
+          new Promise(resolve => {
+            this.actividadService.obtenerActividadesPorArea(area.id!).subscribe((actividades) => {
+              const primeras4Actividades = actividades.slice(0, 4);
+              this.actividadesPorAreaMap.set(area.id!, primeras4Actividades);
+              resolve();
+            });
+          })
+        );
       }
     }
+    
+    Promise.all(promises).then(() => {
+      this.cdr.detectChanges();
+    });
   }
 
   abrirModal(areaId: number | undefined): void {
@@ -121,8 +136,8 @@ export class AreaComponent implements OnInit {
   getIconPath(area: Area): string {
     const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     const aNorm = normalize(area.nombre);
-    const key = Object.keys(WEBP_MAP).find(k => normalize(k) === aNorm);
-    return WEBP_MAP[key || ''] || 'assets/comunidad.webp';
+    const key = Object.keys(WEBP_MAP).find((k) => normalize(k) === aNorm);
+    return WEBP_MAP[key!] || 'assets/comunidad.webp';
   }
 
   getAreaTone(index: number): string {
@@ -133,8 +148,8 @@ export class AreaComponent implements OnInit {
   getAccentColor(area: Area): string {
     const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     const aNorm = normalize(area.nombre);
-    const key = Object.keys(ACCENT_COLORS).find(k => normalize(k) === aNorm);
-    return ACCENT_COLORS[key || ''] || '#9acb92';
+    const key = Object.keys(ACCENT_COLORS).find((k) => normalize(k) === aNorm);
+    return ACCENT_COLORS[key!] || '#9acb92';
   }
 
   phoneLink(numero: string, esWhatsapp?: boolean): string {

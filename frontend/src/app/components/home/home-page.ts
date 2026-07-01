@@ -26,13 +26,19 @@ export class HomePage implements OnInit {
 
   readonly COLORES_CONTACTO = ['azul', 'rojo', 'violeta', 'verde-card', 'naranja', 'rosa'];
 
+  whatsappFlotanteNumero = '';
+  whatsappFlotanteLabel = 'Mesa de Entrada';
+
   constructor(
     private areaService: AreaService,
     private actividadService: ActividadService,
     private contactoService: ContactoService,
   ) {}
 
+
   ngOnInit(): void {
+    this.whatsappFlotanteNumero = this.contactoService.getWhatsappFlotanteNumero();
+    this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
     this.cargarAreas();
     this.cargarContactos();
   }
@@ -55,9 +61,18 @@ export class HomePage implements OnInit {
           const bi = AREA_ORDER.findIndex(name => normalize(name) === bNorm);
           return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
         });
+        this.precargarActividades();
       },
       error: (err) => console.error('[ConectarSanJose] Error al cargar áreas:', err)
     });
+  }
+
+  private precargarActividades(): void {
+    for (const area of this.listaAreas) {
+      if (area.id !== undefined) {
+        this.actividadService.obtenerActividadesPorArea(area.id).subscribe();
+      }
+    }
   }
 
   abrirModalArea(nombreClave: string): void {
