@@ -27,6 +27,78 @@ header {
   gap: 8px;
 }
 
+/* ========== WHATSAPP FLOTANTE BUTTON ========== */
+.whatsapp-boton-flotante {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  background: #25D366;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  text-decoration: none;
+  z-index: 999;
+  transition: all 0.3s ease;
+  max-width: 200px;
+}
+
+.whatsapp-boton-flotante:hover {
+  background: #1da851;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+
+.wa-icon-container {
+  background: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wa-icon-container svg {
+  width: 22px;
+  height: 22px;
+}
+
+.whatsapp-boton-flotante span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* ========== RESPONSIVE ADJUSTMENTS ========== */
+@media (min-width: 768px) {
+  .whatsapp-boton-flotante {
+    bottom: 30px;
+    right: 30px;
+    padding: 14px 20px;
+  }
+  
+  .wa-icon-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .wa-icon-container svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .whatsapp-boton-flotante span {
+    font-size: 16px;
+  }
+}
+
 .logo {
   width: 90px;
   flex-shrink: 0;

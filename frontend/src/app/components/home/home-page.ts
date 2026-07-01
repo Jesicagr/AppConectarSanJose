@@ -26,6 +26,9 @@ export class HomePage implements OnInit {
 
   readonly COLORES_CONTACTO = ['azul', 'rojo', 'violeta', 'verde-card', 'naranja', 'rosa'];
 
+  whatsappFlotanteNumero = '';
+  whatsappFlotanteLabel = 'Mesa de Entrada';
+
   constructor(
     private areaService: AreaService,
     private actividadService: ActividadService,
@@ -33,6 +36,8 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.whatsappFlotanteNumero = this.contactoService.getWhatsappFlotanteNumero();
+    this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
     this.cargarAreas();
     this.cargarContactos();
   }
@@ -142,6 +147,27 @@ export class HomePage implements OnInit {
     const aNorm = normalize(area.nombre);
     const key = Object.keys(this.ACCENT_COLORS).find(k => normalize(k) === aNorm);
     return this.ACCENT_COLORS[key || ''] || '#9acb92';
+  }
+
+  onWhatsappFlotanteChange(): void {
+    this.contactoService.setWhatsappFlotanteNumero(this.whatsappFlotanteNumero);
+  }
+
+  onWhatsappFlotanteLabelChange(): void {
+    this.contactoService.setWhatsappFlotanteLabel(this.whatsappFlotanteLabel);
+  }
+
+  get whatsappHabilitado(): boolean {
+    return this.whatsappFlotanteNumero.length >= 6;
+  }
+
+  deshabilitarWhatsapp(): void {
+    this.whatsappFlotanteNumero = '';
+    this.onWhatsappFlotanteChange();
+  }
+
+  get filteredContacts(): ContactCard[] {
+    return this.contacts;
   }
 
   onImgError(event: Event): void {
