@@ -24,7 +24,7 @@ export class HomePage implements OnInit {
   areaSeleccionada: Area | null = null;
   actividadesPorArea: Actividad[] = [];
 
-  readonly COLORES_CONTACTO = ['azul', 'rojo', 'violeta', 'verde', 'naranja', 'rosa'];
+  readonly COLORES_CONTACTO = ['azul', 'rojo', 'violeta', 'verde-card', 'naranja', 'rosa'];
 
   constructor(
     private areaService: AreaService,
