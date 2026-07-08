@@ -35,14 +35,7 @@ public class ConectarSjBackendApplication {
                 repo.save(admin);
                 log.info("Usuario creado: admin@sanjose.com (SUPER_ADMIN)");
             }
-            if (repo.findByEmail("jesiagr@gmail.com").isEmpty()) {
-                Administrador user2 = new Administrador();
-                user2.setEmail("jesiagr@gmail.com");
-                user2.setPasswordHash(encoder.encode("admin1919"));
-                user2.setRol(Rol.SUPER_ADMIN);
-                repo.save(user2);
-                log.info("Usuario creado: jesiagr@gmail.com (SUPER_ADMIN)");
-            }
+
         };
     }
 }
