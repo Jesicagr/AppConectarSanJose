@@ -326,6 +326,98 @@ nav a {
     min-width: unset;
     max-width: unset;
   }
+
+  .categorias {
+    padding: 30px 12px 20px !important;
+  }
+
+  .titulo-seccion {
+    margin-top: 0 !important;
+  }
+
+  .titulo-seccion h1 {
+    font-size: 32px !important;
+  }
+
+  .titulo-seccion p {
+    font-size: 14px !important;
+  }
+
+  .categorias .grid-categorias {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    max-width: 100% !important;
+  }
+
+  .card {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 16px !important;
+    padding: 6px !important;
+    gap: 2px !important;
+  }
+
+  .card img {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .card h4 {
+    font-size: 10px !important;
+  }
+
+  .card:nth-child(-n+4),
+  .card:nth-child(n+5):nth-child(-n+7),
+  .card:nth-child(n+8) {
+    grid-column: auto !important;
+  }
+
+  .texto-ayuda h1 {
+    white-space: normal !important;
+  }
+
+  .texto h1 {
+    margin-bottom: -8px !important;
+  }
+
+  .texto h2 {
+    margin-bottom: -6px !important;
+  }
+
+  .hero {
+    padding: 50px 12px 30px;
+    min-height: 420px;
+  }
+
+  .ayuda {
+    padding: 20px 12px 10px !important;
+  }
+
+  .turismo {
+    padding: 20px 12px 0 !important;
+  }
+
+  .contenido-turismo {
+    gap: 16px !important;
+  }
+
+  .texto-turismo p {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .cards-turismo {
+    gap: 10px !important;
+  }
+
+  .card-turismo img {
+    height: 100px !important;
+  }
+
+  .contacto {
+    padding: 30px 12px !important;
+  }
 }
 
 /* ========== AYUDA ========== */
@@ -568,45 +660,6 @@ nav a {
   max-width: 850px !important;
 }
 
-.ultima-card {
-  grid-column: 6;
-}
-
-.fila-categorias {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-.card {
-  width: 130px;
-  height: 130px;
-  border-radius: 30px;
-  border: 3px solid #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  text-align: center;
-  box-shadow: 0 5px 12px rgba(0,0,0,0.10);
-  transition: transform 0.3s;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  padding: 8px;
-  flex-shrink: 0;
-}
-.card {
-  grid-column: span 2;
-}
-
-.grid-categorias .card:nth-child(7) {
-  grid-column: 2 / span 2;
-}
-
 
 
 
@@ -835,6 +888,7 @@ nav a {
 
   .cards-turismo {
     grid-template-columns: repeat(2, 1fr) !important;
+    align-items: start !important;
   }
 
   .card-turismo {
@@ -844,11 +898,51 @@ nav a {
   .card-turismo img {
     height: 140px !important;
   }
+
+  .texto-turismo h1 {
+    margin-bottom: 10px !important;
+  }
+
+  .categorias .grid-categorias {
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 10px !important;
+    max-width: 100% !important;
+  }
+
+  .card {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  .card img {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .card h4 {
+    font-size: 11px !important;
+  }
+
+  .card:nth-child(-n+4) {
+    grid-column: span 3 !important;
+  }
+
+  .card:nth-child(n+5):nth-child(-n+7) {
+    grid-column: span 2 !important;
+  }
+
+  .card:nth-child(n+8) {
+    grid-column: span 3 !important;
+  }
 }
 
 @media (max-width: 500px) {
   .cards-turismo {
     grid-template-columns: 1fr !important;
+    align-items: start !important;
   }
 }
 
@@ -1279,15 +1373,6 @@ nav a {
 
   .categorias {
     padding: 50px 24px;
-  }
-
-  .grid-categorias {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .card {
-    border-radius: 40px;
   }
 
   .contacto {

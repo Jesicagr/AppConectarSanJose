@@ -279,6 +279,16 @@ export class AreasPage implements OnInit {
     });
   }
 
+  cardClass(index: number): string {
+    const mod = index % 6;
+    if (mod === 0) return 'span-4';
+    if (mod === 1) return 'span-2';
+    if (mod === 2) return 'span-2';
+    if (mod === 3) return 'span-4';
+    if (mod === 4) return 'span-2';
+    return 'span-2';
+  }
+
   private normalize(value: string): string {
     return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
