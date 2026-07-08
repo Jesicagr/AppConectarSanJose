@@ -94,27 +94,14 @@ export class DashboardPage implements OnInit {
 
 
   private areaToneMap: Record<string, string> = {};
-  visitasLimit = signal(6);
 
   topVisited = computed(() =>
     this.activities().slice().sort((a, b) => b.visitas - a.visitas)
   );
 
   displayedVisitas = computed(() =>
-    this.topVisited().slice(0, this.visitasLimit())
+    this.topVisited().slice(0, 6)
   );
-
-  loadMoreVisitas(): void {
-    this.visitasLimit.update(v => Math.min(v + 6, this.topVisited().length));
-  }
-
-  onVisitasScroll(event: Event): void {
-    const el = event.target as HTMLElement;
-    const threshold = 20;
-    if (el.scrollHeight - el.scrollTop - el.clientHeight < threshold) {
-      this.loadMoreVisitas();
-    }
-  }
 
   filteredActivities = computed(() => {
     const query = this.normalize(this.searchTerm());

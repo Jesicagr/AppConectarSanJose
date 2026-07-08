@@ -46,7 +46,7 @@
         <div class="visitas-header">
           <h2>Más Visitadas</h2>
         </div>
-        <div class="visitas-scroll" (scroll)="onVisitasScroll($event)">
+        <div class="visitas-scroll">
           @for (item of displayedVisitas(); track item.id) {
             <div class="visita-row" [style]="'--area-color: var(--' + categoryTone(item.categories[0]) + ')'">
               <span class="visita-name">{{ item.title }}</span>
@@ -59,6 +59,63 @@
             <p class="empty-state">Cargando datos de visitas…</p>
           }
         </div>
+      </div>
+    </section>
+
+    <section class="instagram-card" aria-label="Cuentas de Instagram">
+      <div class="instagram-header">
+        <h2>Cuentas de Instagram</h2>
+        <button type="button" class="ig-refresh-all" aria-label="Refrescar todas" (click)="refrescarInstagram('todas')">
+          <span class="material-symbols-outlined">sync</span>
+        </button>
+      </div>
+      <div class="instagram-grid">
+        @for (slot of instagramSlots(); track $index) {
+          @if (slot) {
+            <div class="ig-card" [class.ig-card--inactive]="!slot.activo">
+              <span class="ig-card-num">{{ $index + 1 }}</span>
+              <input
+                class="ig-card-input"
+                type="text"
+                [value]="instagramEditando()[slot.id]"
+                (input)="onInstagramInput(slot, $event)"
+                placeholder="@usuario"
+              >
+              <button
+                type="button"
+                class="ig-btn ig-btn-toggle"
+                [class.ig-btn--on]="slot.activo"
+                (click)="toggleActivo(slot)"
+                [attr.aria-label]="slot.activo ? 'Desactivar' : 'Activar'"
+              >
+                <span class="material-symbols-outlined">power_settings_new</span>
+              </button>
+              <button
+                type="button"
+                class="ig-btn ig-btn-refresh"
+                aria-label="Refrescar"
+                (click)="refrescarInstagram(slot.username)"
+              >
+                <span class="material-symbols-outlined">refresh</span>
+              </button>
+              @if (instagramEditando()[slot.id] !== slot.username) {
+                <button
+                  type="button"
+                  class="ig-btn ig-btn-save"
+                  aria-label="Guardar"
+                  (click)="guardarInstagram(slot)"
+                >
+                  <span class="material-symbols-outlined">check</span>
+                </button>
+              }
+            </div>
+          } @else {
+            <div class="ig-card">
+              <span class="ig-card-num">{{ $index + 1 }}</span>
+              <span class="ig-card-empty">Vacío</span>
+            </div>
+          }
+        }
       </div>
     </section>
   </section>
