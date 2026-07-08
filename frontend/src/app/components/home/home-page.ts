@@ -27,7 +27,7 @@ export class HomePage implements OnInit {
   readonly COLORES_CONTACTO = ['azul', 'rojo', 'violeta', 'verde-card', 'naranja', 'rosa'];
 
   whatsappFlotanteNumero = '';
-  whatsappFlotanteLabel = 'Mesa de Entrada';
+  whatsappFlotanteLabel = 'Texto del boton flotante';
 
   constructor(
     private areaService: AreaService,

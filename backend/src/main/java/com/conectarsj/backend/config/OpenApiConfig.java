@@ -24,7 +24,7 @@ public class OpenApiConfig {
                         .description("API REST del portal comunitario ConectarSanJosé. Permite gestionar sedes, áreas, actividades, contactos de emergencia y visitas.")
                         .contact(new Contact()
                                 .name("ConectarSanJosé")
-                                .email("jesiagr@gmail.com"))
+                                .email("admin@conectarsj.gob.ar"))
                         .license(new License()
                                 .name("MIT")))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
