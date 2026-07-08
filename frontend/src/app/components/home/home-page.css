@@ -658,6 +658,7 @@ nav a {
   grid-template-columns: repeat(6, 1fr) !important;
   gap: 10px 14px !important;
   max-width: 850px !important;
+  justify-content: center !important;
 }
 
 
