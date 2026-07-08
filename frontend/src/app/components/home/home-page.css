@@ -658,7 +658,6 @@ nav a {
   grid-template-columns: repeat(6, 1fr) !important;
   gap: 10px 14px !important;
   max-width: 850px !important;
-  justify-content: center !important;
 }
 
 
@@ -666,7 +665,7 @@ nav a {
 
 /* ========== AGENDA ========== */
 .agenda {
-  scroll-margin-top: 60px;
+  scroll-margin-top: 90px;
   padding: 40px 0;
 }
 
@@ -1574,6 +1573,23 @@ nav a {
   }
 }
 
+/* ========== DESKTOP (901px+) — categorías centradas ========== */
+@media (min-width: 901px) {
+  .categorias .grid-categorias {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    max-width: 950px !important;
+  }
+
+  .categorias .grid-categorias .card {
+    width: 130px;
+    height: 170px;
+    border-radius: 60px;
+  }
+}
+
 /* ========== DESKTOP (1024px+) ========== */
 @media (min-width: 1024px) {
   header {
@@ -1627,6 +1643,17 @@ nav a {
     padding: 80px 50px;
   }
 
+  .categorias .grid-categorias .card {
+    width: 135px;
+    height: 190px;
+    border-radius: 70px;
+  }
+
+  .categorias .grid-categorias .card img {
+    width: 55px;
+    height: 55px;
+  }
+
   .grid-categorias {
     gap: 50px;
   }
@@ -1669,7 +1696,18 @@ nav a {
 
 /* ========== LARGE DESKTOP (1280px+) ========== */
 @media (min-width: 1280px) {
-  .grid-categorias {
-    gap: 80px;
+  .categorias .grid-categorias {
+    gap: 28px !important;
+    max-width: 1100px !important;
+  }
+
+  .categorias .grid-categorias .card {
+    width: 160px;
+    height: 190px;
+  }
+
+  .categorias .grid-categorias .card img {
+    width: 70px;
+    height: 70px;
   }
 }
