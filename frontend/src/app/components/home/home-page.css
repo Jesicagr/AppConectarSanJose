@@ -783,6 +783,8 @@ nav a {
 .frase-final {
   margin: 6px auto 0 !important;
   transform: translateY(-18px) !important;
+  padding-right: 15px !important;
+  box-sizing: border-box !important;
 }
 
 @media (max-width: 900px) {
