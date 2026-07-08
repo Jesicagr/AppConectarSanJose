@@ -290,12 +290,42 @@ nav a {
 }
 
 .imagen {
-    width: 500px !important;
-    max-width: 400px !important;
-    height: 450px !important;
+    width: 500px;
+    max-width: 400px;
+    height: 450px;
     object-fit: cover;
     border-radius: 10px;
     margin-left: 100px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 575px) {
+  .imagen {
+    width: min(80vw, 350px);
+    max-width: 350px;
+    height: auto;
+    aspect-ratio: 470 / 540;
+    margin: 0 auto;
+  }
+
+  .contenido {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .texto-ayuda {
+    width: 100%;
+  }
+
+  .cards {
+    flex-direction: column;
+  }
+
+  .card-ayuda {
+    width: 100%;
+    min-width: unset;
+    max-width: unset;
+  }
 }
 
 /* ========== AYUDA ========== */
@@ -309,15 +339,28 @@ nav a {
 
 .contenido {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 45px;
+  gap: 30px;
 }
 
 .texto-ayuda {
-  width: 45%;
+  width: 100%;
   max-width: 500px;
+}
+
+.contenido .imagen-ayuda {
+  width: 100%;
+  max-width: 400px;
+}
+
+.contenido .imagen-ayuda img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 540 / 290;
+  object-fit: cover;
+  border-radius: 20px;
 }
 
 .texto-ayuda h1 {
@@ -400,6 +443,7 @@ nav a {
   padding: 18px 28px;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 18px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.05);
@@ -409,7 +453,9 @@ nav a {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 25%;
+  flex: 1;
+  min-width: 200px;
+  max-width: 260px;
 }
 
 .card-ayuda img {
@@ -529,9 +575,29 @@ nav a {
 .fila-categorias {
   display: flex;
   justify-content: center;
-  gap: 24px;
-  margin-bottom: 22px;
-  flex-wrap: nowrap;
+  gap: 14px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.card {
+  width: 130px;
+  height: 130px;
+  border-radius: 30px;
+  border: 3px solid #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.10);
+  transition: transform 0.3s;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 8px;
+  flex-shrink: 0;
 }
 .card {
   grid-column: span 2;
@@ -554,7 +620,6 @@ nav a {
 /* TURISMO AJUSTE FINAL */
 
 .turismo {
-  height: calc(100vh - 75px) !important;
   padding: 15px 28px 8px !important;
   background: #f8f8f8 !important;
   overflow: hidden !important;
@@ -567,7 +632,6 @@ nav a {
   grid-template-columns: 32% 68% !important;
   gap: 24px !important;
   align-items: start !important;
-  margin-top: -45px !important;
 }
 
 
@@ -669,11 +733,25 @@ nav a {
 
 .card-turismo {
   background: #fff !important;
-  border: 2px solid #eee3d7 !important;
-  border-radius: 0 !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
+  border-radius: 16px !important;
   overflow: hidden !important;
-  height: 224px !important;
   box-sizing: border-box !important;
+  display: block !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.card-turismo:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.1) !important;
+}
+
+.card-turismo:active {
+  transform: translateY(-1px);
 }
 
 .card-turismo img {
@@ -705,6 +783,71 @@ nav a {
 .frase-final {
   margin: 6px auto 0 !important;
   transform: translateY(-18px) !important;
+}
+
+@media (max-width: 900px) {
+  .turismo {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 40px 16px !important;
+    overflow: visible !important;
+  }
+
+  .contenido-turismo {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+    margin-top: 0 !important;
+  }
+
+  .texto-turismo {
+    transform: none !important;
+    max-width: 100% !important;
+    align-items: center !important;
+  }
+
+  .texto-turismo h1 {
+    font-size: clamp(36px, 8vw, 52px) !important;
+    text-align: center !important;
+  }
+
+  .texto-turismo p {
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: center !important;
+  }
+
+  .decoracion-turismo img {
+    margin: 0 auto 20px !important;
+  }
+
+  .iconos-turismo {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  .btn-turismo {
+    margin: 0 auto !important;
+    display: block !important;
+    width: fit-content !important;
+  }
+
+  .cards-turismo {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .card-turismo {
+    height: auto !important;
+  }
+
+  .card-turismo img {
+    height: 140px !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .cards-turismo {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 /* ========== CONTACTO ========== */
@@ -1101,6 +1244,37 @@ nav a {
     padding: 50px 24px;
   }
 
+  .contenido {
+    flex-direction: row;
+    gap: 45px;
+  }
+
+  .texto-ayuda {
+    width: 45%;
+  }
+
+  .cards {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .card-ayuda {
+    width: calc(50% - 10px);
+  }
+
+  .imagen-ayuda {
+    width: auto;
+    max-width: 540px;
+    flex-shrink: 0;
+  }
+
+  .imagen-ayuda img {
+    width: 100%;
+    height: 290px;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+
   .categorias {
     padding: 50px 24px;
   }
@@ -1112,10 +1286,6 @@ nav a {
 
   .card {
     border-radius: 40px;
-  }
-
-  .turismo {
-    padding: 50px 24px;
   }
 
   .contacto {
@@ -1204,8 +1374,11 @@ nav a {
   .contenido {
     flex-direction: row;
     justify-content: center;
-    gap: 0;
-    position: relative;
+    gap: 40px;
+  }
+
+  .texto-ayuda {
+    width: 45%;
   }
 
   .texto-ayuda h1 {
@@ -1395,7 +1568,6 @@ nav a {
 
   .card-turismo {
     width: 260px;
-    height: 310px;
   }
 
   .contacto {
