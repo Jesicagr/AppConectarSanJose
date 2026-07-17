@@ -180,7 +180,6 @@ El sistema cuenta con dos roles administrativos:
 | Email | Contraseña | Rol |
 |---|---|---|
 | `admin@sanjose.com` | `admin123` | SUPER_ADMIN |
-| `jesiagr@gmail.com` | `admin1919` | SUPER_ADMIN |
 
 ---
 

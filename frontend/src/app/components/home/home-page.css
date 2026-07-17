@@ -27,115 +27,110 @@ header {
   gap: 8px;
 }
 
-/* ========== WHATSAPP FLOTANTE BUTTON - MODERN PILL DESIGN ========== */
-.whatsapp-boton-flotante {
+/* ========== WHATSAPP FLOTANTE ========== */
+.whatsapp-flotante {
   position: fixed;
-  bottom: 80px;
-  right: 16px;
-  background: rgba(37, 211, 102, 0.95);
-  backdrop-filter: blur(10px);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 50px;
+  bottom: 32px;
+  right: 32px;
+  z-index: 60;
   display: flex;
   align-items: center;
-  gap: 6px;
-  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+  gap: 12px;
+  cursor: pointer;
   text-decoration: none;
-  z-index: 999;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  max-width: 140px;
-  animation: subtleFloat 2.5s ease-in-out infinite;
+  animation: floatAnimation 3s ease-in-out infinite;
 }
 
-@keyframes subtleFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-3px); }
-}
-
-.whatsapp-boton-flotante:hover {
-  background: rgba(37, 211, 102, 1);
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
-  animation: none;
-}
-
-.wa-icon-container {
-  background: white;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
+.wa-pill {
+  height: 34px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.whatsapp-boton-flotante:hover .wa-icon-container {
-  transform: scale(1.1);
+.whatsapp-flotante:hover .wa-pill {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
 }
 
-.wa-icon-container svg {
-  width: 18px;
-  height: 18px;
-  fill: #25D366;
-  transition: fill 0.3s ease;
-}
-
-.whatsapp-boton-flotante:hover .wa-icon-container svg {
-  fill: #1da851;
-}
-
-.whatsapp-boton-flotante span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.wa-pill span {
+  color: rgba(0, 0, 0, 0.7);
   font-weight: 500;
-  font-size: 11px;
-  opacity: 0.9;
-  letter-spacing: 0.2px;
-  transition: opacity 0.3s ease;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
-.whatsapp-boton-flotante:hover span {
-  opacity: 1;
+.wa-circle {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #25D366, #1da851);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+  flex-shrink: 0;
 }
 
-/* ========== RESPONSIVE ADJUSTMENTS ========== */
-@media (min-width: 768px) {
-  .whatsapp-boton-flotante {
-    bottom: 30px;
-    right: 30px;
-    padding: 10px 14px;
-    max-width: 160px;
+.whatsapp-flotante:hover .wa-circle {
+  transform: scale(1.08);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.4);
+}
+
+.whatsapp-flotante:active .wa-circle {
+  transform: scale(0.92);
+}
+
+.wa-circle svg {
+  width: 28px;
+  height: 28px;
+  color: white;
+}
+
+@keyframes floatAnimation {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@media (max-width: 640px) {
+  .whatsapp-flotante {
+    bottom: 16px;
+    right: 16px;
+    gap: 8px;
   }
-  
-  .wa-icon-container {
-    width: 36px;
-    height: 36px;
+
+  .wa-pill {
+    height: 38px;
+    padding: 0 14px;
   }
-  
-  .wa-icon-container svg {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .whatsapp-boton-flotante span {
+
+  .wa-pill span {
     font-size: 12px;
   }
+
+  .wa-circle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .wa-circle svg {
+    width: 24px;
+    height: 24px;
+  }
 }
 
-/* Subtle glow effect */
-@keyframes subtleGlow {
-  0%, 100% { box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
-  50% { box-shadow: 0 4px 25px rgba(37, 211, 102, 0.5); }
-}
-
-.whatsapp-boton-flotante {
-  animation: subtleFloat 2.5s ease-in-out infinite, subtleGlow 4s ease-in-out infinite;
-}
+/* ========== END WHATSAPP FLOTANTE ========== */
 
 .logo {
   width: 90px;
@@ -295,12 +290,134 @@ nav a {
 }
 
 .imagen {
-    width: 500px !important;
-    max-width: 400px !important;
-    height: 450px !important;
+    width: 500px;
+    max-width: 400px;
+    height: 450px;
     object-fit: cover;
     border-radius: 10px;
     margin-left: 100px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 575px) {
+  .imagen {
+    width: min(80vw, 350px);
+    max-width: 350px;
+    height: auto;
+    aspect-ratio: 470 / 540;
+    margin: 0 auto;
+  }
+
+  .contenido {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .texto-ayuda {
+    width: 100%;
+  }
+
+  .cards {
+    flex-direction: column;
+  }
+
+  .card-ayuda {
+    width: 100%;
+    min-width: unset;
+    max-width: unset;
+  }
+
+  .categorias {
+    padding: 30px 12px 20px !important;
+  }
+
+  .titulo-seccion {
+    margin-top: 0 !important;
+  }
+
+  .titulo-seccion h1 {
+    font-size: 32px !important;
+  }
+
+  .titulo-seccion p {
+    font-size: 14px !important;
+  }
+
+  .categorias .grid-categorias {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    max-width: 100% !important;
+  }
+
+  .card {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 16px !important;
+    padding: 6px !important;
+    gap: 2px !important;
+  }
+
+  .card img {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .card h4 {
+    font-size: 10px !important;
+  }
+
+  .card:nth-child(-n+4),
+  .card:nth-child(n+5):nth-child(-n+7),
+  .card:nth-child(n+8) {
+    grid-column: auto !important;
+  }
+
+  .texto-ayuda h1 {
+    white-space: normal !important;
+  }
+
+  .texto h1 {
+    margin-bottom: -8px !important;
+  }
+
+  .texto h2 {
+    margin-bottom: -6px !important;
+  }
+
+  .hero {
+    padding: 50px 12px 30px;
+    min-height: 420px;
+  }
+
+  .ayuda {
+    padding: 20px 12px 10px !important;
+  }
+
+  .turismo {
+    padding: 20px 12px 0 !important;
+  }
+
+  .contenido-turismo {
+    gap: 16px !important;
+  }
+
+  .texto-turismo p {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .cards-turismo {
+    gap: 10px !important;
+  }
+
+  .card-turismo img {
+    height: 100px !important;
+  }
+
+  .contacto {
+    padding: 30px 12px !important;
+  }
 }
 
 /* ========== AYUDA ========== */
@@ -314,15 +431,28 @@ nav a {
 
 .contenido {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 45px;
+  gap: 30px;
 }
 
 .texto-ayuda {
-  width: 45%;
+  width: 100%;
   max-width: 500px;
+}
+
+.contenido .imagen-ayuda {
+  width: 100%;
+  max-width: 400px;
+}
+
+.contenido .imagen-ayuda img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 540 / 290;
+  object-fit: cover;
+  border-radius: 20px;
 }
 
 .texto-ayuda h1 {
@@ -405,6 +535,7 @@ nav a {
   padding: 18px 28px;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 18px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.05);
@@ -414,7 +545,9 @@ nav a {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 25%;
+  flex: 1;
+  min-width: 200px;
+  max-width: 260px;
 }
 
 .card-ayuda img {
@@ -527,31 +660,12 @@ nav a {
   max-width: 850px !important;
 }
 
-.ultima-card {
-  grid-column: 6;
-}
-
-.fila-categorias {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-bottom: 22px;
-  flex-wrap: nowrap;
-}
-.card {
-  grid-column: span 2;
-}
-
-.grid-categorias .card:nth-child(7) {
-  grid-column: 2 / span 2;
-}
-
 
 
 
 /* ========== AGENDA ========== */
 .agenda {
-  scroll-margin-top: 60px;
+  scroll-margin-top: 90px;
   padding: 40px 0;
 }
 
@@ -559,7 +673,6 @@ nav a {
 /* TURISMO AJUSTE FINAL */
 
 .turismo {
-  height: calc(100vh - 75px) !important;
   padding: 15px 28px 8px !important;
   background: #f8f8f8 !important;
   overflow: hidden !important;
@@ -572,7 +685,6 @@ nav a {
   grid-template-columns: 32% 68% !important;
   gap: 24px !important;
   align-items: start !important;
-  margin-top: -45px !important;
 }
 
 
@@ -674,11 +786,25 @@ nav a {
 
 .card-turismo {
   background: #fff !important;
-  border: 2px solid #eee3d7 !important;
-  border-radius: 0 !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
+  border-radius: 16px !important;
   overflow: hidden !important;
-  height: 224px !important;
   box-sizing: border-box !important;
+  display: block !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.card-turismo:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.1) !important;
+}
+
+.card-turismo:active {
+  transform: translateY(-1px);
 }
 
 .card-turismo img {
@@ -710,6 +836,114 @@ nav a {
 .frase-final {
   margin: 6px auto 0 !important;
   transform: translateY(-18px) !important;
+  padding-right: 15px !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 900px) {
+  .turismo {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 40px 16px !important;
+    overflow: visible !important;
+  }
+
+  .contenido-turismo {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+    margin-top: 0 !important;
+  }
+
+  .texto-turismo {
+    transform: none !important;
+    max-width: 100% !important;
+    align-items: center !important;
+  }
+
+  .texto-turismo h1 {
+    font-size: clamp(36px, 8vw, 52px) !important;
+    text-align: center !important;
+  }
+
+  .texto-turismo p {
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: center !important;
+  }
+
+  .decoracion-turismo img {
+    margin: 0 auto 20px !important;
+  }
+
+  .iconos-turismo {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  .btn-turismo {
+    margin: 0 auto !important;
+    display: block !important;
+    width: fit-content !important;
+  }
+
+  .cards-turismo {
+    grid-template-columns: repeat(2, 1fr) !important;
+    align-items: start !important;
+  }
+
+  .card-turismo {
+    height: auto !important;
+  }
+
+  .card-turismo img {
+    height: 140px !important;
+  }
+
+  .texto-turismo h1 {
+    margin-bottom: 10px !important;
+  }
+
+  .categorias .grid-categorias {
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 10px !important;
+    max-width: 100% !important;
+  }
+
+  .card {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  .card img {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .card h4 {
+    font-size: 11px !important;
+  }
+
+  .card:nth-child(-n+4) {
+    grid-column: span 3 !important;
+  }
+
+  .card:nth-child(n+5):nth-child(-n+7) {
+    grid-column: span 2 !important;
+  }
+
+  .card:nth-child(n+8) {
+    grid-column: span 3 !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .cards-turismo {
+    grid-template-columns: 1fr !important;
+    align-items: start !important;
+  }
 }
 
 /* ========== CONTACTO ========== */
@@ -1106,20 +1340,38 @@ nav a {
     padding: 50px 24px;
   }
 
+  .contenido {
+    flex-direction: row;
+    gap: 45px;
+  }
+
+  .texto-ayuda {
+    width: 45%;
+  }
+
+  .cards {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .card-ayuda {
+    width: calc(50% - 10px);
+  }
+
+  .imagen-ayuda {
+    width: auto;
+    max-width: 540px;
+    flex-shrink: 0;
+  }
+
+  .imagen-ayuda img {
+    width: 100%;
+    height: 290px;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+
   .categorias {
-    padding: 50px 24px;
-  }
-
-  .grid-categorias {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .card {
-    border-radius: 40px;
-  }
-
-  .turismo {
     padding: 50px 24px;
   }
 
@@ -1209,8 +1461,11 @@ nav a {
   .contenido {
     flex-direction: row;
     justify-content: center;
-    gap: 0;
-    position: relative;
+    gap: 40px;
+  }
+
+  .texto-ayuda {
+    width: 45%;
   }
 
   .texto-ayuda h1 {
@@ -1318,6 +1573,23 @@ nav a {
   }
 }
 
+/* ========== DESKTOP (901px+) — categorías centradas ========== */
+@media (min-width: 901px) {
+  .categorias .grid-categorias {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    max-width: 950px !important;
+  }
+
+  .categorias .grid-categorias .card {
+    width: 130px;
+    height: 170px;
+    border-radius: 60px;
+  }
+}
+
 /* ========== DESKTOP (1024px+) ========== */
 @media (min-width: 1024px) {
   header {
@@ -1371,6 +1643,17 @@ nav a {
     padding: 80px 50px;
   }
 
+  .categorias .grid-categorias .card {
+    width: 135px;
+    height: 190px;
+    border-radius: 70px;
+  }
+
+  .categorias .grid-categorias .card img {
+    width: 55px;
+    height: 55px;
+  }
+
   .grid-categorias {
     gap: 50px;
   }
@@ -1400,7 +1683,6 @@ nav a {
 
   .card-turismo {
     width: 260px;
-    height: 310px;
   }
 
   .contacto {
@@ -1414,7 +1696,18 @@ nav a {
 
 /* ========== LARGE DESKTOP (1280px+) ========== */
 @media (min-width: 1280px) {
-  .grid-categorias {
-    gap: 80px;
+  .categorias .grid-categorias {
+    gap: 28px !important;
+    max-width: 1100px !important;
+  }
+
+  .categorias .grid-categorias .card {
+    width: 160px;
+    height: 190px;
+  }
+
+  .categorias .grid-categorias .card img {
+    width: 70px;
+    height: 70px;
   }
 }

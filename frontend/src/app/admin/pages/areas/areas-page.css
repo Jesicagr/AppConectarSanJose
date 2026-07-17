@@ -119,9 +119,13 @@
 .areas-grid {
   display: grid;
   gap: 20px;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(4, 1fr);
   padding: 16px;
 }
+
+.area-card.span-2 { grid-column: span 2; }
+.area-card.span-3 { grid-column: span 3; }
+.area-card.span-4 { grid-column: span 4; }
 
 .area-card {
   background: #ffffff;
@@ -517,6 +521,7 @@
 }
 
 .empty-state {
+  grid-column: 1 / -1;
   color: var(--text-muted);
   font-weight: 700;
   padding: 28px 0 8px;
@@ -814,6 +819,12 @@
     gap: 20px;
   }
 
+  .area-card.span-2,
+  .area-card.span-3,
+  .area-card.span-4 {
+    grid-column: auto;
+  }
+
   .footer-bar {
     align-items: center;
     flex-direction: row;
@@ -861,7 +872,18 @@
   }
 
   .areas-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
     padding: 12px;
+  }
+
+  .area-card.span-3,
+  .area-card.span-4 {
+    grid-column: span 2;
+  }
+
+  .area-card.span-2 {
+    grid-column: span 1;
   }
 
   .area-card {
