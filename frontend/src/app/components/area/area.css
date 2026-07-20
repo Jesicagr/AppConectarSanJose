@@ -223,12 +223,14 @@
 }
 
 .tag-telefono {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     background: #e2e8f0;
-    padding: 0.2rem 0.5rem;
+    padding: 0.5rem 0.75rem;
     border-radius: 6px;
     margin: 0.15rem 0.2rem;
     font-size: 0.85rem;
+    min-height: 44px;
 }
 
 .link-card,
@@ -237,7 +239,10 @@
 .link-item {
     text-decoration: none;
     color: inherit;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 4px;
+    min-height: 44px;
 }
 
 .link-card:hover,
@@ -318,12 +323,14 @@
 }
 
 .tag-telefono {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     background: #e2e8f0;
-    padding: 0.15rem 0.5rem;
+    padding: 0.5rem 0.75rem;
     border-radius: 6px;
     margin: 0.15rem 0.25rem;
     font-size: 0.85rem;
+    min-height: 44px;
 }
 
 .actividades-seccion h4 {
