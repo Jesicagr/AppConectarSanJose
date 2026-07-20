@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AreaService, Area } from '../../services/area.service';
 import { ActividadService } from '../../services/actividad.service';
@@ -34,6 +34,12 @@ export class HomePage implements OnInit {
     private actividadService: ActividadService,
     private contactoService: ContactoService,
   ) {}
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    if (this.mostrarModalArea) this.cerrarModalArea();
+    if (this.mostrarModalAyuda) this.cerrarAyuda();
+  }
 
 
   ngOnInit(): void {

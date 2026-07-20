@@ -427,9 +427,9 @@ nav a {
     display: none !important;
   }
 
-  .texto-ayuda h1 {
-    white-space: normal !important;
-  }
+.texto-ayuda h2 {
+  white-space: normal !important;
+}
 
   .texto h1 {
     margin-bottom: -8px !important;
@@ -508,6 +508,19 @@ nav a {
   }
 }
 
+/* ========== FOCUS VISIBLE ========== */
+*:focus-visible {
+  outline: 3px solid #0057d8;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.card:focus-visible {
+  outline: 3px solid #0057d8;
+  outline-offset: 3px;
+  border-radius: 24px;
+}
+
 /* ========== AYUDA ========== */
 .ayuda {
   width: 100%;
@@ -543,7 +556,7 @@ nav a {
   border-radius: 20px;
 }
 
-.texto-ayuda h1 {
+.texto-ayuda h2 {
   font-size: clamp(2.2rem, 6vw, 4.4rem);
   font-weight: 700;
   color: #444;
@@ -552,7 +565,7 @@ nav a {
   margin-bottom: 14px;
 }
 
-.texto-ayuda h1 span {
+.texto-ayuda h2 span {
   color: #9BCB97;
 }
 
@@ -786,7 +799,7 @@ nav a {
   max-width: 430px !important;
 }
 
-.texto-turismo h1 {
+.texto-turismo h2 {
   font-size: 68px !important;
   line-height: 0.95 !important;
   margin: 0 0 22px !important;
@@ -970,7 +983,7 @@ nav a {
     align-items: center !important;
   }
 
-  .texto-turismo h1 {
+  .texto-turismo h2 {
     font-size: clamp(42px, 10vw, 58px) !important;
     text-align: center !important;
   }
@@ -1009,7 +1022,7 @@ nav a {
     height: 140px !important;
   }
 
-  .texto-turismo h1 {
+  .texto-turismo h2 {
     margin-bottom: 10px !important;
   }
 
@@ -1567,7 +1580,7 @@ nav a {
     width: 45%;
   }
 
-  .texto-ayuda h1 {
+  .texto-ayuda h2 {
     position: relative;
     z-index: 1;
     margin-right: -20%;
@@ -1725,7 +1738,7 @@ nav a {
     gap: 0;
   }
 
-  .texto-ayuda h1 {
+  .texto-ayuda h2 {
     margin-right: -30%;
   }
 
