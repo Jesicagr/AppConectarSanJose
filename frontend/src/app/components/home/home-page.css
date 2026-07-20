@@ -461,11 +461,45 @@ nav a {
   }
 
   .cards-turismo {
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 10px !important;
   }
 
+  .card-turismo {
+    border-radius: 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 220px !important;
+    min-height: 220px !important;
+    max-height: 220px !important;
+  }
+
   .card-turismo img {
-    height: 100px !important;
+    height: 110px !important;
+    min-height: 110px !important;
+    max-height: 110px !important;
+    object-fit: cover !important;
+  }
+
+  .info {
+    padding: 10px !important;
+    flex: 1 !important;
+    min-height: 110px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
+
+  .info h3 {
+    font-size: 13px !important;
+    margin: 0 0 3px !important;
+    line-height: 1.15 !important;
+  }
+
+  .info p {
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+    margin: 0 !important;
   }
 
   .contacto {
@@ -839,6 +873,13 @@ nav a {
   gap:14px 18px;
 }
 
+@media (max-width: 575px) {
+  .cards-turismo {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+}
+
 .card-turismo {
   background: #fff !important;
   border: 1px solid rgba(0,0,0,0.06) !important;
@@ -895,6 +936,19 @@ nav a {
   box-sizing: border-box !important;
 }
 
+@media (max-width: 575px) {
+  .frase-final {
+    transform: translateY(0) !important;
+    margin: 24px auto 0 !important;
+  }
+
+  .frase-final p {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    padding: 0 10px !important;
+  }
+}
+
 @media (max-width: 900px) {
   .turismo {
     height: auto !important;
@@ -936,7 +990,7 @@ nav a {
   }
 
   .btn-turismo {
-    margin: 0 auto !important;
+    margin: 24px auto 0 !important;
     display: block !important;
     width: fit-content !important;
   }
@@ -975,7 +1029,8 @@ nav a {
 
 @media (max-width: 500px) {
   .cards-turismo {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
     align-items: start !important;
   }
 }
