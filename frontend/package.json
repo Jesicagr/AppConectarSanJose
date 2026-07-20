@@ -10,7 +10,6 @@
     "preview": "ng build --configuration production && http-server dist/conectar-angular/browser -p 4200 --proxy http://localhost:8080 -c-1"
   },
   "private": true,
-  "packageManager": "npm@10.9.2",
   "dependencies": {
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
