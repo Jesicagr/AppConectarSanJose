@@ -132,6 +132,236 @@ header {
 
 /* ========== END WHATSAPP FLOTANTE ========== */
 
+/* ========== INSTAGRAM FLOTANTE ========== */
+
+.instagram-flotante {
+  position: fixed;
+  bottom: 96px;
+  right: 32px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  animation: floatAnimation 3s ease-in-out infinite;
+}
+
+.ig-pill {
+  height: 34px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.instagram-flotante:hover .ig-pill {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+}
+
+.ig-pill span {
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.ig-circle {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(225, 48, 108, 0.3);
+  transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+  flex-shrink: 0;
+}
+
+.instagram-flotante:hover .ig-circle {
+  transform: scale(1.08);
+  box-shadow: 0 10px 28px rgba(225, 48, 108, 0.4);
+}
+
+.instagram-flotante:active .ig-circle {
+  transform: scale(0.92);
+}
+
+.ig-circle svg {
+  width: 28px;
+  height: 28px;
+  color: white;
+}
+
+/* ── IG Panel (slide from right) ── */
+
+.ig-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  z-index: 9998;
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+.ig-panel-overlay.active {
+  background: rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+}
+
+.ig-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(380px, 85vw);
+  height: 100vh;
+  background: #fff;
+  z-index: 9999;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+}
+
+.ig-panel.active {
+  transform: translateX(0);
+}
+
+.ig-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.ig-panel-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  margin: 0;
+  color: #333;
+}
+
+.ig-panel-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #999;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.ig-panel-close:hover {
+  color: #333;
+}
+
+.ig-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ig-post {
+  display: flex;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 12px;
+  padding: 8px;
+  transition: background 0.2s;
+}
+
+.ig-post:hover {
+  background: #f5f5f5;
+}
+
+.ig-post img {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.ig-post-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ig-post-info small {
+  color: #999;
+  font-size: 12px;
+}
+
+.ig-post-info p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #444;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ig-vacio {
+  text-align: center;
+  color: #999;
+  padding: 40px 0;
+}
+
+@media (max-width: 640px) {
+  .instagram-flotante {
+    bottom: 80px;
+    right: 16px;
+    gap: 8px;
+  }
+
+  .ig-pill {
+    height: 38px;
+    padding: 0 14px;
+  }
+
+  .ig-pill span {
+    font-size: 12px;
+  }
+
+  .ig-circle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .ig-circle svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .ig-panel {
+    width: 100vw;
+  }
+}
+
+/* ========== END INSTAGRAM FLOTANTE ========== */
+
 .logo {
   width: 90px;
   flex-shrink: 0;

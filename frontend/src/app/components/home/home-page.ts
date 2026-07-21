@@ -5,6 +5,7 @@ import { AreaService, Area } from '../../services/area.service';
 import { ActividadService } from '../../services/actividad.service';
 import { Actividad } from '../../models/actividad.model';
 import { ContactoService, Contacto } from '../../services/contacto.service';
+import { InstagramService, InstagramPost, CuentaInstagram } from '../../services/instagram.service';
 import { WEBP_MAP, AREA_ORDER } from '../../shared/area-tones';
 import { AgendaComponent } from '../agenda/agenda';
 import { getPhoneLink, getAddressLink, getEmailLink, getWebLink, isUrl } from '../../shared/link-utils';
@@ -31,10 +32,14 @@ export class HomePage implements OnInit {
   whatsappFlotanteNumero = '';
   whatsappFlotanteLabel = 'Texto del boton flotante';
 
+  instagramPosts: InstagramPost[] = [];
+  mostrarPanelInstagram = false;
+
   constructor(
     private areaService: AreaService,
     private actividadService: ActividadService,
     private contactoService: ContactoService,
+    private instagramService: InstagramService,
     private cdr: ChangeDetectorRef,
     private title: Title
   ) {
@@ -45,6 +50,7 @@ export class HomePage implements OnInit {
   onEscapeKey(): void {
     if (this.mostrarModalArea) this.cerrarModalArea();
     if (this.mostrarModalAyuda) this.cerrarAyuda();
+    if (this.mostrarPanelInstagram) this.cerrarPanelInstagram();
   }
 
 
@@ -53,6 +59,7 @@ export class HomePage implements OnInit {
     this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
     this.cargarAreas();
     this.cargarContactos();
+    this.cargarInstagram();
   }
 
   cargarContactos(): void {
@@ -208,5 +215,23 @@ export class HomePage implements OnInit {
 
   cerrarAyuda() {
     this.mostrarModalAyuda = false;
+  }
+
+  cargarInstagram(): void {
+    this.instagramService.obtenerPosts().subscribe({
+      next: (posts) => { this.instagramPosts = posts; this.cdr.markForCheck(); },
+      error: () => {}
+    });
+  }
+
+  abrirPanelInstagram(): void {
+    this.mostrarPanelInstagram = true;
+    if (this.instagramPosts.length === 0) {
+      this.cargarInstagram();
+    }
+  }
+
+  cerrarPanelInstagram(): void {
+    this.mostrarPanelInstagram = false;
   }
 }
