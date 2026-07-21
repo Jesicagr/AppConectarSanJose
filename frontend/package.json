@@ -4,7 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:ssr": "ng run conectar-angular:serve-ssr",
     "build": "ng build",
+    "build:ssr": "ng build && ng run conectar-angular:server",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "preview": "ng build --configuration production && http-server dist/conectar-angular/browser -p 4200 --proxy http://localhost:8080 -c-1"
@@ -16,7 +18,9 @@
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
+    "@angular/platform-server": "^21.2.18",
     "@angular/router": "^21.2.0",
+    "@angular/ssr": "^21.2.19",
     "leaflet": "^1.9.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

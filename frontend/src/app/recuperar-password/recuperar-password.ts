@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-recuperar-password',
@@ -16,6 +17,7 @@ export class RecuperarPasswordPage implements OnInit {
   private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
   private appRef = inject(ApplicationRef);
+  private title = inject(Title);
 
   token = '';
   password = '';
@@ -28,6 +30,7 @@ export class RecuperarPasswordPage implements OnInit {
   showConfirm = false;
 
   ngOnInit(): void {
+    this.title.setTitle('Recuperar contraseña — Conectar San José');
     this.token = this.route.snapshot.queryParams['token'] || '';
     if (!this.token) {
       this.error = 'El enlace de recuperación no es válido o está incompleto.';

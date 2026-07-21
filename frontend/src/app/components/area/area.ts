@@ -1,5 +1,5 @@
 // src/app/components/area/area.ts
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AreaService, Area } from '../../services/area.service';
 import { ActividadService } from '../../services/actividad.service';
@@ -8,15 +8,15 @@ import { WEBP_MAP, AREA_ORDER } from '../../shared/area-tones';
 import { getPhoneLink, getAddressLink, getEmailLink, getWebLink } from '../../shared/link-utils';
 
 const ACCENT_COLORS: Record<string, string> = {
-  'Mujeres Género y Diversidad': '#9acb92',
-  'Mujer': '#9acb92',
+  'Mujeres Género y Diversidad': '#4F8A4B',
+  'Mujer': '#4F8A4B',
   'Niñez, Adolescencia y Familia': '#d6c75d',
   'Niñez': '#d6c75d',
-  'Personas Mayores': '#9acb92',
+  'Personas Mayores': '#4F8A4B',
   'Desarrollo Comunitario': '#8fc6d9',
   'Inclusión': '#d6c75d',
-  'Salud': '#9acb92',
-  'Salud Social y Comunitaria': '#9acb92',
+  'Salud': '#4F8A4B',
+  'Salud Social y Comunitaria': '#4F8A4B',
   'Trabajo y Producción': '#8fc6d9',
   'Trabajo': '#8fc6d9',
   'Deportes y Recreación': '#d6c75d',
@@ -31,7 +31,8 @@ const ACCENT_COLORS: Record<string, string> = {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './area.html',
-  styleUrl: './area.css'
+  styleUrl: './area.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AreaComponent implements OnInit {
 
@@ -64,7 +65,7 @@ export class AreaComponent implements OnInit {
           return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
         });
         this.precargarActividades();
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       error: (err) => console.error('[ConectarSanJose] ERROR Error al cargar áreas:', err)
     });
@@ -149,7 +150,7 @@ export class AreaComponent implements OnInit {
     const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     const aNorm = normalize(area.nombre);
     const key = Object.keys(ACCENT_COLORS).find((k) => normalize(k) === aNorm);
-    return ACCENT_COLORS[key!] || '#9acb92';
+    return ACCENT_COLORS[key!] || '#4F8A4B';
   }
 
   phoneLink(numero: string, esWhatsapp?: boolean): string {

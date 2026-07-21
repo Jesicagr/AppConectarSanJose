@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ContactoService, Contacto } from '../../../services/contacto.service';
 import { ToastService } from '../../../shared/toast.service';
 import { LoggerService } from '../../../shared/logger.service';
@@ -68,6 +69,7 @@ export class ContactsPage implements OnInit {
   private contactsBackend: Contacto[] = [];
 
   ngOnInit(): void {
+    inject(Title).setTitle('Contactos — Conectar San José');
     this.whatsappFlotanteNumero = this.contactoService.getWhatsappFlotanteNumero();
     this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
     this.contactoService.obtenerTodos().subscribe({

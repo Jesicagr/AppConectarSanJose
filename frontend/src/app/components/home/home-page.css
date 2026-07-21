@@ -566,7 +566,7 @@ nav a {
 }
 
 .texto-ayuda h2 span {
-  color: #9BCB97;
+  color: #4F8A4B;
 }
 
 .corazon {
@@ -585,7 +585,7 @@ nav a {
 }
 
 .verde {
-  color: #9BCB97;
+  color: #4F8A4B;
   font-weight: bold;
 }
 
@@ -809,7 +809,7 @@ nav a {
 }
 
 .texto-turismo span {
-  color: #9acb92 !important;
+  color: #4F8A4B !important;
   display: block !important;
   white-space: nowrap !important;
 }
@@ -870,8 +870,8 @@ nav a {
   margin: 8px 0 0 0 !important;
   margin-left:25px !important;
   padding: 10px 24px !important;
-  background: #9acb92 !important;
-  color: #1a3d1a !important;
+  background: #4F8A4B !important;
+  color: #fff !important;
   border-radius: 30px !important;
   text-decoration: none !important;
   font-size: 14px !important;
@@ -1129,6 +1129,65 @@ nav a {
   color: #222;
 }
 
+/* ========== HOME FOOTER ========== */
+.home-footer {
+  background: #25354A;
+  color: #ccc;
+  padding: 32px 20px;
+}
+
+.home-footer .footer-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-footer p {
+  margin: 0 0 16px;
+  font-size: 14px;
+}
+
+.home-footer .footer-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px 36px;
+}
+
+.home-footer .footer-contacto,
+.home-footer .footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.home-footer .footer-item {
+  color: #ccc;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  padding: 6px 4px;
+  min-height: 44px;
+  transition: color 0.2s;
+}
+
+.home-footer .footer-item:hover {
+  color: #fff;
+}
+
+.home-footer .footer-item .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.home-footer .social-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
 /* ========== HELP BOTTOM SHEET ========== */
 .overlay-ayuda {
   position: fixed;
@@ -1236,7 +1295,7 @@ nav a {
 }
 
 .btn-volver {
-  background: #9acb92;
+  background: #4F8A4B;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -1422,11 +1481,11 @@ nav a {
 /* ========== TABLET (576px+) ========== */
 @media (min-width: 576px) {
   header {
-    padding: 12px 24px;
+    padding: 6px 24px;
   }
 
   .logo {
-    width: 160px;
+    width: 100px;
   }
 
   .hero {
@@ -1530,22 +1589,23 @@ nav a {
     max-width: none;
     height: auto;
     background: #dfeceb;
-    padding: 14px 30px;
-    gap: 30px;
+    padding: 6px 20px;
+    gap: 20px;
     border-radius: 30px;
     box-shadow: none;
     overflow: visible;
   }
 
   nav a {
-    font-size: 16px;
+    font-size: 13px;
+    font-weight: 600;
     padding: 0;
     border-bottom: none;
   }
 
   .hero {
     flex-direction: row;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 60px);
     justify-content: center;
     gap: 30px;
     padding: 0 30px;
@@ -1705,12 +1765,12 @@ nav a {
 /* ========== DESKTOP (1024px+) ========== */
 @media (min-width: 1024px) {
   header {
-    padding: 12px 50px;
+    padding: 6px 50px;
   }
 
   .hero {
     flex-direction: row;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 60px);
     padding: 0 50px;
     justify-content: space-around;
     gap: 0;

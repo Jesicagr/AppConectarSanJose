@@ -1,5 +1,5 @@
 <header>
-    <img src="logo.png" class="logo" alt="Conectar San José" (click)="irInicio()" style="cursor:pointer">
+    <img src="assets/logo.webp" class="logo" alt="Conectar San José" (click)="irInicio()" style="cursor:pointer">
 
   <button class="hamburger" [class.open]="menuAbierto" (click)="toggleMenu()" aria-label="Menú">
     <span></span>
@@ -38,7 +38,7 @@
 
 <section id="inicio" class="hero">
   <div class="contenedor-texto">
-    <img src="gotas.png" class="decoracion" alt="" aria-hidden="true">
+    <img src="assets/gotas.webp" class="decoracion" alt="" aria-hidden="true">
 
     <div class="texto">
       <h1>DESCUBRÍ</h1>
@@ -51,7 +51,7 @@
     </div>
   </div>
 
-    <img src="monumento.jpg" class="imagen" alt="Monumento de San José">
+    <img src="assets/monumento.webp" class="imagen" alt="Monumento de San José">
 </section>
 
 <section id="ayuda" class="ayuda">
@@ -59,7 +59,7 @@
     <div class="texto-ayuda">
       <h2>
         No estás <span>solo</span>
-        <img src="corazon.png" class="corazon" alt="" aria-hidden="true">
+        <img src="assets/corazon.webp" class="corazon" alt="" aria-hidden="true">
       </h2>
 
       <p>
@@ -82,13 +82,13 @@
     </div>
 
     <div class="imagen-ayuda">
-      <img src="abrazo.jpg" alt="Persona recibiendo un abrazo">
+      <img src="assets/abrazo.webp" alt="Persona recibiendo un abrazo">
     </div>
   </div>
 
   <div class="cards">
     <div class="card-ayuda">
-      <img src="bienestar.png" alt="Bienestar emocional" loading="lazy">
+      <img src="assets/bienestar.webp" alt="Bienestar emocional" loading="lazy">
 
       <div class="texto-card">
         <h3>Bienestar emocional</h3>
@@ -97,7 +97,7 @@
     </div>
 
     <div class="card-ayuda">
-      <img src="apoyo.png" alt="Espacios de apoyo" loading="lazy">
+      <img src="assets/apoyo.webp" alt="Espacios de apoyo" loading="lazy">
 
       <div class="texto-card">
         <h3>Espacios de apoyo</h3>
@@ -106,7 +106,7 @@
     </div>
 
     <div class="card-ayuda">
-      <img src="talleres.png" alt="Talleres para conectar" loading="lazy">
+      <img src="assets/talleres.webp" alt="Talleres para conectar" loading="lazy">
 
       <div class="texto-card">
         <h3>Talleres para conectar</h3>
@@ -115,7 +115,7 @@
     </div>
 
     <div class="card-ayuda">
-      <img src="hablar.png" alt="Hablar con alguien" loading="lazy">
+      <img src="assets/hablar.webp" alt="Hablar con alguien" loading="lazy">
 
       <div class="texto-card">
         <h3>Hablar con alguien</h3>
@@ -133,37 +133,37 @@
 
   <div class="grid-categorias">
     <div class="card mujer" role="button" tabindex="0" (click)="abrirModalArea('mujer')" (keydown.enter)="abrirModalArea('mujer')" (keydown.space)="abrirModalArea('mujer'); $event.preventDefault()">
-      <img src="mujer.png" alt="Mujer" loading="lazy">
+      <img src="assets/mujer.webp" alt="Mujer" loading="lazy">
       <h4>Mujer</h4>
     </div>
 
     <div class="card amarillo" role="button" tabindex="0" (click)="abrirModalArea('ninez')" (keydown.enter)="abrirModalArea('ninez')" (keydown.space)="abrirModalArea('ninez'); $event.preventDefault()">
-      <img src="ninez.png" alt="Niñez" loading="lazy">
+      <img src="assets/ninez.webp" alt="Niñez" loading="lazy">
       <h4>Niñez</h4>
     </div>
 
     <div class="card gris" role="button" tabindex="0" (click)="abrirModalArea('mayores')" (keydown.enter)="abrirModalArea('mayores')" (keydown.space)="abrirModalArea('mayores'); $event.preventDefault()">
-      <img src="mayores.png" alt="Personas Mayores" loading="lazy">
+      <img src="assets/mayores.webp" alt="Personas Mayores" loading="lazy">
       <h4>Personas <br> Mayores</h4>
     </div>
 
     <div class="card celeste" role="button" tabindex="0" (click)="abrirModalArea('comunidad')" (keydown.enter)="abrirModalArea('comunidad')" (keydown.space)="abrirModalArea('comunidad'); $event.preventDefault()">
-      <img src="comunidad.png" alt="Desarrollo Comunitario" loading="lazy">
+      <img src="assets/comunidad.webp" alt="Desarrollo Comunitario" loading="lazy">
       <h4>Desarrollo <br> Comunitario</h4>
     </div>
 
     <div class="card amarillo" role="button" tabindex="0" (click)="abrirModalArea('discapacidad')" (keydown.enter)="abrirModalArea('discapacidad')" (keydown.space)="abrirModalArea('discapacidad'); $event.preventDefault()">
-      <img src="discapacidad.png" alt="Inclusión" loading="lazy">
+      <img src="assets/inclusion.webp" alt="Inclusión" loading="lazy">
       <h4>Inclusión</h4>
     </div>
 
     <div class="card gris" role="button" tabindex="0" (click)="abrirModalArea('salud')" (keydown.enter)="abrirModalArea('salud')" (keydown.space)="abrirModalArea('salud'); $event.preventDefault()">
-      <img src="salud.png" alt="Salud" loading="lazy">
+      <img src="assets/salud.webp" alt="Salud" loading="lazy">
       <h4>Salud</h4>
     </div>
 
     <div class="card celeste" role="button" tabindex="0" (click)="abrirModalArea('trabajo')" (keydown.enter)="abrirModalArea('trabajo')" (keydown.space)="abrirModalArea('trabajo'); $event.preventDefault()">
-      <img src="trabajo.png" alt="Trabajo" loading="lazy">
+      <img src="assets/trabajo.webp" alt="Trabajo" loading="lazy">
       <h4>Trabajo</h4>
     </div>
 
@@ -173,17 +173,17 @@
     </div>
 
     <div class="card gris" role="button" tabindex="0" (click)="abrirModalArea('turismo')" (keydown.enter)="abrirModalArea('turismo')" (keydown.space)="abrirModalArea('turismo'); $event.preventDefault()">
-      <img src="turismo.png" alt="Turismo" loading="lazy">
+      <img src="assets/turismo.webp" alt="Turismo" loading="lazy">
       <h4>Turismo</h4>
     </div>
 
     <div class="card celeste" role="button" tabindex="0" (click)="abrirModalArea('cultura')" (keydown.enter)="abrirModalArea('cultura')" (keydown.space)="abrirModalArea('cultura'); $event.preventDefault()">
-      <img src="cultura.png" alt="Cultura" loading="lazy">
+      <img src="assets/cultura.webp" alt="Cultura" loading="lazy">
       <h4>Cultura</h4>
     </div>
 
     <div class="card amarillo" role="button" tabindex="0" (click)="abrirModalArea('educacion')" (keydown.enter)="abrirModalArea('educacion')" (keydown.space)="abrirModalArea('educacion'); $event.preventDefault()">
-      <img src="educacion.png" alt="Educación" loading="lazy">
+      <img src="assets/educacion.webp" alt="Educación" loading="lazy">
       <h4>Educación</h4>
     </div>
   </div>
@@ -202,7 +202,7 @@
       </h2>
 
       <div class="decoracion-turismo">
-        <img src="corazon.png" alt="" aria-hidden="true">
+        <img src="assets/corazon.webp" alt="" aria-hidden="true">
       </div>
 
       <p>
@@ -235,7 +235,7 @@
 
     <div class="cards-turismo">
       <a href="https://www.instagram.com/granja_la_administracion_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="card-turismo">
-        <img src="granja.png" alt="Granja La Administración" loading="lazy">
+        <img src="assets/granja.webp" alt="Granja La Administración" loading="lazy">
 
         <div class="info">
           <h3>Granja "La Administración"</h3>
@@ -244,7 +244,7 @@
       </a>
 
       <a href="https://www.instagram.com/trukayak?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="card-turismo">
-        <img src="kayak.png" alt="Tru Kayak" loading="lazy">
+        <img src="assets/kayak.webp" alt="Tru Kayak" loading="lazy">
 
         <div class="info">
           <h3>Tru Kayak</h3>
@@ -253,7 +253,7 @@
       </a>
 
       <a href="https://www.instagram.com/molinoaventuras?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="card-turismo">
-        <img src="molino.png" alt="Molino Aventuras" loading="lazy">
+        <img src="assets/molino.webp" alt="Molino Aventuras" loading="lazy">
 
         <div class="info">
           <h3>Molino Aventuras</h3>
@@ -262,7 +262,7 @@
       </a>
 
       <a href="https://www.instagram.com/termas.sanjose?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="card-turismo">
-        <img src="termas.png" alt="Termas San José" loading="lazy">
+        <img src="assets/termas.webp" alt="Termas San José" loading="lazy">
 
         <div class="info">
           <h3>Termas San José</h3>
@@ -271,7 +271,7 @@
       </a>
 
       <a href="https://www.instagram.com/balneariocampingsanjose?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="card-turismo">
-        <img src="balneario.png" alt="Balneario San José" loading="lazy">
+        <img src="assets/balneario.webp" alt="Balneario San José" loading="lazy">
 
         <div class="info">
           <h3>Balneario San José</h3>
@@ -280,7 +280,7 @@
       </a>
 
       <a href="https://www.instagram.com/molinoforclazoficial?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="card-turismo">
-        <img src="molinoforclaz.png" alt="Molino Forclaz" loading="lazy">
+        <img src="assets/molinoforclaz.webp" alt="Molino Forclaz" loading="lazy">
 
         <div class="info">
           <h3>Molino Forclaz</h3>
@@ -344,6 +344,38 @@
 </section>
 
 </main>
+
+<footer class="home-footer">
+  <div class="footer-content">
+    <p>&copy; 2026 Municipalidad de San José.</p>
+    <div class="footer-info">
+      <div class="footer-contacto">
+        <a class="footer-item" href="https://maps.google.com/?q=Centenario+1098+San+José" target="_blank" rel="noopener">
+          <span class="material-symbols-outlined">location_on</span>
+          Centenario 1098
+        </a>
+        <a class="footer-item" href="tel:3447470178">
+          <span class="material-symbols-outlined">phone</span>
+          3447 470178
+        </a>
+      </div>
+      <div class="footer-social">
+        <a class="footer-item" href="https://instagram.com/munisanjoseer" target="_blank" rel="noopener">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+          @munisanjoseer
+        </a>
+        <a class="footer-item" href="https://facebook.com/munisanjoseer" target="_blank" rel="noopener">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          Municipalidad de San José
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <div class="overlay-ayuda" [class.active]="mostrarModalAyuda" (click)="cerrarAyuda()">
   <div class="bottom-sheet" (click)="$event.stopPropagation()">
