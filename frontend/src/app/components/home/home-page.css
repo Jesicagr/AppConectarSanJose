@@ -245,13 +245,22 @@ nav a {
 
 .decoracion {
   position: absolute;
-  width: min(200vw, 1000px);
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  height: 100%;
+  width: auto;
+  top: 0;
   z-index: 1;
   opacity: 1;
   pointer-events: none;
+  transform: scale(1.6);
+  transform-origin: center;
+}
+
+.decoracion-izq {
+  right: calc(100% + 0px);
+}
+
+.decoracion-der {
+  left: calc(100% + 0px);
 }
 
 .texto {
