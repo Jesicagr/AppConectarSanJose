@@ -331,6 +331,14 @@ nav a {
     padding-left: 8px !important;
   }
 
+  .texto-ayuda h2 {
+    margin-bottom: -4px !important;
+  }
+
+  .texto-ayuda p {
+    margin-top: 0 !important;
+  }
+
   .cards {
     flex-direction: column;
   }
