@@ -47,7 +47,7 @@
           <h2>Más Visitadas</h2>
         </div>
         <div class="visitas-scroll">
-          @for (item of displayedVisitas(); track item.id) {
+          @for (item of displayedVisitas; track item.id) {
             <div class="visita-row" [style]="'--area-color: var(--' + categoryTone(item.categories[0]) + ')'">
               <span class="visita-name">{{ item.title }}</span>
               <span class="visita-count">
@@ -70,7 +70,7 @@
         </button>
       </div>
       <div class="instagram-grid">
-        @for (slot of instagramSlots(); track $index) {
+        @for (slot of instagramSlots; track $index) {
           @if (slot) {
             <div class="ig-card" [class.ig-card--inactive]="!slot.activo">
               <span class="ig-card-num">{{ $index + 1 }}</span>

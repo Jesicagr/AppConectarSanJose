@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
 import { SedeService, Sede } from '../../../services/sede.service';
 import { ToastService } from '../../../shared/toast.service';
@@ -14,6 +15,7 @@ import * as L from 'leaflet';
   imports: [CommonModule, FormsModule],
   templateUrl: './sedes-page.html',
   styleUrl: './sedes-page.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SedesPage implements OnInit, OnDestroy {
   private sedeService = inject(SedeService);
@@ -64,6 +66,7 @@ export class SedesPage implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
+    inject(Title).setTitle('Sedes — Conectar San José');
     this.cargarSedes();
   }
 
@@ -80,13 +83,13 @@ export class SedesPage implements OnInit, OnDestroy {
           return aPriority - bPriority;
         });
         this.loading = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
         setTimeout(() => this.initMap(), 100);
       },
       error: (err) => {
         this.logger.error('Error al cargar las sedes:', err);
         this.loading = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       }
     });
   }
@@ -113,7 +116,7 @@ export class SedesPage implements OnInit, OnDestroy {
       if (this.isModalOpen) {
         this.newSedeForm.latitud = parseFloat(e.latlng.lat.toFixed(6));
         this.newSedeForm.longitud = parseFloat(e.latlng.lng.toFixed(6));
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       }
     });
   }

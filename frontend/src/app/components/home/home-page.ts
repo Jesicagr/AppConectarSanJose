@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 import { AreaService, Area } from '../../services/area.service';
 import { ActividadService } from '../../services/actividad.service';
 import { Actividad } from '../../models/actividad.model';
 import { ContactoService, Contacto } from '../../services/contacto.service';
+import { InstagramService, InstagramPost, CuentaInstagram } from '../../services/instagram.service';
 import { WEBP_MAP, AREA_ORDER } from '../../shared/area-tones';
 import { AgendaComponent } from '../agenda/agenda';
 import { getPhoneLink, getAddressLink, getEmailLink, getWebLink, isUrl } from '../../shared/link-utils';
@@ -13,7 +15,8 @@ import { getPhoneLink, getAddressLink, getEmailLink, getWebLink, isUrl } from '.
   standalone: true,
   imports: [CommonModule, AgendaComponent],
   templateUrl: './home-page.html',
-  styleUrl: './home-page.css'
+  styleUrl: './home-page.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePage implements OnInit {
   menuAbierto: boolean = false;
@@ -29,11 +32,26 @@ export class HomePage implements OnInit {
   whatsappFlotanteNumero = '';
   whatsappFlotanteLabel = 'Texto del boton flotante';
 
+  instagramPosts: InstagramPost[] = [];
+  mostrarPanelInstagram = false;
+
   constructor(
     private areaService: AreaService,
     private actividadService: ActividadService,
     private contactoService: ContactoService,
-  ) {}
+    private instagramService: InstagramService,
+    private cdr: ChangeDetectorRef,
+    private title: Title
+  ) {
+    this.title.setTitle('Conectar San José — Municipalidad de San José');
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    if (this.mostrarModalArea) this.cerrarModalArea();
+    if (this.mostrarModalAyuda) this.cerrarAyuda();
+    if (this.mostrarPanelInstagram) this.cerrarPanelInstagram();
+  }
 
 
   ngOnInit(): void {
@@ -41,11 +59,12 @@ export class HomePage implements OnInit {
     this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
     this.cargarAreas();
     this.cargarContactos();
+    this.cargarInstagram();
   }
 
   cargarContactos(): void {
     this.contactoService.obtenerTodos().subscribe({
-      next: (data) => { this.listaContactos = data; },
+      next: (data) => { this.listaContactos = data; this.cdr.markForCheck(); },
       error: () => {}
     });
   }
@@ -62,6 +81,7 @@ export class HomePage implements OnInit {
           return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
         });
         this.precargarActividades();
+        this.cdr.markForCheck();
       },
       error: (err) => console.error('[ConectarSanJose] Error al cargar áreas:', err)
     });
@@ -92,7 +112,7 @@ export class HomePage implements OnInit {
     this.actividadesPorArea = [];
 
     this.actividadService.obtenerActividadesPorArea(area.id).subscribe({
-      next: (actividades) => { this.actividadesPorArea = actividades; },
+      next: (actividades) => { this.actividadesPorArea = actividades; this.cdr.markForCheck(); },
       error: () => {}
     });
   }
@@ -125,15 +145,15 @@ export class HomePage implements OnInit {
   };
 
   private ACCENT_COLORS: Record<string, string> = {
-    'Mujeres Género y Diversidad': '#9acb92',
-    'Mujer': '#9acb92',
+    'Mujeres Género y Diversidad': '#4F8A4B',
+    'Mujer': '#4F8A4B',
     'Niñez, Adolescencia y Familia': '#d6c75d',
     'Niñez': '#d6c75d',
-    'Personas Mayores': '#9acb92',
+    'Personas Mayores': '#4F8A4B',
     'Desarrollo Comunitario': '#8fc6d9',
     'Inclusión': '#d6c75d',
-    'Salud': '#9acb92',
-    'Salud Social y Comunitaria': '#9acb92',
+    'Salud': '#4F8A4B',
+    'Salud Social y Comunitaria': '#4F8A4B',
     'Trabajo y Producción': '#8fc6d9',
     'Trabajo': '#8fc6d9',
     'Deportes y Recreación': '#d6c75d',
@@ -147,7 +167,7 @@ export class HomePage implements OnInit {
     const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     const aNorm = normalize(area.nombre);
     const key = Object.keys(this.ACCENT_COLORS).find(k => normalize(k) === aNorm);
-    return this.ACCENT_COLORS[key || ''] || '#9acb92';
+    return this.ACCENT_COLORS[key || ''] || '#4F8A4B';
   }
 
   onImgError(event: Event): void {
@@ -195,5 +215,23 @@ export class HomePage implements OnInit {
 
   cerrarAyuda() {
     this.mostrarModalAyuda = false;
+  }
+
+  cargarInstagram(): void {
+    this.instagramService.obtenerPosts().subscribe({
+      next: (posts) => { this.instagramPosts = posts; this.cdr.markForCheck(); },
+      error: () => {}
+    });
+  }
+
+  abrirPanelInstagram(): void {
+    this.mostrarPanelInstagram = true;
+    if (this.instagramPosts.length === 0) {
+      this.cargarInstagram();
+    }
+  }
+
+  cerrarPanelInstagram(): void {
+    this.mostrarPanelInstagram = false;
   }
 }

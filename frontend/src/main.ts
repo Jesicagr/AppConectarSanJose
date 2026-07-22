@@ -4,4 +4,9 @@ import { appConfig } from './app/app.config';
 import { App } from './app/app';
 
 bootstrapApplication(App, appConfig)
+  .then(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  })
   .catch((err) => console.error('[ConectarSanJose] ERROR Error al iniciar la aplicación:', err));

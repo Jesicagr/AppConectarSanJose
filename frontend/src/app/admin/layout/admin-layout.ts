@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 import { ToastService } from '../../shared/toast.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -14,6 +15,10 @@ export class AdminLayout {
   sidebarOpen = false;
   toast$ = inject(ToastService).toast$;
   auth = inject(AuthService);
+
+  constructor() {
+    inject(Title).setTitle('Administración — Conectar San José');
+  }
 
   navItems = [
     { label: 'Dashboard', icon: 'dashboard', route: '/admin/dashboard' },

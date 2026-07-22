@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 import { LoggerService } from '../shared/logger.service';
 
 @Component({
@@ -16,10 +17,15 @@ export class ForgotPasswordPage {
   private router = inject(Router);
   private http = inject(HttpClient);
   private logger = inject(LoggerService);
+  private title = inject(Title);
 
   email = '';
   submitted = false;
   error = '';
+
+  constructor() {
+    this.title.setTitle('Olvidé mi contraseña — Conectar San José');
+  }
 
   onSubmit(): void {
     if (!this.email) {

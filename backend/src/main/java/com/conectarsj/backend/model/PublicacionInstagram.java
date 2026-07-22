@@ -32,6 +32,10 @@ public class PublicacionInstagram {
     @Column(name = "shortcode", length = 100)
     private String shortcode;
 
+    @Basic(fetch = FetchType.EAGER)
+    @Column(name = "image_bytes", columnDefinition = "bytea")
+    private byte[] imageBytes;
+
     public PublicacionInstagram() {}
 
     public Long getId() { return id; }
@@ -57,4 +61,7 @@ public class PublicacionInstagram {
 
     public String getShortcode() { return shortcode; }
     public void setShortcode(String shortcode) { this.shortcode = shortcode; }
+
+    public byte[] getImageBytes() { return imageBytes; }
+    public void setImageBytes(byte[] imageBytes) { this.imageBytes = imageBytes; }
 }

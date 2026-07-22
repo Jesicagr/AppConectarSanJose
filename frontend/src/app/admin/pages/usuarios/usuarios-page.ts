@@ -1,6 +1,7 @@
 import { Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../../services/auth.service';
 
 interface Usuario {
@@ -32,6 +33,7 @@ export class UsuariosPage implements OnInit {
   mensajeError = false;
 
   ngOnInit(): void {
+    inject(Title).setTitle('Usuarios — Conectar San José');
     this.cargarUsuarios();
   }
 
