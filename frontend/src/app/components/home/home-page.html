@@ -61,7 +61,7 @@
         <img [src]="post.imageUrl" [alt]="post.caption" loading="lazy">
         <div class="ig-post-info">
           <small>@{{ post.username }}</small>
-          <p>{{ post.caption | slice:0:100 }}{{ post.caption.length > 100 ? '...' : '' }}</p>
+          <p>{{ post.caption | slice:0:80 }}{{ post.caption.length > 80 ? '...' : '' }}</p>
         </div>
       </a>
     }

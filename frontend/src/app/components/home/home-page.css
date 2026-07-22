@@ -282,11 +282,11 @@ header {
 
 .ig-post {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
   text-decoration: none;
   color: inherit;
   border-radius: 12px;
-  padding: 8px;
+  overflow: hidden;
   transition: background 0.2s;
 }
 
@@ -295,15 +295,14 @@ header {
 }
 
 .ig-post img {
-  width: 64px;
-  height: 64px;
-  border-radius: 10px;
+  width: 100%;
+  aspect-ratio: 1;
   object-fit: cover;
-  flex-shrink: 0;
+  border-radius: 10px;
 }
 
 .ig-post-info {
-  flex: 1;
+  padding: 10px 4px 4px;
   min-width: 0;
 }
 
