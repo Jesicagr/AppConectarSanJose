@@ -38,10 +38,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
         log.error("Excepción de negocio no controlada: {}", ex.getMessage(), ex);
         ErrorResponse error = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 ex.getMessage()
         );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
     @ExceptionHandler(Exception.class)
