@@ -55,8 +55,14 @@ export class HomePage implements OnInit {
 
 
   ngOnInit(): void {
-    this.whatsappFlotanteNumero = this.contactoService.getWhatsappFlotanteNumero();
-    this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
+    this.contactoService.getWhatsappFlotanteNumero().subscribe(numero => {
+      this.whatsappFlotanteNumero = numero;
+      this.cdr.markForCheck();
+    });
+    this.contactoService.getWhatsappFlotanteLabel().subscribe(label => {
+      this.whatsappFlotanteLabel = label;
+      this.cdr.markForCheck();
+    });
     this.cargarAreas();
     this.cargarContactos();
     this.cargarInstagram();

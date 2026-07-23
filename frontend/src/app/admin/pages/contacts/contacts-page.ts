@@ -72,8 +72,14 @@ export class ContactsPage implements OnInit {
 
   ngOnInit(): void {
     this.title.setTitle('Contactos — Conectar San José');
-    this.whatsappFlotanteNumero = this.contactoService.getWhatsappFlotanteNumero();
-    this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
+    this.contactoService.getWhatsappFlotanteNumero().subscribe(numero => {
+      this.whatsappFlotanteNumero = numero;
+      this.cdr.detectChanges();
+    });
+    this.contactoService.getWhatsappFlotanteLabel().subscribe(label => {
+      this.whatsappFlotanteLabel = label;
+      this.cdr.detectChanges();
+    });
     this.contactoService.obtenerTodos().subscribe({
       next: (data) => {
         this.contactsBackend = data;
@@ -235,11 +241,11 @@ export class ContactsPage implements OnInit {
   }
 
   onWhatsappFlotanteChange(): void {
-    this.contactoService.setWhatsappFlotanteNumero(this.whatsappFlotanteNumero);
+    this.contactoService.setWhatsappFlotanteNumero(this.whatsappFlotanteNumero).subscribe();
   }
 
   onWhatsappFlotanteLabelChange(): void {
-    this.contactoService.setWhatsappFlotanteLabel(this.whatsappFlotanteLabel);
+    this.contactoService.setWhatsappFlotanteLabel(this.whatsappFlotanteLabel).subscribe();
   }
 
   get whatsappHabilitado(): boolean {

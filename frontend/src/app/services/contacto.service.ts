@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable, shareReplay, map } from 'rxjs';
 
 export interface TelefonoItem {
   numero: string;
@@ -50,30 +50,25 @@ export class ContactoService {
     this.cache$ = null;
   }
 
-  private static readonly WA_FLOAT_KEY = 'conectar_whatsapp_flotante_numero';
-  private static readonly WA_LABEL_KEY = 'conectar_whatsapp_flotante_label';
+  private configUrl = '/api/configuracion';
 
-  getWhatsappFlotanteNumero(): string {
-    return localStorage.getItem(ContactoService.WA_FLOAT_KEY) || '';
+  getWhatsappFlotanteNumero(): Observable<string> {
+    return this.http.get<Record<string, string>>(this.configUrl).pipe(
+      map(config => config['whatsapp_flotante_numero'] || '')
+    );
   }
 
-  setWhatsappFlotanteNumero(numero: string): void {
-    if (numero) {
-      localStorage.setItem(ContactoService.WA_FLOAT_KEY, numero);
-    } else {
-      localStorage.removeItem(ContactoService.WA_FLOAT_KEY);
-    }
+  setWhatsappFlotanteNumero(numero: string): Observable<void> {
+    return this.http.put<void>(this.configUrl, { whatsapp_flotante_numero: numero });
   }
 
-  getWhatsappFlotanteLabel(): string {
-    return localStorage.getItem(ContactoService.WA_LABEL_KEY) || 'Texto del boton flotante';
+  getWhatsappFlotanteLabel(): Observable<string> {
+    return this.http.get<Record<string, string>>(this.configUrl).pipe(
+      map(config => config['whatsapp_flotante_label'] || 'Texto del boton flotante')
+    );
   }
 
-  setWhatsappFlotanteLabel(label: string): void {
-    if (label) {
-      localStorage.setItem(ContactoService.WA_LABEL_KEY, label);
-    } else {
-      localStorage.removeItem(ContactoService.WA_LABEL_KEY);
-    }
+  setWhatsappFlotanteLabel(label: string): Observable<void> {
+    return this.http.put<void>(this.configUrl, { whatsapp_flotante_label: label });
   }
 }
