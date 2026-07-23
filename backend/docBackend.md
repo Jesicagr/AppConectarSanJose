@@ -360,9 +360,8 @@ record ActividadResumenDTO(
 ## 11. Inicialización de Datos
 
 **`CommandLineRunner` en `ConectarSjBackendApplication`:**
-- Crea dos administradores por defecto (solo si no existen):
+- Crea un administrador por defecto (solo si no existe):
   - `admin@sanjose.com` / `admin123` (SUPER_ADMIN)
-  - `jesiagr@gmail.com` / `admin1919` (SUPER_ADMIN)
 
 **`DataSeeder` (`CommandLineRunner`):**
 - Crea 11 áreas por defecto (Mujer, Niñez, Personas Mayores, etc.) si la tabla está vacía.
@@ -375,7 +374,7 @@ record ActividadResumenDTO(
 ## 12. Configuración de Correo
 
 - **Host:** smtp.gmail.com (puerto 587, STARTTLS)
-- **Usuario:** jesiagr@gmail.com (app password)
+- **Usuario:** email@ejemplo.com (app password)
 - Envío asíncrono con `@Async`
 - Si falla el envío, se imprime la URL de recuperación en consola
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActividadService } from '../../services/actividad.service';
@@ -19,7 +19,8 @@ interface DiaAgenda {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './agenda.html',
-  styleUrl: './agenda.css'
+  styleUrl: './agenda.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AgendaComponent implements OnInit {
   
@@ -81,13 +82,13 @@ export class AgendaComponent implements OnInit {
         this.actividades = data;
         this.renderCount = this.PAGE_SIZE;
         this.cargandoActividades = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('[ConectarSanJose] ERROR Error al cargar actividades del día:', err);
         this.actividades = [];
         this.cargandoActividades = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       }
     });
   }

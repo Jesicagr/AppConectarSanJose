@@ -1,0 +1,29 @@
+{
+  "name": "Conectar San José",
+  "short_name": "Conectar SJ",
+  "description": "Áreas municipales, turismo, actividades y ayuda. Todo lo que San José tiene para vos.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#aee8e6",
+  "theme_color": "#aee8e6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["government", "health", "social"]
+}

@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { ActividadService } from '../../../services/actividad.service';
 import { AreaService } from '../../../services/area.service';
 import { VisitaService } from '../../../services/visita.service';
@@ -57,76 +58,51 @@ export class DashboardPage implements OnInit {
   private logger = inject(LoggerService);
 
   loading = signal(true);
-  searchTerm = signal('');
-  selectedCategory = signal('');
-  menuOpenIndex = signal<number | null>(null);
-  modalOpen = signal(false);
-  modalViewMode = signal(false);
-  modalData = signal<ActividadModalData | null>(null);
-
   metrics = signal<Metric[]>([
-    { label: 'Actividades Totales', value: '0', icon: 'confirmation_number', tone: 'primary', detail: 'Cargando...', change: '' },
-    { label: 'En Revisión', value: '0', icon: 'history_edu', tone: 'warning', detail: 'Requieren validación técnica', badge: 'Pendientes' },
-    { label: 'Visitas a la Web', value: '0', icon: 'travel_explore', tone: 'info', detail: 'Cargando...', change: '' },
+    { label: 'Actividades', value: '—', icon: 'calendar_today', tone: 'primary', detail: '' },
+    { label: 'Sedes', value: '—', icon: 'location_on', tone: 'warning', detail: '' },
+    { label: 'Visitas', value: '—', icon: 'visibility', tone: 'success', detail: '' },
   ]);
-
   categories = signal<CategoryFilter[]>([]);
   activities = signal<DashboardActivity[]>([]);
-  instagramCuentas = signal<CuentaInstagram[]>([]);
-  instagramEditando = signal<Record<number, string>>({});
-
-  instagramSlots = computed(() => {
-    const list = this.instagramCuentas();
-    const slots: (CuentaInstagram | null)[] = [];
-    for (let i = 0; i < 10; i++) {
-      slots.push(list[i] ?? null);
-    }
-    return slots;
-  });
-
-  private buildInstagramEditMap(cuentas: CuentaInstagram[]): Record<number, string> {
-    const map: Record<number, string> = {};
-    for (const c of cuentas) {
-      map[c.id] = c.username;
-    }
-    return map;
-  }
-
-
-  private areaToneMap: Record<string, string> = {};
-  visitasLimit = signal(6);
-
-  topVisited = computed(() =>
-    this.activities().slice().sort((a, b) => b.visitas - a.visitas)
-  );
-
-  displayedVisitas = computed(() =>
-    this.topVisited().slice(0, this.visitasLimit())
-  );
-
-  loadMoreVisitas(): void {
-    this.visitasLimit.update(v => Math.min(v + 6, this.topVisited().length));
-  }
-
-  onVisitasScroll(event: Event): void {
-    const el = event.target as HTMLElement;
-    const threshold = 20;
-    if (el.scrollHeight - el.scrollTop - el.clientHeight < threshold) {
-      this.loadMoreVisitas();
-    }
-  }
-
+  selectedCategory = signal('');
+  searchTerm = signal('');
   filteredActivities = computed(() => {
+    const list = this.activities();
+    const cat = this.selectedCategory();
     const query = this.normalize(this.searchTerm());
-    return this.activities().filter((activity) => {
-      const matchesCategory = !this.selectedCategory() || activity.categories.includes(this.selectedCategory());
-      const searchable = this.normalize(`${activity.title} ${activity.place} ${activity.categories.join(' ')} ${activity.status}`);
+    return list.filter(a => {
+      const matchesCategory = !cat || a.categories.includes(cat);
+      const searchable = this.normalize(`${a.title} ${a.place} ${a.categories.join(' ')} ${a.status}`);
       const matchesSearch = !query || searchable.includes(query);
       return matchesCategory && matchesSearch;
     });
   });
+  menuOpenIndex = signal<number | null>(null);
+  modalOpen = signal(false);
+  modalData = signal<ActividadModalData | null>(null);
+  modalViewMode = signal(false);
+
+  private areaToneMap: Record<string, string> = {};
+  instagramCuentas = signal<CuentaInstagram[]>([]);
+  instagramEditando = signal<Record<number, string>>({});
+
+  get instagramSlots() {
+    return this.instagramCuentas().filter(c => c.activo);
+  }
+
+  get displayedVisitas() {
+    return this.activities().filter(a => a.visitas > 0).sort((a, b) => b.visitas - a.visitas);
+  }
+
+  private buildInstagramEditMap(cuentas: CuentaInstagram[]): Record<number, string> {
+    const map: Record<number, string> = {};
+    cuentas.forEach(c => { map[c.id] = c.username; });
+    return map;
+  }
 
   ngOnInit(): void {
+    inject(Title).setTitle('Panel — Conectar San José');
     this.areaService.obtenerTodas().subscribe({
       next: (areas) => {
         const sorted = sortByAreaOrder(areas);

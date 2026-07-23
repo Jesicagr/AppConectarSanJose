@@ -90,6 +90,17 @@ public class InstagramScraperService {
             .toList();
         if (!nuevos.isEmpty()) {
             repository.saveAll(nuevos);
+            for (PublicacionInstagram post : nuevos) {
+                try {
+                    byte[] bytes = fetchImageFromCdn(post.getImageUrl());
+                    if (bytes != null) {
+                        post.setImageBytes(bytes);
+                        repository.save(post);
+                    }
+                } catch (Exception e) {
+                    log.warn("No se pudo cachear imagen de {}: {}", post.getShortcode(), e.getMessage());
+                }
+            }
         }
         log.info("{}: {} nuevos, {} existentes", username, nuevos.size(), existentes.size());
     }
@@ -102,6 +113,7 @@ public class InstagramScraperService {
         if (activeUsernames.isEmpty()) return List.of();
         return repository.findByUsernameInOrderByPostTimestampDesc(activeUsernames)
                 .stream()
+                .limit(12)
                 .map(InstagramPostDTO::fromEntity)
                 .toList();
     }
@@ -295,10 +307,31 @@ public class InstagramScraperService {
         }
     }
 
+    @Transactional
     public byte[] getImageBytes(Long id) {
         PublicacionInstagram post = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post no encontrado: " + id));
-        String url = post.getImageUrl();
+
+        if (post.getImageBytes() != null && post.getImageBytes().length > 0) {
+            return post.getImageBytes();
+        }
+
+        byte[] fetched = fetchImageFromCdn(post.getImageUrl());
+        if (fetched != null) {
+            post.setImageBytes(fetched);
+            repository.save(post);
+        }
+        return fetched;
+    }
+
+    public String getImageUrl(Long id) {
+        return repository.findById(id)
+                .map(PublicacionInstagram::getImageUrl)
+                .orElse(null);
+    }
+
+    private byte[] fetchImageFromCdn(String url) {
+        if (url == null || url.isEmpty()) return null;
         try {
             HttpRequest req = HttpRequest.newBuilder()
                     .uri(URI.create(url))
@@ -310,10 +343,11 @@ public class InstagramScraperService {
             if (resp.statusCode() == 200) {
                 return resp.body();
             }
-            throw new RuntimeException("Error fetching image, status: " + resp.statusCode());
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException("Error fetching image: " + e.getMessage());
+            log.warn("CDN returned {} for {}", resp.statusCode(), url);
+        } catch (Exception e) {
+            log.warn("Error fetching image from CDN: {}", e.getMessage());
         }
+        return null;
     }
 
     @Transactional

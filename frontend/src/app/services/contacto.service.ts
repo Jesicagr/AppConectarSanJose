@@ -66,7 +66,7 @@ export class ContactoService {
   }
 
   getWhatsappFlotanteLabel(): string {
-    return localStorage.getItem(ContactoService.WA_LABEL_KEY) || 'Mesa de Entrada';
+    return localStorage.getItem(ContactoService.WA_LABEL_KEY) || 'Texto del boton flotante';
   }
 
   setWhatsappFlotanteLabel(label: string): void {

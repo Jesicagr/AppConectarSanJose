@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { forkJoin } from 'rxjs';
 import { ActividadService } from '../../../services/actividad.service';
 
@@ -74,6 +75,7 @@ export class ActivitiesPage implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    inject(Title).setTitle('Actividades — Conectar San José');
     this.areaService.obtenerTodas().subscribe({
       next: areas => {
         const sorted = sortByAreaOrder(areas);

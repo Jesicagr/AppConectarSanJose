@@ -71,7 +71,7 @@
 }
 
 .btn-calendario:hover {
-  border-color: #9acb92;
+  border-color: #4F8A4B;
   background: #f8faf8;
 }
 
@@ -192,7 +192,7 @@
 }
 
 .cal-dia.seleccionado {
-  background: #9acb92;
+  background: #4F8A4B;
   color: #fff;
   font-weight: 700;
 }
@@ -245,8 +245,8 @@
 }
 
 .btn-dia.activo {
-  background-color: #9acb92;
-  border-color: #9acb92;
+  background-color: #4F8A4B;
+  border-color: #4F8A4B;
   color: #fff;
 }
 
@@ -400,7 +400,7 @@
 
 .btn-ver-mas {
   padding: 12px 32px;
-  background: #9acb92;
+  background: #4F8A4B;
   color: #fff;
   border: none;
   border-radius: 30px;

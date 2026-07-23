@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 import { AuthService } from '../services/auth.service';
 import { LoggerService } from '../shared/logger.service';
 
@@ -18,6 +19,7 @@ export class LoginPage implements OnInit {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
   private logger = inject(LoggerService);
+  private title = inject(Title);
 
   showPassword = false;
 
@@ -28,6 +30,7 @@ export class LoginPage implements OnInit {
   };
 
   ngOnInit(): void {
+    this.title.setTitle('Iniciar sesión — Conectar San José');
     const savedEmail = localStorage.getItem('savedEmail');
     if (savedEmail) {
       this.loginForm.email = savedEmail;

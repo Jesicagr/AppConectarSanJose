@@ -36,7 +36,7 @@
 
     <div class="areas-grid">
       @for (area of filteredAreas; track $index) {
-        <article class="area-card" [class]="'area-card tone-' + area.tone">
+        <article [class]="'area-card tone-' + area.tone + ' ' + cardClass($index)">
           <div class="area-top">
             <div class="area-icon">
               <span class="material-symbols-outlined">{{ area.icon }}</span>

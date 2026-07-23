@@ -1,5 +1,6 @@
-import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { AreaService, Area, TelefonoItem } from '../../../services/area.service';
 import { getAreaTone, sortByAreaOrder } from '../../../shared/area-tones';
 import { ToastService } from '../../../shared/toast.service';
@@ -30,6 +31,7 @@ interface AreaCard {
   imports: [FormsModule],
   templateUrl: './areas-page.html',
   styleUrl: './areas-page.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AreasPage implements OnInit {
   private areaService = inject(AreaService);
@@ -96,18 +98,19 @@ export class AreasPage implements OnInit {
   private areasBackend: Area[] = [];
 
   ngOnInit(): void {
+    inject(Title).setTitle('Áreas — Conectar San José');
     this.areaService.obtenerTodas().subscribe({
       next: (data) => {
         const sorted = sortByAreaOrder(data);
         this.areasBackend = sorted;
         this.areas = sorted.map((a, i) => this.toAreaCard(a, i));
         this.loading = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.logger.error('Error al cargar áreas', err);
         this.loading = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
     });
   }
@@ -230,7 +233,7 @@ export class AreasPage implements OnInit {
           }
           this.closeModal();
           this.saving = false;
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
           this.toast.show('Área actualizada con éxito', 'success');
         },
         error: (err) => {
@@ -246,7 +249,7 @@ export class AreasPage implements OnInit {
           this.areas.push(this.toAreaCard(saved, this.areas.length));
           this.closeModal();
           this.saving = false;
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
           this.toast.show('Área creada con éxito', 'success');
         },
         error: (err) => {
@@ -269,7 +272,7 @@ export class AreasPage implements OnInit {
       next: () => {
         this.areasBackend.splice(index, 1);
         this.areas.splice(index, 1);
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
         this.toast.show('Área eliminada con éxito', 'success');
       },
       error: (err) => {
@@ -277,6 +280,16 @@ export class AreasPage implements OnInit {
         this.toast.show('Error al eliminar el área', 'error');
       },
     });
+  }
+
+  cardClass(index: number): string {
+    const mod = index % 6;
+    if (mod === 0) return 'span-4';
+    if (mod === 1) return 'span-2';
+    if (mod === 2) return 'span-2';
+    if (mod === 3) return 'span-4';
+    if (mod === 4) return 'span-2';
+    return 'span-2';
   }
 
   private normalize(value: string): string {

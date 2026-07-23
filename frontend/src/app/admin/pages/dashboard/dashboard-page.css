@@ -591,6 +591,7 @@ h1, h2 {
 }
 
 /* ───── Instagram section ───── */
+
 .instagram-card {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(20px);
@@ -599,6 +600,7 @@ h1, h2 {
   border-radius: 20px;
   padding: 20px;
   transition: box-shadow 0.3s ease;
+  height: 100%;
 }
 
 .instagram-card:hover {
@@ -765,9 +767,7 @@ h1, h2 {
 }
 .visitas-section {
   display: flex;
-  justify-content: flex-start;
-  margin: 0 auto 34px;
-  max-width: 1200px;
+  flex-direction: column;
 }
 
 .visitas-card {
@@ -776,10 +776,11 @@ h1, h2 {
   border: 1px solid rgba(255, 255, 255, 0.8);
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
   border-radius: 20px;
-  max-width: 600px;
   padding: 20px;
   transition: box-shadow 0.3s ease;
-  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .visitas-card:hover {
@@ -810,27 +811,7 @@ h1, h2 {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-height: 260px;
-  overflow-y: scroll;
-  padding-right: 6px;
-}
-
-.visitas-scroll::-webkit-scrollbar {
-  width: 6px;
-}
-
-.visitas-scroll::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.04);
-  border-radius: 999px;
-}
-
-.visitas-scroll::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.25);
-  border-radius: 999px;
-}
-
-.visitas-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.4);
+  flex: 1;
 }
 
 .visita-row {
