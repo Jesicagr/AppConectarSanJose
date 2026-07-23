@@ -1,0 +1,10 @@
+{
+  "buildCommand": "ng build --configuration production",
+  "outputDirectory": "dist/conectar-angular/browser",
+  "rewrites": [
+    {
+      "source": "/((?!assets/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
