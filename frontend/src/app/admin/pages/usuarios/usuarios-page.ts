@@ -32,8 +32,10 @@ export class UsuariosPage implements OnInit {
   mensaje = '';
   mensajeError = false;
 
+  private title = inject(Title);
+
   ngOnInit(): void {
-    inject(Title).setTitle('Usuarios — Conectar San José');
+    this.title.setTitle('Usuarios — Conectar San José');
     this.cargarUsuarios();
   }
 

@@ -74,8 +74,10 @@ export class ActivitiesPage implements OnInit, OnDestroy {
     this.onSentinel(el ? el.nativeElement : null);
   }
 
+  private title = inject(Title);
+
   ngOnInit(): void {
-    inject(Title).setTitle('Actividades — Conectar San José');
+    this.title.setTitle('Actividades — Conectar San José');
     this.areaService.obtenerTodas().subscribe({
       next: areas => {
         const sorted = sortByAreaOrder(areas);

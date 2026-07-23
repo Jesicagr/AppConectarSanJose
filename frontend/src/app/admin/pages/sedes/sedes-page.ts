@@ -65,8 +65,10 @@ export class SedesPage implements OnInit, OnDestroy {
     'spa'
   ];
 
+  private title = inject(Title);
+
   ngOnInit(): void {
-    inject(Title).setTitle('Sedes — Conectar San José');
+    this.title.setTitle('Sedes — Conectar San José');
     this.cargarSedes();
   }
 

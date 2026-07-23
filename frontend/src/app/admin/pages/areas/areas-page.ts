@@ -97,8 +97,10 @@ export class AreasPage implements OnInit {
   areas: AreaCard[] = [];
   private areasBackend: Area[] = [];
 
+  private title = inject(Title);
+
   ngOnInit(): void {
-    inject(Title).setTitle('Áreas — Conectar San José');
+    this.title.setTitle('Áreas — Conectar San José');
     this.areaService.obtenerTodas().subscribe({
       next: (data) => {
         const sorted = sortByAreaOrder(data);

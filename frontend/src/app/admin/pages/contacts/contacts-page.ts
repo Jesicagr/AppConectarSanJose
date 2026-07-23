@@ -68,8 +68,10 @@ export class ContactsPage implements OnInit {
   contacts: ContactCard[] = [];
   private contactsBackend: Contacto[] = [];
 
+  private title = inject(Title);
+
   ngOnInit(): void {
-    inject(Title).setTitle('Contactos — Conectar San José');
+    this.title.setTitle('Contactos — Conectar San José');
     this.whatsappFlotanteNumero = this.contactoService.getWhatsappFlotanteNumero();
     this.whatsappFlotanteLabel = this.contactoService.getWhatsappFlotanteLabel();
     this.contactoService.obtenerTodos().subscribe({

@@ -101,8 +101,10 @@ export class DashboardPage implements OnInit {
     return map;
   }
 
+  private title = inject(Title);
+
   ngOnInit(): void {
-    inject(Title).setTitle('Panel — Conectar San José');
+    this.title.setTitle('Panel — Conectar San José');
     this.areaService.obtenerTodas().subscribe({
       next: (areas) => {
         const sorted = sortByAreaOrder(areas);
