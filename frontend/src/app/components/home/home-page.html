@@ -59,9 +59,9 @@
     @for (post of instagramPosts; track post.id) {
       <a [href]="post.postUrl" target="_blank" rel="noopener" class="ig-post">
         <img [src]="post.imageUrl" [alt]="post.caption" loading="lazy">
-        <div class="ig-post-info">
-          <small>@{{ post.username }}</small>
-          <p>{{ post.caption | slice:0:80 }}{{ post.caption.length > 80 ? '...' : '' }}</p>
+        <div class="ig-post-overlay">
+          <span class="ig-post-user">@{{ post.username }}</span>
+          <p class="ig-post-desc">{{ post.caption | slice:0:60 }}{{ post.caption.length > 60 ? '...' : '' }}</p>
         </div>
       </a>
     }
