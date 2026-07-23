@@ -113,7 +113,7 @@ public class InstagramScraperService {
         if (activeUsernames.isEmpty()) return List.of();
         return repository.findByUsernameInOrderByPostTimestampDesc(activeUsernames)
                 .stream()
-                .limit(2)
+                .limit(12)
                 .map(InstagramPostDTO::fromEntity)
                 .toList();
     }
