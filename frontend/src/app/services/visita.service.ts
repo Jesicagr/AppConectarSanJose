@@ -35,4 +35,8 @@ export class VisitaService {
   visitasPorActividad(): Observable<Record<number, number>> {
     return this.http.get<Record<number, number>>(`${this.apiUrl}/stats/actividades`);
   }
+
+  visitasPorActividadDelMes(): Observable<Record<number, number>> {
+    return this.http.get<Record<number, number>>(`${this.apiUrl}/stats/actividades/mes`);
+  }
 }

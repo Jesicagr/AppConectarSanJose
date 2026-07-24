@@ -28,4 +28,9 @@ public class VisitaController {
     public Map<Long, Long> visitasPorActividad() {
         return visitaService.visitasPorActividad();
     }
+
+    @GetMapping("/stats/actividades/mes")
+    public Map<Long, Long> visitasPorActividadDelMes() {
+        return visitaService.visitasPorActividadDelMes();
+    }
 }

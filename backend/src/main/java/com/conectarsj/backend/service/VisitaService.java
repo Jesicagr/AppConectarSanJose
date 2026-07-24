@@ -54,4 +54,18 @@ public class VisitaService {
         }
         return result;
     }
+
+    public Map<Long, Long> visitasPorActividadDelMes() {
+        LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
+        Map<Long, Long> result = new HashMap<>();
+        for (Object[] row : visitaRepository.sumPorActividadDesde(inicioMes)) {
+            String pagina = (String) row[0];
+            Long total = ((Number) row[1]).longValue();
+            try {
+                Long id = Long.parseLong(pagina.replace("actividad-", ""));
+                result.put(id, total);
+            } catch (NumberFormatException ignored) {}
+        }
+        return result;
+    }
 }

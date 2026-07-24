@@ -24,4 +24,7 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
 
     @Query("SELECT v.pagina, SUM(v.contador) FROM Visita v WHERE v.pagina LIKE 'actividad-%' GROUP BY v.pagina")
     java.util.List<Object[]> sumPorActividad();
+
+    @Query("SELECT v.pagina, SUM(v.contador) FROM Visita v WHERE v.pagina LIKE 'actividad-%' AND v.fecha >= ?1 GROUP BY v.pagina")
+    java.util.List<Object[]> sumPorActividadDesde(LocalDate desde);
 }

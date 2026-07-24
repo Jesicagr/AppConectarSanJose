@@ -210,10 +210,18 @@
               <span class="material-symbols-outlined">calendar_month</span>
               {{ activity.date | dateFormat }}
             </span>
-            <span class="status-pill" [class]="'status-pill ' + activity.statusTone">
-              <span></span>
-              {{ activity.status }}
-            </span>
+            <div class="card-bottom-right">
+              @if (activity.visitasMes > 0) {
+                <span class="visitas-mes-pill">
+                  <span class="material-symbols-outlined">visibility</span>
+                  {{ activity.visitasMes }} este mes
+                </span>
+              }
+              <span class="status-pill" [class]="'status-pill ' + activity.statusTone">
+                <span></span>
+                {{ activity.status }}
+              </span>
+            </div>
           </div>
         </article>
       } @empty {

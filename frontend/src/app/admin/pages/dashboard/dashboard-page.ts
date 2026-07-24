@@ -24,6 +24,7 @@ interface DashboardActivity {
   statusTone: string;
   telefono?: string;
   visitas: number;
+  visitasMes: number;
 }
 
 interface Metric {
@@ -160,6 +161,7 @@ export class DashboardPage implements OnInit {
           statusTone: 'success',
           telefono: a.telefono || '',
           visitas: 0,
+          visitasMes: 0,
         }));
         this.activities.set(mapped);
 
@@ -180,6 +182,13 @@ export class DashboardPage implements OnInit {
         this.visitaService.visitasPorActividad().subscribe({
           next: (visitasMap) => {
             this.activities.update(list => list.map(a => ({ ...a, visitas: visitasMap[a.id] || 0 })));
+          },
+          error: () => {}
+        });
+
+        this.visitaService.visitasPorActividadDelMes().subscribe({
+          next: (visitasMesMap) => {
+            this.activities.update(list => list.map(a => ({ ...a, visitasMes: visitasMesMap[a.id] || 0 })));
           },
           error: () => {}
         });
