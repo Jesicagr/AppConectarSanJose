@@ -679,6 +679,8 @@ h1, h2 {
   border-radius: 14px;
   display: flex;
   gap: 6px;
+  min-width: 0;
+  overflow: hidden;
   padding: 10px 12px;
   transition: background 0.2s, border-color 0.2s;
 }
@@ -781,6 +783,31 @@ h1, h2 {
 .ig-btn-refresh:hover {
   color: var(--primary);
   background: var(--primary-soft);
+}
+
+@media (max-width: 480px) {
+  .ig-btn {
+    height: 28px;
+    width: 28px;
+  }
+
+  .ig-btn .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .ig-card {
+    gap: 4px;
+    padding: 8px 10px;
+  }
+
+  .ig-card-input {
+    font-size: 13px;
+  }
+
+  .ig-card-num {
+    min-width: 16px;
+    font-size: 11px;
+  }
 }
 
 .ig-card-empty {
