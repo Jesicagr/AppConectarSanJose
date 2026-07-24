@@ -836,7 +836,7 @@ h1, h2 {
   flex-direction: column;
   gap: 4px;
   flex: 1;
-  max-height: calc(6 * 44px + 5 * 4px);
+  max-height: calc(6 * 52px + 5 * 4px);
   overflow-y: auto;
   scrollbar-width: thin;
 }

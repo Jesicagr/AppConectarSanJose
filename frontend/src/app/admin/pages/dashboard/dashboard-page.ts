@@ -93,7 +93,7 @@ export class DashboardPage implements OnInit {
   }
 
   get displayedVisitas() {
-    return this.activities().filter(a => a.visitas > 0).sort((a, b) => b.visitas - a.visitas);
+    return [...this.activities()].sort((a, b) => b.visitas - a.visitas);
   }
 
   private buildInstagramEditMap(cuentas: CuentaInstagram[]): Record<number, string> {
