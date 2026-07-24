@@ -172,7 +172,8 @@ com.conectarsj.backend
 - **CSRF** deshabilitado
 
 ### 6.2 `SecurityConfig`
-- Define `SecurityFilterChain` con permisos públicos para `/auth/**` y `/api/**`
+- Define `SecurityFilterChain` con permisos públicos solo para `/auth/**` (login, forgot-password, reset-password)
+- `/api/**` requiere JWT válido (anyRequest().authenticated())
 - Configura `DaoAuthenticationProvider` con `UserDetailsServiceImpl` y `BCryptPasswordEncoder`
 - Agrega `JwtAuthenticationFilter` antes de `UsernamePasswordAuthenticationFilter`
 
@@ -411,14 +412,21 @@ Todos retornan `ErrorResponse` con código y mensaje.
 
 ## 16. CORS
 
-Permitido desde `http://localhost:4200` y `http://localhost:4201` con métodos `GET, POST, PUT, DELETE, OPTIONS` y headers `Authorization, Cache-Control, Content-Type`.
+Permitido desde:
+- `http://localhost:4200` (desarrollo)
+- `http://localhost:4201` (desarrollo alternativo)
+- `https://conectarsj.vercel.app` (producción)
+
+Métodos: `GET, POST, PUT, DELETE, OPTIONS`
+Headers: `Authorization, Cache-Control, Content-Type`
 
 Configurado en `SecurityConfig.java`:
 
 ```java
 configuration.setAllowedOrigins(List.of(
     "http://localhost:4200",
-    "http://localhost:4201"
+    "http://localhost:4201",
+    "https://conectarsj.vercel.app"
 ));
 ```
 
@@ -433,3 +441,68 @@ mvn spring-boot:run
 ```
 
 La aplicación arranca en `http://localhost:8080` por defecto.
+
+---
+
+## 18. Despliegue en Producción (Render)
+
+### Docker
+
+El backend se despliega como contenedor Docker en Render usando un **build multi-stage**:
+
+```dockerfile
+# Etapa 1: Build con JDK + Maven
+FROM eclipse-temurin:21-jdk-alpine AS build
+COPY backend/pom.xml .
+COPY backend/src ./src
+RUN apk add --no-cache maven && mvn -DskipTests package
+
+# Etapa 2: Runtime con JRE ligero
+FROM eclipse-temurin:21-jre-alpine
+COPY --from=build /app/target/backend-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
+CMD ["java", "-jar", "app.jar"]
+```
+
+- **Build context:** Raíz del repositorio (copia desde `backend/`)
+- **Imagen final:** ~180MB (JRE Alpine)
+- **Puerto:** 8080
+
+### Variables de entorno en Render
+
+Configurar en el dashboard de Render → Environment:
+
+| Variable | Descripción |
+|---|---|
+| `SUPABASE_DB_URL` | URL JDBC de Supabase PostgreSQL |
+| `SUPABASE_DB_USERNAME` | Usuario de la DB |
+| `SUPABASE_DB_PASSWORD` | Contraseña de la DB |
+| `SMTP_USERNAME` | Email remitente Gmail |
+| `SMTP_PASSWORD` | App password de Gmail |
+
+### URL de producción
+
+```
+https://conectar-sj-backend.onrender.com
+```
+
+> **Nota:** Render apaga los contenedores gratuitos tras 15 min de inactividad. La primera request después de una pausa puede tardar ~30s en responder.
+
+---
+
+## 19. Variables de Entorno
+
+Ver `backend/.env.example` para el template completo. Las variables se cargan automáticamente desde el archivo `.env` en desarrollo, o desde las variables del sistema en Render.
+
+```bash
+# Supabase PostgreSQL
+SUPABASE_DB_URL=jdbc:postgresql://aws-1-us-east-1.pooler.supabase.com:6543/postgres?prepareThreshold=0
+SUPABASE_DB_USERNAME=postgres.tnxwgunhhanysemtcvhl
+SUPABASE_DB_PASSWORD=tu_password_aqui
+
+# Gmail SMTP
+SMTP_USERNAME=email@ejemplo.com
+SMTP_PASSWORD=tu_app_password_de_gmail_aqui
+```
+
+> **Seguridad:** Nunca commitear el archivo `.env` a control de versiones.
