@@ -146,13 +146,6 @@ export class DashboardPage implements OnInit {
       },
       error: () => {}
     });
-    this.visitaService.visitasPorActividad().subscribe({
-      next: (visitasMap) => {
-        this.activities.update(list => list.map(a => ({ ...a, visitas: visitasMap[a.id] || 0 })));
-      },
-      error: () => {}
-    });
-
     this.actividadService.obtenerPaginadas(0, 100).subscribe({
       next: (page) => {
         const mapped = page.content.map((a: any) => ({
@@ -182,6 +175,13 @@ export class DashboardPage implements OnInit {
         this.metrics.update(m => {
           m[1].value = String(enRevision);
           return [...m];
+        });
+
+        this.visitaService.visitasPorActividad().subscribe({
+          next: (visitasMap) => {
+            this.activities.update(list => list.map(a => ({ ...a, visitas: visitasMap[a.id] || 0 })));
+          },
+          error: () => {}
         });
 
         this.loading.set(false);
