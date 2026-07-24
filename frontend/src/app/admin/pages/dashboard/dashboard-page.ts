@@ -61,7 +61,6 @@ export class DashboardPage implements OnInit {
   loading = signal(true);
   metrics = signal<Metric[]>([
     { label: 'Actividades', value: '—', icon: 'calendar_today', tone: 'primary', detail: '' },
-    { label: 'Sedes', value: '—', icon: 'location_on', tone: 'warning', detail: '' },
     { label: 'Visitas', value: '—', icon: 'visibility', tone: 'success', detail: '' },
   ]);
   categories = signal<CategoryFilter[]>([]);
@@ -172,12 +171,6 @@ export class DashboardPage implements OnInit {
           }
         }
         this.categories.update(cats => cats.map(c => ({ ...c, count: countMap[c.label] || 0 })));
-
-        const enRevision = mapped.filter(a => a.status === 'En Revisión').length;
-        this.metrics.update(m => {
-          m[1].value = String(enRevision);
-          return [...m];
-        });
 
         this.visitaService.visitasPorActividad().subscribe({
           next: (visitasMap) => {
