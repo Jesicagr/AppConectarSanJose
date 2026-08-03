@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { combineLatest } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { AreaService, Area } from '../../services/area.service';
@@ -30,7 +31,7 @@ export class HomePage implements OnInit {
   readonly COLORES_CONTACTO = ['azul', 'rojo', 'violeta', 'verde-card', 'naranja', 'rosa'];
 
   whatsappFlotanteNumero = '';
-  whatsappFlotanteLabel = 'Texto del boton flotante';
+  whatsappFlotanteLabel = '';
 
   instagramPosts: InstagramPost[] = [];
   mostrarPanelInstagram = false;
@@ -55,11 +56,11 @@ export class HomePage implements OnInit {
 
 
   ngOnInit(): void {
-    this.contactoService.getWhatsappFlotanteNumero().subscribe(numero => {
+    combineLatest([
+      this.contactoService.getWhatsappFlotanteNumero(),
+      this.contactoService.getWhatsappFlotanteLabel()
+    ]).subscribe(([numero, label]) => {
       this.whatsappFlotanteNumero = numero;
-      this.cdr.markForCheck();
-    });
-    this.contactoService.getWhatsappFlotanteLabel().subscribe(label => {
       this.whatsappFlotanteLabel = label;
       this.cdr.markForCheck();
     });
