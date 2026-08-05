@@ -42,10 +42,13 @@
     </div>
 
     <div style="padding-top: 16px;">
-      <button type="submit" class="submit-button">
-        <span>Ingresar</span>
-        <span class="material-symbols-outlined">arrow_forward</span>
+      <button type="submit" class="submit-button" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Ingresar</span>
+        <span *ngIf="isLoading" class="spinner" aria-hidden="true"></span>
+        <span *ngIf="isLoading">Ingresando…</span>
+        <span *ngIf="!isLoading" class="material-symbols-outlined">arrow_forward</span>
       </button>
+      <p *ngIf="isLoading" class="login-status">Conectando con el servidor, espera un momento…</p>
     </div>
   </form>
 </main>

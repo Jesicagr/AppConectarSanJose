@@ -4,8 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
+import { timeout } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { LoggerService } from '../shared/logger.service';
+
+const LOGIN_TIMEOUT_MS = 60000;
 
 @Component({
   selector: 'app-login-page',
@@ -22,6 +25,7 @@ export class LoginPage implements OnInit {
   private title = inject(Title);
 
   showPassword = false;
+  isLoading = false;
 
   loginForm = {
     email: '',
@@ -39,36 +43,48 @@ export class LoginPage implements OnInit {
   }
 
   onLogin(): void {
+    if (this.isLoading) {
+      return;
+    }
+
     if (!this.loginForm.email || !this.loginForm.password) {
       alert('Por favor, ingresa tus credenciales.');
       return;
     }
 
     const credentials = {
-      email: this.loginForm.email, 
+      email: this.loginForm.email,
       password: this.loginForm.password
     };
 
-    this.http.post<{ token: string }>('/auth/login', credentials).subscribe({
-      next: (response) => {
-        this.auth.setToken(response.token);
+    this.isLoading = true;
 
-        if (this.loginForm.rememberMe) {
-          localStorage.setItem('savedEmail', this.loginForm.email);
-        } else {
-          localStorage.removeItem('savedEmail');
-        }
+    this.http.post<{ token: string }>('/auth/login', credentials)
+      .pipe(timeout(LOGIN_TIMEOUT_MS))
+      .subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          this.auth.setToken(response.token);
 
-        this.router.navigate(['/admin/dashboard']);
-      },
-      error: (err) => {
-        this.logger.error('Error en la autenticación:', err);
-        if (err.status === 401) {
-          alert('Usuario o contraseña incorrectos.');
-        } else {
-          alert('Hubo un problema de conexión con el backend o permisos (Código: ' + err.status + ').');
+          if (this.loginForm.rememberMe) {
+            localStorage.setItem('savedEmail', this.loginForm.email);
+          } else {
+            localStorage.removeItem('savedEmail');
+          }
+
+          this.router.navigate(['/admin/dashboard']);
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.logger.error('Error en la autenticación:', err);
+          if (err.status === 401) {
+            alert('Usuario o contraseña incorrectos.');
+          } else if (err.name === 'TimeoutError') {
+            alert('El servidor está tardando en responder. Si es la primera conexión del día, puede demorar unos segundos. Intenta de nuevo.');
+          } else {
+            alert('Hubo un problema de conexión con el backend o permisos (Código: ' + err.status + ').');
+          }
         }
-      }
-    });
+      });
   }
 }
