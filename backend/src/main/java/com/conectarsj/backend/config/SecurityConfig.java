@@ -60,6 +60,21 @@ public class SecurityConfig {
                         .requestMatchers("/", "/health").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/visitas").permitAll()
+                        // Lecturas exclusivas del panel admin (requieren token JWT)
+                        .requestMatchers(org.springframework.http.HttpMethod.GET,
+                                "/api/actividades/paginated",
+                                "/api/actividades/count",
+                                "/api/instagram/cuentas",
+                                "/api/usuarios/**",
+                                "/api/visitas/**").authenticated()
+                        // Lecturas publicas del sitio (agenda, areas, contactos, instagram, configuracion)
+                        .requestMatchers(org.springframework.http.HttpMethod.GET,
+                                "/api/actividades/**",
+                                "/api/areas/**",
+                                "/api/contactos/**",
+                                "/api/instagram/posts/**",
+                                "/api/instagram/image/**",
+                                "/api/configuracion/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
